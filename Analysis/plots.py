@@ -28,8 +28,8 @@ def PlotConfusionMatrixSchema():
 
 def PlotHist2dConfusionMatrices(same,different):
     fig, ax = plt.subplots(1,2,figsize=(20,10))
-    hDiff = ax[0].hist2d(different[:,0],different[:,1],bins=[1,30],cmap=cmapDiff)
-    hSame = ax[1].hist2d(same[:,0],same[:,1],bins=[1,30],cmap=cmapSame)
+    hDiff = ax[0].hist2d(different[:,0],different[:,1],bins=[1,30],cmap=cmapDiff,density=True,vmin=0,vmax=1)
+    hSame = ax[1].hist2d(same[:,0],same[:,1],bins=[1,30],cmap=cmapSame,density=True,vmin=0,vmax=1)
     ax[0].set_ylim(0,6)
     ax[0].set_yticklabels(range(0,7),fontsize=22)
     ax[0].set_ylabel("RMSD / $\AA$",fontsize=22)
@@ -40,6 +40,7 @@ def PlotHist2dConfusionMatrices(same,different):
     cbar1.ax.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
     cbar1.ax.tick_params(labelsize=18)
     cbar1.ax.yaxis.get_offset_text().set_fontsize(18)
+    cbar1.set_label('Density', fontsize=28)
     ax[1].set_ylim(0,6)
     ax[1].set_xticks([1.0])
     ax[1].set_xticklabels(["same TABS"],fontsize=28)
@@ -49,6 +50,7 @@ def PlotHist2dConfusionMatrices(same,different):
     cbar2.ax.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
     cbar2.ax.tick_params(labelsize=18)
     cbar2.ax.yaxis.get_offset_text().set_fontsize(18)
+    cbar2.set_label('Density', fontsize=28)
 
     return fig
 
