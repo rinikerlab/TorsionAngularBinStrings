@@ -1,7 +1,7 @@
 (T)orsion (A)ngular (B)in (S)trings
 ==============================================================
 
-![alt test](https://github.com/rinikerlab/TorsionAngularBinStrings/TOC.jpg?raw=true)
+![Test Image](https://github.com/rinikerlab/TorsionAngularBinStrings/blob/main/TOC.jpg)
 
 ## Abstract
 
