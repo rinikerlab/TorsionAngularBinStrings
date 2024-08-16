@@ -1,0 +1,10 @@
+name: tabs
+channels:
+  - conda-forge
+dependencies:
+  - rdkit=2023.09.4=py310hb79e901_0
+  - jupyter
+  - ca-certificates
+  - certifi
+  - openssl
+  - scikit-learn
