@@ -1,0 +1,7 @@
+n: 100
+useBasicKnowledge: True
+useSmallRingTorsions: True
+useMacrocycleTorsions: True
+randomSeed: 0xF00D
+pruneRmsThresh: -1
+numThreads: 8

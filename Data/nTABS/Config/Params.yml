@@ -1,0 +1,6 @@
+n: 500000
+useSmallRingTorsions: True
+useMacrocycleTorsions: True
+randomSeed: 0xF00D
+pruneRmsThresh: 0.5
+numThreads: 8
