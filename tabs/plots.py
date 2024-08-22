@@ -53,6 +53,29 @@ def PlotOrgDistribution(smarts,patterntype):
     ax.set_title(f"{smarts}")
     return 
 
+def PlotOrgDistributionFitOnly(smarts,patterntype):
+    if patterntype == "r":
+        with open(str(files("tabs").joinpath('torsionPreferences','torsionPreferences_v2_formatted.txt'))) as f: torsionPreferencesv2 = f.read()
+    elif patterntype == "sr":
+        with open(str(files("tabs").joinpath('torsionPreferences','torsionPreferences_smallrings_formatted.txt'))) as f: torsionPreferencesv2 = f.read()
+    tpv2 = dict(json.loads(torsionPreferencesv2))
+    tmp = tpv2[smarts]
+    tmp = tmp.split(" ")
+    tmp_2 = []
+    for i in range(12):
+        tmp_2.append(tmp[i])
+    y = [_ffitnew(j/180.0*np.pi, float(tmp_2[0]),float(tmp_2[1]),float(tmp_2[2]),float(tmp_2[3]),float(tmp_2[4]),float(tmp_2[5]),float(tmp_2[6]),float(tmp_2[7]),float(tmp_2[8]),float(tmp_2[9]),float(tmp_2[10]),float(tmp_2[11])) for j in range(0, 360, 1)]
+    ## this is only for visualization purposes; normally, the fit should be already in the correct order of magnitude!!
+    my = max(y)
+    y = [j/my for j in y]
+    _, ax = plt.subplots(figsize=(8,6))
+    ax.plot(range(0, 360, 1), y, 'r', lw=2)
+    ax.set_ylim(0,1.0)
+    ax.set_xlabel("Dihedral angle / °")
+    ax.set_ylabel("Normalized count")
+    ax.set_title(f"{smarts}")
+    return
+
 def GetOrgDistribution(smarts,patterntype):
     if patterntype == "r":
         pstats = pickle.load(open(str(files("tabs").joinpath('torsionPreferences/ETKDGv3Data',"nonringbonds_torsion_ana_all.pkl")),"rb"),encoding="latin1")
