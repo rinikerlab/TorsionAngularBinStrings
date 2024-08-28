@@ -1,6 +1,6 @@
 (T)orsion (A)ngular (B)in (S)trings
 ==============================================================
-
+[![DOI](https://zenodo.org/badge/843293558.svg)](https://zenodo.org/doi/10.5281/zenodo.13384005) 
 ![Test Image](https://github.com/rinikerlab/TorsionAngularBinStrings/blob/main/TOC.jpg)
 
 ## Abstract
