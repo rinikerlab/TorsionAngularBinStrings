@@ -3,6 +3,9 @@
 [![DOI](https://zenodo.org/badge/843293558.svg)](https://zenodo.org/doi/10.5281/zenodo.13384005) 
 ![Test Image](https://github.com/rinikerlab/TorsionAngularBinStrings/blob/main/TOC.jpg)
 
+## Publication
+(preprint) [https://doi.org/10.26434/chemrxiv-2024-b7sxm](https://doi.org/10.26434/chemrxiv-2024-b7sxm)
+
 ## Abstract
 
 Molecular flexibility is a commonly used, but not easily quantified term. 
