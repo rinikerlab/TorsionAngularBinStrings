@@ -1,5 +1,6 @@
 import unittest
 from rdkit import Chem
+from rdkit.Chem import AllChem
 import numpy as np
 try:
     from . import tabs
@@ -64,6 +65,14 @@ class TestTABS(unittest.TestCase):
         self.assertWarnsRegex(UserWarning,"WARNING: no patterns matched by ETKDG",tabs.GetMultiplicityAllBonds,mol)
         n = tabs.GetnTABS(mol)
         self.assertEqual(n,1)
+
+    def testNoTorsionsGetTabs(self):
+        mol = Chem.AddHs(Chem.MolFromSmiles("CC#CC"))
+        ps = AllChem.ETKDGv3()
+        AllChem.EmbedMolecule(mol, ps)
+        self.assertWarnsRegex(UserWarning,"WARNING: no torsions found in molecule, default of 1 returned",tabs.GetTABS,mol)
+        t = tabs.GetTABS(mol)
+        self.assertEqual(t,1)
 
     def testStereoEncoding(self):
         molStereo = Chem.AddHs(Chem.MolFromSmiles("C/C=C\C"))
