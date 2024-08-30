@@ -7,6 +7,7 @@ from rdkit.Chem import rdMolTransforms, rdMolAlign
 import json
 import pathlib
 from collections import defaultdict
+import warnings
 
 MAXSIZE = 1000000
 
@@ -136,11 +137,15 @@ def GetTABS(m, confId=-1):
     - confId (int): The ID of the conformer for which to calculate the TABS value.
 
     Returns:
-    - float: The minimum TABS value among all possible permutations.
+    - int: The minimum TABS value among all possible permutations.
 
     """
     sdmList = GetMultiplicityAllBonds(m)
-    smarts, patterntype, dihedrals, multiplicities = zip(*sdmList)
+    if not sdmList:
+        warnings.warn("WARNING: no torsions found in molecule, default of 1 returned")
+        return 1
+    else:
+        smarts, patterntype, dihedrals, multiplicities = zip(*sdmList)
     conf = m.GetConformer(confId)
     torsionVals = []
     for tors in dihedrals:
