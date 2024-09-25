@@ -58,6 +58,8 @@ def PlotOrgDistributionFitOnly(smarts,patterntype):
         with open(str(files("tabs").joinpath('torsionPreferences','torsionPreferences_v2_formatted.txt'))) as f: torsionPreferencesv2 = f.read()
     elif patterntype == "sr":
         with open(str(files("tabs").joinpath('torsionPreferences','torsionPreferences_smallrings_formatted.txt'))) as f: torsionPreferencesv2 = f.read()
+    elif patterntype == "m":
+        with open(str(files("tabs").joinpath('torsionPreferences','torsionPreferences_macrocycles_formatted.txt'))) as f: torsionPreferencesv2 = f.read()
     tpv2 = dict(json.loads(torsionPreferencesv2))
     tmp = tpv2[smarts]
     tmp = tmp.split(" ")
