@@ -62,6 +62,7 @@ The analysis notebooks to reproduce the plots shown in the study can be found in
 
 ## FAQs
 *Are TABS dependent or independent on the atom order of otherwise identical molecules?*
+
 As the atom numbering of a molecule is not canonicalized as part of the TABS code, it is possible to arrive at two different TABS for the same conformer of the same molecule if they differ in their atom ordering.
 A way to resolve this would be to map the atom numbering of the two identical molecules to each other and then renumber of molecules. The RDKit provides code to do this and a usage example is provided in Demos/AtomRenumbering.ipynb. 
 In general for the analysis of ensembles, it is recommended to work with one RDKit molecule and add all ensemble members as conformers. 
