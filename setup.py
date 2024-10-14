@@ -5,7 +5,6 @@ setup(
     description='Torsion Angular Bin Strings',
     version='1.0.0',
     py_modules=['tabs'],
-    packages=['tabs'],
     install_requires=[],
     entry_points={},
     packages=find_packages(where="tabs"),
