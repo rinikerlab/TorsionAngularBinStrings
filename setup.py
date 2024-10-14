@@ -8,6 +8,9 @@ setup(
     packages=['tabs'],
     install_requires=[],
     entry_points={},
+    packages=find_packages(where="tabs"),
+    package_dir={"": "tabs"},
+    include_package_data=True,
     author="Jessica Braun",
     author_email="braunje@ethz.ch",
 )
