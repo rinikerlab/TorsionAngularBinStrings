@@ -75,7 +75,7 @@ class TestTABS(unittest.TestCase):
         self.assertEqual(t,1)
 
     def testStereoEncoding(self):
-        molStereo = Chem.AddHs(Chem.MolFromSmiles("C/C=C\C"))
+        molStereo = Chem.AddHs(Chem.MolFromSmiles(r"C/C=C\C"))
         molNoStereo = Chem.AddHs(Chem.MolFromSmiles("CC=CC"))
         spdmListStereo = tabs.GetMultiplicityAllBonds(molStereo)
         _, _, _, multiplicities = zip(*spdmListStereo)
