@@ -4,7 +4,7 @@
 ![Test Image](https://github.com/rinikerlab/TorsionAngularBinStrings/blob/main/TOC.jpg)
 
 ## Publication
-(preprint) [https://doi.org/10.26434/chemrxiv-2024-b7sxm](https://doi.org/10.26434/chemrxiv-2024-b7sxm)
+[1] J. Chem. Inf. Model. 2024, DOI: [https://pubs.acs.org/doi/10.1021/acs.jcim.4c01513#](https://pubs.acs.org/doi/10.1021/acs.jcim.4c01513#)
 
 ## Abstract
 
@@ -22,12 +22,11 @@ Installation of the dependencies via conda using the provided environment.yml fi
 ```
 conda env create -n tabs -f environment.yml
 ```
-
-After installing the dependencies (above) and checking out this repo, run this command in this directory:
+To activate the new environment and install tabs:
 ```
-pip install --editable .
+conda activate tabs
+python -m pip https://github.com/rinikerlab/TorsionAngularBinStrings.git
 ```
-
 
 
 ## Usage
