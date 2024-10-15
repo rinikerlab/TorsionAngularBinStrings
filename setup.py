@@ -10,6 +10,7 @@ setup(
     packages=find_packages(where="tabs"),
     package_dir={"": "tabs"},
     include_package_data=True,
+    package_data={'tabs': ['torsionPreferences/*.txt']},
     author="Jessica Braun",
     author_email="braunje@ethz.ch",
 )
