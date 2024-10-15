@@ -8,7 +8,6 @@ setup(
     install_requires=[],
     entry_points={},
     packages=find_packages(where="."),
-    package_dir={"": "tabs"},
     include_package_data=True,
     package_dir = {"": "."},
     package_data={'tabs': ['torsionPreferences/*.txt']},
