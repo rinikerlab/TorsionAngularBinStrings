@@ -25,7 +25,7 @@ conda env create -n tabs -f environment.yml
 To activate the new environment and install tabs:
 ```
 conda activate tabs
-python -m pip https://github.com/rinikerlab/TorsionAngularBinStrings.git
+python -m pip install git+https://github.com/rinikerlab/TorsionAngularBinStrings
 ```
 
 
