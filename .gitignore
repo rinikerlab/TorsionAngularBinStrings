@@ -1,2 +1,6 @@
 tabs/torsionPreferences/ETKDGv3Data/nonringbonds_torsion_ana_all.pkl
 tabs/torsionPreferences/ETKDGv3Data/ringbonds_torsion_ana_all_newpatterns.pkl
+Analysis/__pycache__/
+build/
+tabs.egg-info/
+tabs/__pycache__/
