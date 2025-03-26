@@ -7,6 +7,7 @@ import enum
 from scipy.ndimage import gaussian_filter1d
 import json
 import pathlib
+from .fits import ComputeTorsionHistograms, ComputeGaussianFit, FitFunc
 
 #globals
 REGULAR_INFO = None
@@ -32,33 +33,6 @@ def _ffitnew(x, s1, v1, s2, v2, s3, v3, s4, v4, s5, v5, s6, v6):
     return np.exp(-(v1*(1+s1*c) + v2*(1+s2*(2*c2-1)) + v3*(1+s3*(4*c*c2-3*c)) \
                     + v4*(1+s4*(8*c4-8*c2+1)) + v5*(1+s5*(16*c4*c-20*c2*c+5*c)) \
                     + v6*(1+s6*(32*c4*c2-48*c4+18*c2+1)) ))
-
-class FitFunc(enum.IntEnum):
-    COS   = 1,
-    GAUSS = 2,
-
-    def call(self, params, x):
-        period = 2*np.pi
-
-        if self == FitFunc.COS:
-            y = _ffitnew(x, *params)
-            y /= max(y)
-            return y
-
-        elif self == FitFunc.GAUSS:
-            params = np.reshape(params, (-1, 3))
-            y = np.zeros(len(x))
-
-            for p in params:
-                a = p[0]
-                b = p[1]
-                c = p[2]
-
-                diff = np.mod(x - b + period/2, period) - period/2
-                y += a * np.exp(-((diff) / c)**2)
-            return y
-
-        else: return None
 
 class TorsionLibEntry:
     def __init__(self, bounds, coeffs, fitFunc, torTyp=TorsionType.USER_DEFINED):
@@ -143,6 +117,10 @@ class TorsionInfoList:
     @property
     def nDihedrals(self):
         return len(self.smarts)
+    
+    @property
+    def multiplicities(self):
+        return [self.multiplicity(i) for i in range(self.nDihedrals)]
 
     def append(self, tInfo):
         self.smarts.append(tInfo.smarts)
@@ -151,6 +129,9 @@ class TorsionInfoList:
         self.coeffs.append(tInfo.coeff)
         self.bounds.append(tInfo.bounds)
         self.fitFuncs.append(tInfo.fitFunc)
+
+    def multiplicity(self, indx):
+        return max(len(self.bounds[indx]), 1)
 
     @classmethod
     def WithTorsionLibs(cls, mol, torsionLibs=None):
@@ -216,8 +197,6 @@ class TorsionInfoList:
     #     res = TorsionInfoList.WithTorsions(mol, ti.indices, confTorsions)
     #     res.torsionTypes = ti.torsionTypes
     #     pass
-
-
 
 def _needsHs(mol):
     for atom in mol.GetAtoms():
