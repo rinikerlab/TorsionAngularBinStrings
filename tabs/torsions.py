@@ -7,6 +7,7 @@ import enum
 from scipy.ndimage import gaussian_filter1d
 import json
 import pathlib
+import mdtraj as md
 from .fits import ComputeTorsionHistograms, ComputeGaussianFit, FitFunc
 
 #globals
@@ -146,22 +147,30 @@ class TorsionInfoList:
             torsionLibs = [REGULAR_INFO, SMALLRING_INFO, MACROCYCLE_INFO]
         
         cls = ExtractTorsionInfoWithLibs(mol, torsionLibs)
-
         if cls.nDihedrals == 0: warnings.warn("WARNING: no dihedrals found")
 
         return cls
 
     @classmethod
-    def WithCustomTorsions(cls, mol, dihedralIndices, confTorsions, **kwargs):
+    def WithCustomTorsions(cls, mol, dihedralIndices, customTorsionProfiles, **kwargs):
         """
-        returns a TorsionInfoList with bounds and fit coefficients based on the provided torsions
+        returns a TorsionInfoList with bounds and fit coefficients based on the provided torsion profiles
+        : param mol: rdkit molecule
+        : param dihedralIndices: list of atom indices for every dihedral
+        : param customTorsionProfiles: list of custom torsion profiles
+        : param kwargs: additional arguments for ComputeGaussianFit
         """
         cls = TorsionInfoList(mol)
         nDihedrals = len(dihedralIndices)
         cls.indices = dihedralIndices
 
-        yHists, xHist = ComputeTorsionHistograms(confTorsions, start=0, stop=2*np.pi, step=2*np.pi/36)
-        coeffs, bins = ComputeGaussianFit(xHist, yHists, **kwargs)
+        yHists, xHist = ComputeTorsionHistograms(customTorsionProfiles, start=0, stop=2*np.pi, step=2*np.pi/36)
+        coeffs = []
+        bins = []
+        for yHist in yHists:
+            c, b = ComputeGaussianFit(xHist, yHist, **kwargs)
+            coeffs.append(c)
+            bins.append(b)
         cls.bounds = bins
         cls.coeffs = coeffs
 
@@ -172,7 +181,7 @@ class TorsionInfoList:
         return cls
 
     # @classmethod
-    # def WithMirroredTorsions(cls, mol, dihedralIndices, confTorsions, **kwargs):
+    # def WithMirroredTorsions(cls, mol, dihedralIndices, customTorsionProfiles, **kwargs):
     #     """
     #     same as WithTorsions but with additional enforced symmetry
     #     """
@@ -180,7 +189,7 @@ class TorsionInfoList:
     #     nDihedrals = len(dihedralIndices)
     #     cls.indices = dihedralIndices
 
-    #     yHists, xHist = ComputeTorsionHistograms(confTorsions, start=0, stop=2*np.pi, step=2*np.pi/36)
+    #     yHists, xHist = ComputeTorsionHistograms(customTorsionProfiles, start=0, stop=2*np.pi, step=2*np.pi/36)
     #     coeffs, bins = ComputeMirroredGaussianFit(xHist, yHists, **kwargs)
     #     cls.bounds = bins
     #     cls.coeffs = coeffs
@@ -192,9 +201,9 @@ class TorsionInfoList:
     #     return cls
 
     # @classmethod
-    # def WithTorsionsAndExperimentalIndices(cls, mol, confTorsions, **kwargs):
-    #     ti = TorsionInfoList.WithExperimentalTorsions(mol, confTorsions)
-    #     res = TorsionInfoList.WithTorsions(mol, ti.indices, confTorsions)
+    # def WithTorsionsAndExperimentalIndices(cls, mol, customTorsionProfiles, **kwargs):
+    #     ti = TorsionInfoList.WithExperimentalTorsions(mol, customTorsionProfiles)
+    #     res = TorsionInfoList.WithTorsions(mol, ti.indices, customTorsionProfiles)
     #     res.torsionTypes = ti.torsionTypes
     #     pass
 
@@ -356,3 +365,16 @@ def ExtractTorsionInfoWithLibs(m, libs):
 
     _DoubleBondStereoCheck(m, torsionList.indices, torsionList.bounds)
     return torsionList
+
+def GetTorsionProfilesFromMDTraj(mdtraj, torsionIndices):
+    """ compute the dihedral angles
+    Parameters:
+    - mdtraj: trajectory object
+    - torsionIndices: list of dihedral indices
+
+    Returns:
+    - np.array(shape=(nConformers, nDihedrals), dtype=float): dihedral angles in [0, 2*pi]
+    """
+    dAngles = md.compute_dihedrals(mdtraj, torsionIndices)
+    dAngles[dAngles < 0] += 2*np.pi
+    return dAngles
