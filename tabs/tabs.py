@@ -9,6 +9,7 @@ import pathlib
 from collections import defaultdict
 import warnings
 
+
 MAXSIZE = 1000000
 
 _mediumRingsUpperBounds = {
