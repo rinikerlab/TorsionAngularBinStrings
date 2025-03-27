@@ -141,7 +141,7 @@ def _PeaksAtLeastXDegreeApart(peaks):
 def _PartitionPeaksSingleHist(hists, nMaxPeaks, peakThreshold=1e-2, excludePeaks=1e-2, promincence=1e-2):
     yHist = hists.histSmoothed
     yHistCount = hists.histCount
-    peaksInitial = findPeaksPeriodic(yHist, nMaxPeaks, height=excludePeaks, prominence=promincence)
+    peaksInitial = findPeaksPeriodic(yHist, nMaxPeaks, peakThreshold=peakThreshold, height=excludePeaks, prominence=promincence)
     peaksInitial = [int(p) for p in peaksInitial]
     peaksInitial = sorted(peaksInitial)
     peaks = []
@@ -239,13 +239,12 @@ def ComputeTorsionHistograms(dAngles, start, stop, step, density=True):
 
     return hists, edge[1:]
 
-def ComputeGaussianFit(xHist, yHists, **kwargs):
-    gaussBins, _ = _PartitionPeaksHist(yHists, **kwargs)
-    coeffs = _BinFits(xHist, yHists, gaussBins)
+def ComputeGaussianFit(xHist, yHist, yHistCount, **kwargs):
+    gaussBins, _ = _PartitionPeaksHist(yHist, **kwargs)
+    coeffs = _BinFits(xHist, yHist, gaussBins)
 
     xFit = np.linspace(0, 2*np.pi, 2*len(xHist))
-    yFits = [FitFunc.GAUSS.call(c, xFit) for c in coeffs]
-    bins, _ = _PartitionPeaksHist(yFits, **kwargs)
-    bins = [xFit[b] for b in bins]
+    yFit = FitFunc.GAUSS.call(coeffs, xFit)
+    bins, _ = _PartitionPeaksHist(yFit, **kwargs)
 
     return coeffs, bins
