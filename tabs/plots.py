@@ -8,6 +8,39 @@ from rdkit.Chem import rdMolTransforms
 
 plt.rcParams.update({'font.size': 12})
 
+def _GridPlot(nPlots, plotFn, plotsPerRow=4, title=None, args=None, start=0, projection=None):
+    """ 
+    helper function for showing multiple plots in a grid
+    
+    Parameters:
+    - nPlots: number of plots
+    - plotFn: takes an axis and index of the current plot as argument
+    - plotsPerRow: int
+    - title: Optional[String]
+    """
+    if nPlots == 0: return
+
+        
+    rows = (nPlots + plotsPerRow - 1) // plotsPerRow
+    fig, axes = plt.subplots(rows, plotsPerRow, figsize=(plotsPerRow * 5, rows * 5), subplot_kw=dict(projection=projection))
+
+    axes = np.array(axes).flatten()
+    for i in range(start, rows * plotsPerRow):
+        ax = axes[i]
+        if i < nPlots:
+            if args is None:
+                plotFn(ax, i)
+            else:
+                plotFn(ax, i, *args)
+        else:
+            ax.axis('off')
+
+    if title:
+        fig.suptitle(title)
+        fig.tight_layout()
+        plt.subplots_adjust(top=0.9)
+    return fig
+
 def _ffitnew(x, s1, v1, s2, v2, s3, v3, s4, v4, s5, v5, s6, v6):
     c = np.cos(x)
     c2 = c*c

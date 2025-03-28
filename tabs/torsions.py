@@ -8,7 +8,9 @@ from scipy.ndimage import gaussian_filter1d
 import json
 import pathlib
 import mdtraj as md
+import matplotlib.pyplot as plt
 from .fits import ComputeTorsionHistograms, ComputeGaussianFit, FitFunc
+from .plots import _GridPlot
 
 #globals
 REGULAR_INFO = None
@@ -27,13 +29,6 @@ class TorsionType(enum.IntEnum):
     ARB = 4
     USER_DEFINED = 5
 
-def _ffitnew(x, s1, v1, s2, v2, s3, v3, s4, v4, s5, v5, s6, v6):
-    c = np.cos(x)
-    c2 = c*c
-    c4 = c2*c2
-    return np.exp(-(v1*(1+s1*c) + v2*(1+s2*(2*c2-1)) + v3*(1+s3*(4*c*c2-3*c)) \
-                    + v4*(1+s4*(8*c4-8*c2+1)) + v5*(1+s5*(16*c4*c-20*c2*c+5*c)) \
-                    + v6*(1+s6*(32*c4*c2-48*c4+18*c2+1)) ))
 
 class TorsionLibEntry:
     def __init__(self, bounds, coeffs, fitFunc, torTyp=TorsionType.USER_DEFINED):
@@ -152,7 +147,7 @@ class TorsionInfoList:
         return cls
 
     @classmethod
-    def WithCustomTorsions(cls, mol, dihedralIndices, customTorsionProfiles, **kwargs):
+    def WithCustomTorsions(cls, mol, dihedralIndices, customTorsionProfiles, showFits=False, **kwargs):
         """
         returns a TorsionInfoList with bounds and fit coefficients based on the provided torsion profiles
         : param mol: rdkit molecule
@@ -164,19 +159,36 @@ class TorsionInfoList:
         nDihedrals = len(dihedralIndices)
         cls.indices = dihedralIndices
 
-        yHists, xHist = ComputeTorsionHistograms(customTorsionProfiles, start=0, stop=2*np.pi, step=2*np.pi/36)
+        binsize = 2*np.pi/36
+        yHists, yHistsCount, xHist = ComputeTorsionHistograms(customTorsionProfiles, binsize)
         coeffs = []
         bins = []
-        for yHist in yHists:
-            c, b = ComputeGaussianFit(xHist, yHist, **kwargs)
+        for yHist, yHistCount in zip(yHists,yHistsCount):
+            c, b = ComputeGaussianFit(xHist, yHist, yHistCount, binsize, **kwargs)
             coeffs.append(c)
             bins.append(b)
+        print(bins)
         cls.bounds = bins
         cls.coeffs = coeffs
-
         cls.torsionTypes = [TorsionType.USER_DEFINED] * nDihedrals
         cls.smarts = [None] * nDihedrals
         cls.fitFuncs = [FitFunc.GAUSS] * nDihedrals
+
+        # def _PlotProb(ax, indx):
+        #     ax.bar(xHist, yHists[indx], width=binsize, color="lightblue", alpha=0.7)
+        #     # yFit = self.fitFuncs[indx].call(self.coeffs[indx], xFit)
+        #     # ax.plot(xFit, yFit, color="black")
+
+        #     ba = self.bounds[indx]
+        #     for a in ba:
+        #         ax.axvline(a, color="black")
+
+        #     #ax.set_title(f"{trosionInfo.indices[indx]}")
+        #     ax.set_xlabel("Dihedral angle / rad")
+        #     ax.set_ylabel("Count")
+
+        # if showFits:
+        #     _GridPlot(nDihedrals, _PlotProb, **kwargs)
 
         return cls
 
