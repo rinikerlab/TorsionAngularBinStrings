@@ -103,7 +103,7 @@ class Histogram:
         
         yHist = self.histSmoothed
         yHistCount = self.histCount
-        peaksInitial = findPeaksPeriodic(yHist, nMaxPeaks, height=excludePeaks, prominence=prominence)
+        peaksInitial = _findPeaksPeriodic(yHist, nMaxPeaks, height=excludePeaks, prominence=prominence)
         peaksInitial = [int(p) for p in peaksInitial]
         peaksInitial = sorted(peaksInitial)
         peaks = []
@@ -215,7 +215,7 @@ class PeakInfo:
 
 
 
-def findPeaksPeriodic(x, nPeaks, **kwargs):
+def _findPeaksPeriodic(x, nPeaks, **kwargs):
     """ see: https://github.com/scipy/scipy/issues/13710 """
 
     splitindex = np.argmin(x)
