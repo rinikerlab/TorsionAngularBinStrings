@@ -162,33 +162,37 @@ class TorsionInfoList:
         binsize = 2*np.pi/36
         yHists, yHistsCount, xHist = ComputeTorsionHistograms(customTorsionProfiles, binsize)
         coeffs = []
-        bins = []
+        bounds = []
+        id = 0
         for yHist, yHistCount in zip(yHists,yHistsCount):
+            print("id:", id)
             c, b = ComputeGaussianFit(xHist, yHist, yHistCount, binsize, **kwargs)
             coeffs.append(c)
-            bins.append(b)
-        print(bins)
-        cls.bounds = bins
+            bounds.append(b)
+            id += 1
+        cls.bounds = bounds
         cls.coeffs = coeffs
         cls.torsionTypes = [TorsionType.USER_DEFINED] * nDihedrals
         cls.smarts = [None] * nDihedrals
         cls.fitFuncs = [FitFunc.GAUSS] * nDihedrals
 
-        # def _PlotProb(ax, indx):
-        #     ax.bar(xHist, yHists[indx], width=binsize, color="lightblue", alpha=0.7)
-        #     # yFit = self.fitFuncs[indx].call(self.coeffs[indx], xFit)
-        #     # ax.plot(xFit, yFit, color="black")
+        def _PlotProb(ax, indx):
+            xFit = np.linspace(0, 2*np.pi, 2*len(xHist))
+            yFit = FitFunc.GAUSS.call(cls.coeffs[indx], xFit)
+            ax.bar(xHist, yHists[indx], width=binsize, color="lightblue", alpha=0.7)
+            # yFit = self.fitFuncs[indx].call(self.coeffs[indx], xFit)
+            ax.plot(xFit, yFit, color="black")
 
-        #     ba = self.bounds[indx]
-        #     for a in ba:
-        #         ax.axvline(a, color="black")
+            ba = cls.bounds[indx]
+            for a in ba:
+                ax.axvline(a, color="black")
 
-        #     #ax.set_title(f"{trosionInfo.indices[indx]}")
-        #     ax.set_xlabel("Dihedral angle / rad")
-        #     ax.set_ylabel("Count")
+            #ax.set_title(f"{trosionInfo.indices[indx]}")
+            ax.set_xlabel("Dihedral angle / rad")
+            ax.set_ylabel("Count")
 
-        # if showFits:
-        #     _GridPlot(nDihedrals, _PlotProb, **kwargs)
+        if showFits:
+            _GridPlot(nDihedrals, _PlotProb, **kwargs)
 
         return cls
 
