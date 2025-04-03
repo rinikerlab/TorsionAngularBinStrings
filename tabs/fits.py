@@ -77,7 +77,7 @@ def _WrappedGaussian(params, x, period=2*np.pi):
     return y
 
 class Histogram:
-    def __init__(self, histCount, histDensity, histSmoothed):
+    def __init__(self, histCount, histDensity, histSmoothed, binEdges=[]):
         self.histCount = histCount
         self.histDensity = histDensity
         self.histSmoothed = histSmoothed
@@ -105,12 +105,19 @@ class Histogram:
     
     # def _ParitionBetweenPeaks():
 
+    def _ComputeWeightedMean(self, indices):
+        values = np.take(self.xHist,indices) # xHist
+        weights = np.take(self.histDensity,indices) # yHist
+        weights = weights - np.min(weights)
+        mean = np.sum(values*weights)/np.sum(weights)
+        return mean
 
     def _PartitionPeaksHist(self,
                             nMaxPeaks=6,
                             #peakThreshold=1e-2,
-                            excludePeaks=1e-3,
-                            prominence=1e-3,
+                            excludePeaks=1e-4,
+                            prominence=1e-4,
+                            mergePeaks=False,
                             ):
         """
         partition the histogram into multiple bins around the peaks
@@ -167,21 +174,37 @@ class Histogram:
                 leftEdge = binEdges[i-1]
                 rightEdge = binEdges[i]
                 if leftEdge < rightEdge:
+                    setBy = 1
                     binIndices = set(range(leftEdge,rightEdge))
                 else:
+                    setBy = 2
                     binIndices = set(range(leftEdge,len(yHist))).union(set(range(0,rightEdge)))
                 if peakAtPi:
                     index = middle
                     meanGuess = np.pi
+                    setBy = 3
                     binIndices = set(range(leftEdge,middle)).union(set(range(middle,middle+(middle-leftEdge)))) 
                 elif peakAt2Pi:
                     index = len(yHist) - 1
                     meanGuess = 2*np.pi
+                    setBy = 4
                     binIndices = set(range(len(yHist)-min(binEdges),len(yHist))).union(set(range(0,min(binEdges))))
                 else:
                     index = peak
+                    # need to modifiy the mean guess here in case there is a broad peak and it is somewhat randomly placed
+                    # take the weighted mean
+                    print("binIndices", binIndices)
+                    print("binIndices set by", setBy)
+                    # meanGuess = self._ComputeWeightedMean(list(binIndices))
                     meanGuess = self.xHist[peak]
-                peaksInfo[peak] = PeakInfo(index, -1, binIndices, peakAt2Pi, peakAtPi, leftEdge, rightEdge, meanGuess)
+                peaksInfo[peak] = PeakInfo(binIndex=index, 
+                                           binIndexMirror=-1, 
+                                           binsAssigned=binIndices, 
+                                           peakAt2Pi=peakAt2Pi, 
+                                           peakAtPi=peakAtPi, 
+                                           leftEdge=leftEdge, 
+                                           rightEdge=rightEdge, 
+                                           meanInitial=meanGuess)
 
             for i, peak in enumerate(peaks):
                 leftEdge = binEdges[i-1]
@@ -203,7 +226,14 @@ class Histogram:
             else:
                 index = peak
                 meanGuess = self.xHist[peak]
-            pi = PeakInfo(index, -1, set(range(len(yHist))), peakAt2Pi, peakAtPi, leftEdge, rightEdge, meanGuess)
+            pi = PeakInfo(binIndex=index, 
+                          binIndexMirror=-1, 
+                          binsAssigned=set(range(len(yHist))), 
+                          peakAt2Pi=peakAt2Pi, 
+                          peakAtPi=peakAtPi, 
+                          leftEdge=leftEdge, 
+                          rightEdge=rightEdge, 
+                          meanInitial=meanGuess)
             pi.sigmaInitial = _EstimateSigma(self.histSmoothed[peak], peak, self.histSmoothed[binEdges[0]], binEdges[0], self.histSmoothed)
             pi.heightInitial = self.histDensity[peak]
             peaksInfo[peak] = pi
@@ -212,6 +242,40 @@ class Histogram:
             pi = peaksInfo[pKey]
             print(pi.binIndex*GlobalVars.BINSIZE, pi.binsAssigned, pi.meanInitial, pi.sigmaInitial, pi.heightInitial)
 
+        if len(peaks)> 1 and mergePeaks:
+            peaksNew = deepcopy(peaks)
+            peaksInfoNew = deepcopy(peaksInfo)
+            keys = [k for k in peaksInfo.keys()]
+            for i, key1 in enumerate(keys):
+                for j, key2 in enumerate(keys[i+1:]):
+                    dis = np.abs(peaksInfo[key1].meanInitial - peaksInfo[key2].meanInitial)
+                    # initial guess for left and right
+                    leftPeak = key1
+                    rightPeak = key2
+                    if dis > np.pi:
+                        dis = 2 * np.pi - dis
+                        leftPeak = key2
+                        rightPeak = key1
+                    if dis < 0.7:
+                        pi = PeakInfo(binIndex=0.5*(peaksInfo[leftPeak].rightEdge+peaksInfo[rightPeak].leftEdge), 
+                                      binIndexMirror=-1, 
+                                      binsAssigned=peaksInfo[leftPeak].binsAssigned.union(peaksInfo[rightPeak].binsAssigned), 
+                                      peakAtPi=False, 
+                                      peakAt2Pi=False, 
+                                      leftEdge=peaksInfo[leftPeak].leftEdge, 
+                                      rightEdge=peaksInfo[rightPeak].rightEdge, 
+                                      meanInitial=self.xHist[peaksInfo[leftPeak].rightEdge])
+                        pi.sigmaInitial = _EstimateSigma(self.histSmoothed[peak], peak, self.histSmoothed[leftEdge], leftEdge, self.histSmoothed)
+                        pi.heightInitial = self.histDensity[peak]
+                        peaksInfoNew[peaksInfo[leftPeak].rightEdge] = pi
+                        print("keys", key1, key2)
+                        del peaksInfoNew[key1]
+                        del peaksInfoNew[key2]
+                        peaksNew.remove(key1)
+                        peaksNew.remove(key2)
+                        peaksNew.append(peaksInfo[leftPeak].rightEdge)
+            peaks = peaksNew
+            peaksInfo = peaksInfoNew            
         return binEdges, peaks, peaksInfo
 
 
@@ -322,14 +386,14 @@ def _ErrorHeight(heights, x, yRef, means, sigmas):
     return np.sum(np.square(np.subtract(yFit, yRef)))
 
 def _BinFits(xHist, yHist, peaks, peaksInfo):
-    def _ErrorWrapped(params, x, yRef, means):
-        n = len(means)
-        heights = params[:n]
-        sigmas = params[n:]
-        gaussParams = _ConcatParams([heights, means, sigmas])
-        yFit = _WrappedGaussian(gaussParams, x)
-        pointwiseError = np.mean(np.square(np.subtract(yFit, yRef)))
-        return pointwiseError
+    # def _ErrorWrapped(params, x, yRef, means):
+    #     n = len(means)
+    #     heights = params[:n]
+    #     sigmas = params[n:]
+    #     gaussParams = _ConcatParams([heights, means, sigmas])
+    #     yFit = _WrappedGaussian(gaussParams, x)
+    #     pointwiseError = np.mean(np.square(np.subtract(yFit, yRef)))
+    #     return pointwiseError
 
     sigmas = []
     heights = []
@@ -365,41 +429,30 @@ def _BinFits(xHist, yHist, peaks, peaksInfo):
     return params
 
 def _BoundDetectionOnFit(xFit, yFit, coeffs):
-    # define interval (left peak, right peak)
-    xIndices = np.arange(len(xFit))
-    peakPositions = coeffs[:,1]
-    indices = []
-    intervals = []
+    peaks = coeffs[:,1]
+    #translate the peaks into their idx
+    peaks = np.array([int(np.round(p/xFit[1])) for p in peaks])
+    peakPairs = []
+    for i in range(len(peaks)-1):
+        peakPairs.append((peaks[i], peaks[i+1]))
+    if len(peaks) > 1:
+        peakPairs.append((peaks[-1], peaks[0]))
+    if not peakPairs:
+        peakPairs = [(peaks[0], peaks[0])]
+
     bounds = []
-    for peak in peakPositions:
-        indices.append(np.argmin(np.abs(xFit - peak)))  
-    print("indices",indices) 
-    if len(indices) < 2:
-        intervals.append(np.take(xIndices,range(len(xIndices)),mode="wrap"))
-    else:
-        for i in range(len(indices)):
-            if indices[i-1] > indices[i]:
-                right = len(xIndices) + indices[i]
-            intervals.append(np.take(xIndices,range(indices[i-1],right),mode="wrap"))
-    # print("intervals",intervals)
-    # print(len(intervals))
-    for interval in intervals:
-        # print("interval",interval)
-        a = 0
-        b = -1
-        # go from left to right
-        while(yFit[interval[a+1]] - yFit[interval[a]] <= 0):
-            if a == len(interval)-2:
-                break
-            a += 1
-        boundTmp1 = deepcopy(interval[a])
-        # go from right to left
-        while(yFit[interval[b]] - yFit[interval[b-1]] > 0):
-            b -= 1
-        boundTmp2 = deepcopy(interval[b])
-        bound = int((boundTmp1+boundTmp2)*0.5)
-        bounds.append(bound*xFit[1])
-    print("bounds",bounds)
+    for lpeak, rpeak in peakPairs:
+        if lpeak == rpeak:
+            # edge should be half the length of the histogram away from the peak
+            border = lpeak-len(yFit)//2
+            if border < 0:
+                border = len(yFit) + border
+            print("border", border)
+            bounds.append(xFit[border])
+            continue
+        tmp = _FindValley(lpeak, rpeak, yFit)
+        bounds.append(xFit[tmp])
+
     return bounds
 
 def ComputeTorsionHistograms(customTorsionProfiles, binsize):
@@ -430,7 +483,6 @@ def ComputeGaussianFit(xHist, yHist, yHistCount, binsize, **kwargs):
     xFit = np.linspace(0, 2*np.pi, 2*len(xHist))
     yFit = FitFunc.GAUSS.call(coeffs, xFit)
     # bins, _ = _PartitionPeaksHist(yFit, **kwargs)
-    # bounds = _BoundDetectionOnFit(xFit, yFit, coeffs)
-    bounds = []
+    bounds = _BoundDetectionOnFit(xFit, yFit, coeffs)
 
     return coeffs, bounds
