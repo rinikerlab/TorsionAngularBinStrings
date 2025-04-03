@@ -165,7 +165,6 @@ class TorsionInfoList:
         bounds = []
         id = 0
         for yHist, yHistCount in zip(yHists,yHistsCount):
-            print("id:", id)
             c, b = ComputeGaussianFit(xHist, yHist, yHistCount, binsize, **kwargs)
             coeffs.append(c)
             bounds.append(b)
@@ -192,36 +191,9 @@ class TorsionInfoList:
             ax.set_ylabel("Count")
 
         if showFits:
-            _GridPlot(nDihedrals, _PlotProb, **kwargs)
+            _GridPlot(nDihedrals, _PlotProb)
 
         return cls
-
-    # @classmethod
-    # def WithMirroredTorsions(cls, mol, dihedralIndices, customTorsionProfiles, **kwargs):
-    #     """
-    #     same as WithTorsions but with additional enforced symmetry
-    #     """
-    #     cls = TorsionInfoList(mol)
-    #     nDihedrals = len(dihedralIndices)
-    #     cls.indices = dihedralIndices
-
-    #     yHists, xHist = ComputeTorsionHistograms(customTorsionProfiles, start=0, stop=2*np.pi, step=2*np.pi/36)
-    #     coeffs, bins = ComputeMirroredGaussianFit(xHist, yHists, **kwargs)
-    #     cls.bounds = bins
-    #     cls.coeffs = coeffs
-
-    #     cls.torsionTypes = [TorsionType.USER_DEFINED] * nDihedrals
-    #     cls.smarts = [None] * nDihedrals
-    #     cls.fitFuncs = [FitFunc.MIRRORED_GAUSS] * nDihedrals
-
-    #     return cls
-
-    # @classmethod
-    # def WithTorsionsAndExperimentalIndices(cls, mol, customTorsionProfiles, **kwargs):
-    #     ti = TorsionInfoList.WithExperimentalTorsions(mol, customTorsionProfiles)
-    #     res = TorsionInfoList.WithTorsions(mol, ti.indices, customTorsionProfiles)
-    #     res.torsionTypes = ti.torsionTypes
-    #     pass
 
 def _needsHs(mol):
     for atom in mol.GetAtoms():
