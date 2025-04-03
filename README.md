@@ -30,20 +30,17 @@ python -m pip install git+https://github.com/rinikerlab/TorsionAngularBinStrings
 
 
 ## Usage
-```
-import tabs
-from rdkit import Chem
-from rdkit.Chem import AllChem
+With the new version of TABS, major changes in the API were introduced.
 
-mol = Chem.AddHs(Chem.MolFromSmiles("CCC(=O)CC"))
-# check the assignment of torsion smarts, the class of torsion pattern, the assigned dihedral and the multiplicity of the torsion pattern
-tabs.GetMultiplicityAllBonds(mol)
-# check nTABS
-tabs.GetnTABS(mol)
+```
+from tabs import TorsionInfoList
+from rdkit import Chem
+
+mol = Chem.AddHs(Chem.MolFromSmiles("CCCCC"))
+# build TorsionInfoList class object
+torInfo = TorsionInfoList.WithTorsionLibs(mol)
+
 # embed molecule, get TABS
-ps = AllChem.ETKDGv3()
-AllChem.EmbedMolecule(mol,ps)
-tabs.GetTABS(mol)
 ```
 
 ## How to contribute
@@ -67,7 +64,7 @@ The easiest way to resolve this is to renumber the atoms in one of the molecules
 In general for the analysis of conformer ensembles, it is recommended to work with one RDKit molecule containing all of the conformers in the ensemble. 
 
 ## Authors 
-Jessica Braun
+Jessica Braun, Djahan Lamei
 
 ## Project status
 in development
