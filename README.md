@@ -39,6 +39,10 @@ from rdkit import Chem
 mol = Chem.AddHs(Chem.MolFromSmiles("CCCCC"))
 # build TorsionInfoList class object
 torInfo = TorsionInfoList.WithTorsionLibs(mol)
+# check the matched SMARTS, multiplicities, torsion types
+torInfo.smarts, torInfo.multiplicities, torInfo.torsionTypes
+# get the number of possible TABS (calculation based on the Burnside Lemma)
+torInfo.GetnTABS()
 
 # embed molecule, get TABS
 ```
