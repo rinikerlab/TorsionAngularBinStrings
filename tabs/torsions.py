@@ -11,6 +11,7 @@ import mdtraj as md
 import matplotlib.pyplot as plt
 from .fits import ComputeTorsionHistograms, ComputeGaussianFit, FitFunc
 from .plots import _GridPlot
+from .tabs import _CountOrbits, _RingMultFromSize, GetTABSPermutations
 
 #globals
 REGULAR_INFO = None
@@ -113,10 +114,21 @@ class TorsionInfoList:
     @property
     def nDihedrals(self):
         return len(self.smarts)
-    
     @property
     def multiplicities(self):
         return [self.multiplicity(i) for i in range(self.nDihedrals)]
+    @property
+    def nRegularTorsions(self):
+        return self.torsionTypes.count(TorsionType.R)
+    @property
+    def nSmallRingTorsions(self):
+        return self.torsionTypes.count(TorsionType.SR)
+    @property
+    def nMacroCycleTorsions(self):
+        return self.torsionTypes.count(TorsionType.MC)
+    @property
+    def nAdditionalTorsions(self):
+        return self.torsionTypes.count(TorsionType.ARB)
 
     def append(self, tInfo):
         self.smarts.append(tInfo.smarts)
@@ -179,14 +191,12 @@ class TorsionInfoList:
             xFit = np.linspace(0, 2*np.pi, 2*len(xHist))
             yFit = FitFunc.GAUSS.call(cls.coeffs[indx], xFit)
             ax.bar(xHist, yHists[indx], width=binsize, color="lightblue", alpha=0.7)
-            # yFit = self.fitFuncs[indx].call(self.coeffs[indx], xFit)
             ax.plot(xFit, yFit, color="black")
 
             ba = cls.bounds[indx]
             for a in ba:
                 ax.axvline(a, color="black")
 
-            #ax.set_title(f"{trosionInfo.indices[indx]}")
             ax.set_xlabel("Dihedral angle / rad")
             ax.set_ylabel("Count")
 
@@ -194,6 +204,54 @@ class TorsionInfoList:
             _GridPlot(nDihedrals, _PlotProb)
 
         return cls
+    
+    def GetnTABS(self, maxSize=1000000):
+        assert not _needsHs(self.molTemplate), "Molecule does not have explicit Hs. Consider calling AddHs"
+
+        # do the permutation analysis to check how many subgroups there are
+        ring_mult = 1
+        mult = 1
+        multiplicities = self.multiplicities
+
+        perms = GetTABSPermutations(self.molTemplate, self.indices)
+
+        ringIndices = self.molTemplate.GetRingInfo().AtomRings()
+        # check for the contributions due to small/medium rings
+        contributingRingsIdentified = set()
+        for i, dInfo in enumerate(self):
+            if dInfo.torsionType in (TorsionType.SR, TorsionType.MC):
+                multiplicities[i] = 1
+
+                for ring in ringIndices:
+                    if dInfo.indices[1] in ring and dInfo.indices[2] in ring:
+                        if not ring in contributingRingsIdentified:
+                            ring_mult *= _RingMultFromSize(len(ring))
+                            contributingRingsIdentified.add(ring)
+            else: 
+                mult *= multiplicities[i]
+
+        nTABS_naive = mult * ring_mult
+
+        if len(perms) == 1:
+            return min(maxSize, nTABS_naive)
+        elif int(nTABS_naive/len(perms)) > maxSize:
+            return maxSize
+
+        nTABS = _CountOrbits(multiplicities, perms) * ring_mult
+
+        return nTABS
+    
+    def __len__(self):
+        return self.nDihedrals
+
+    def __getitem__(self, indx):
+        s = self.smarts[indx]
+        tt = self.torsionTypes[indx]
+        ba = self.bounds[indx]
+        c = self.coeffs[indx]
+        di = self.indices[indx]
+        ff = self.fitFuncs[indx]
+        return TorsionInfo(s, tt, ba, coeffs=c, indices=di, fitFunc=ff)
 
 def _needsHs(mol):
     for atom in mol.GetAtoms():

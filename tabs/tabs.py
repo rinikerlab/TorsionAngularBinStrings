@@ -311,3 +311,29 @@ def AnalyzeTABSforInterRmsd(m, sortedTabsDict):
                         tmp.append(rdMolAlign.GetBestRMS(molCopy, molCopy, id, id2))
         rmsds[key] = tmp
     return rmsds
+
+def _CountOrbits(mults, perms):
+    n_fixed_points = 0
+    for perm in perms:
+        n_perm_fixed_points = 1
+        visited = [False] * len(perms[0])
+
+        for p in perm:
+            if not visited[p-1]:
+                while not visited[p-1]:
+                    visited[p-1] = True
+                    p = perm[p-1]
+
+                n_perm_fixed_points *= mults[p-1]
+
+        n_fixed_points += n_perm_fixed_points
+
+    return n_fixed_points / len(perms)
+
+def _RingMultFromSize(size):
+    if size < 12:
+        return _mediumRingsUpperBounds[size]
+    elif size < 17:
+        return _macrocyclesUpperBounds[size]
+    else:
+        return MAXSIZE

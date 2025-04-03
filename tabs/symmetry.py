@@ -74,7 +74,6 @@ def GetTABSPermutations(mol, dihedrals):
     ## bonds in dihedrals
     bonds = []
     for i, dihedral in enumerate(dihedrals):
-        dihedral = np.array(dihedral.split(" "),dtype=int)
         bondA1 = dihedral[1]
         bondA2 = dihedral[2]
         aid = [bondA1,bondA2]
@@ -85,7 +84,6 @@ def GetTABSPermutations(mol, dihedrals):
     for match in matches:
         tmp = []
         for i, dihedral in enumerate(dihedrals):
-            dihedral = np.array(dihedral.split(" "),dtype=int)
             p1 = np.where(matches[0]==dihedral[1])[0][0]
             p2 = np.where(matches[0]==dihedral[2])[0][0]
             bondA1 = match[p1]
