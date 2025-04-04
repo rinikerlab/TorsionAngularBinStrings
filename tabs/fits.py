@@ -101,8 +101,6 @@ class Histogram:
         peaks = _PeaksAtLeastXDegreeApart(peaks)
 
         return peaks
-    
-    # def _ParitionBetweenPeaks():
 
     def _ComputeWeightedMean(self, indices):
         values = np.take(self.xHist,indices) # xHist
@@ -176,6 +174,8 @@ class Histogram:
                 if peakAtPi:
                     index = middle
                     meanGuess = np.pi
+                    # don't have to do the second set here; can take sequence etc as the second argument
+                    # maybe issue with range object?
                     binIndices = set(range(leftEdge,middle)).union(set(range(middle,middle+(middle-leftEdge)))) 
                 elif peakAt2Pi:
                     index = len(yHist) - 1
@@ -368,41 +368,24 @@ def _ErrorHeight(heights, x, yRef, means, sigmas):
     return np.sum(np.square(np.subtract(yFit, yRef)))
 
 def _BinFits(xHist, yHist, peaks, peaksInfo):
-    # def _ErrorWrapped(params, x, yRef, means):
-    #     n = len(means)
-    #     heights = params[:n]
-    #     sigmas = params[n:]
-    #     gaussParams = _ConcatParams([heights, means, sigmas])
-    #     yFit = _WrappedGaussian(gaussParams, x)
-    #     pointwiseError = np.mean(np.square(np.subtract(yFit, yRef)))
-    #     return pointwiseError
-
     sigmas = []
     heights = []
     means = []
 
     for p in peaks:
-        pi = peaksInfo[p]
-        if not pi.fittingPeak:
+        peakInfo = peaksInfo[p]
+        if not peakInfo.fittingPeak:
             continue
-        center = pi.meanInitial
-        height = pi.heightInitial
-        sigma = pi.sigmaInitial
-        heights.append(height)
-        means.append(center)
-        sigmas.append(sigma)
+        heights.append(peakInfo.heightInitial)
+        means.append(peakInfo.meanInitial)
+        sigmas.append(peakInfo.sigmaInitial)
 
     heightBounds = [(height-0.01, height+0.01) for height in heights]
     sigmaBounds = [(0.1, sigma+0.7) for sigma in sigmas]
-    # params = np.concatenate([heights, sigmas])
-    # bounds = heightBounds + sigmaBounds
-    # res = minimize(_ErrorWrapped, params, args=(xHist, yHist, means), bounds=bounds)
     res = minimize(_ErrorSigma, sigmas, args=(xHist, yHist, heights, means), bounds=sigmaBounds)
     sigmas = res.x
     res = minimize(_ErrorHeight, heights, args=(xHist, yHist, means, sigmas), bounds=heightBounds)
     heights = res.x
-    # heights = res.x[:len(means)]
-    # sigmas = res.x[len(means):]
     params = _ConcatParams([heights, means, sigmas])
 
     return params
@@ -448,11 +431,12 @@ def ComputeTorsionHistograms(customTorsionProfiles, binsize):
 
     return hists, histsCount, xhist[:-1]+0.5*binsize
 
-def ComputeGaussianFit(xHist, yHist, yHistCount, binsize, **kwargs):
+def ComputeGaussianFit(xHist, yHist, yHistCount, binsize, sigma=np.pi*0.3, **kwargs):
     GlobalVars.SetBinsize(binsize)
     GlobalVars.SetNSamples(np.sum(yHistCount))
-    yHistSmooth = gaussian_filter1d(yHist, sigma=np.pi*0.3, mode="wrap")
-    yHistCount = gaussian_filter1d(yHistCount, sigma=np.pi*0.3, mode="wrap")
+    # make sigma a keyword argument
+    yHistSmooth = gaussian_filter1d(yHist, sigma=sigma, mode="wrap")
+    yHistCount = gaussian_filter1d(yHistCount, sigma=sigma, mode="wrap")
     hists = Histogram(yHistCount, yHist, yHistSmooth)
     _, peaks, peaksInfo = hists._PartitionPeaksHist(**kwargs)
     coeffs = _BinFits(xHist, yHistSmooth, peaks, peaksInfo)

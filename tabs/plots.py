@@ -174,12 +174,14 @@ def PlotDihedralDistributions(m, dihedrals):
     return fig
 
 def VisualizeEnsemble(mol, dihedral=[], showTABS=False):
+    # build in the hoovering functionality:
+    # when hovering over the atoms, the id should show
     colours=('cyanCarbon','redCarbon','blueCarbon','magentaCarbon','whiteCarbon','purpleCarbon')
     if mol.GetNumConformers() < 1:
         raise ValueError("No conformers in the molecule.")
     if showTABS:
-        from tabs.torsions import TorsionInfoList
-        torInfo = TorsionInfoList.WithTorsionLibs(mol)
+        from tabs.torsions import DihedralsInfo
+        torInfo = DihedralsInfo.FromTorsionLib(mol)
         confTABS = torInfo.GetTABS()
     def DrawConformer(confId):
         if showTABS:

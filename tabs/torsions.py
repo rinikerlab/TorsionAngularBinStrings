@@ -55,27 +55,27 @@ def _LoadTorsionLibFiles():
         with open(str(pathlib.Path(__file__).parent.resolve().joinpath('TorsionPreferences','torsionPreferences_v2_regular.json'))) as f:
             REGULAR_INFO_FILE = json.load(f)
         REGULAR_INFO = {}
-        for key in REGULAR_INFO_FILE.keys():
+        for key in REGULAR_INFO_FILE:
             REGULAR_INFO[key] = TorsionLibEntry(REGULAR_INFO_FILE[key]['bounds'],REGULAR_INFO_FILE[key]['params'],mapping[REGULAR_INFO_FILE[key]['fitFunc']], TorsionType.R)
 
     if SMALLRING_INFO is None:
         with open(str(pathlib.Path(__file__).parent.resolve().joinpath('TorsionPreferences','torsionPreferences_v2_smallring.json'))) as f:
             SMALLRING_INFO_FILE = json.load(f)
         SMALLRING_INFO = {}
-        for key in SMALLRING_INFO_FILE.keys():
+        for key in SMALLRING_INFO_FILE:
             SMALLRING_INFO[key] = TorsionLibEntry(SMALLRING_INFO_FILE[key]['bounds'],SMALLRING_INFO_FILE[key]['params'],mapping[SMALLRING_INFO_FILE[key]['fitFunc']], TorsionType.SR)
         
     if MACROCYCLE_INFO is None:
         with open(str(pathlib.Path(__file__).parent.resolve().joinpath('TorsionPreferences','torsionPreferences_v2_macrocycle.json'))) as f:
             MACROCYCLE_INFO_FILE = json.load(f)
         MACROCYCLE_INFO = {}
-        for key in MACROCYCLE_INFO_FILE.keys():
+        for key in MACROCYCLE_INFO_FILE:
             MACROCYCLE_INFO[key] = TorsionLibEntry(MACROCYCLE_INFO_FILE[key]['bounds'],MACROCYCLE_INFO_FILE[key]['params'],mapping[MACROCYCLE_INFO_FILE[key]['fitFunc']], TorsionType.MC)
 
 _LoadTorsionLibFiles()
 
 
-class TorsionInfo:
+class DihedralInfo:
     """
     stores mutliple properties for one dihedral
     """
@@ -93,7 +93,7 @@ class TorsionInfo:
         return max(len(self.bounds), 1)
     
 
-class TorsionInfoList:
+class DihedralsInfo:
     """
     stores multiple properties for each dihedral
     """
@@ -141,8 +141,9 @@ class TorsionInfoList:
     def multiplicity(self, indx):
         return max(len(self.bounds[indx]), 1)
 
+    ## make this a constructor? Might be hard
     @classmethod
-    def WithTorsionLibs(cls, mol, torsionLibs=None):
+    def FromTorsionLib(self, mol, torsionLibs=None):
         """
         build a TorsionInfoList based on the experimental torsions library
         : param mol: rdkit molecule
@@ -153,13 +154,13 @@ class TorsionInfoList:
         if torsionLibs is None:
             torsionLibs = [REGULAR_INFO, SMALLRING_INFO, MACROCYCLE_INFO]
         
-        cls = ExtractTorsionInfoWithLibs(mol, torsionLibs)
-        if cls.nDihedrals == 0: warnings.warn("WARNING: no dihedrals found")
+        clsInst = ExtractTorsionInfoWithLibs(mol, torsionLibs)
+        if clsInst.nDihedrals == 0: warnings.warn("WARNING: no dihedrals found")
 
-        return cls
+        return clsInst
 
     @classmethod
-    def WithCustomTorsions(cls, mol, dihedralIndices, customTorsionProfiles, showFits=False, **kwargs):
+    def FromCustomTorsions(self, mol, dihedralIndices, customTorsionProfiles, showFits=False, **kwargs):
         """
         returns a TorsionInfoList with bounds and fit coefficients based on the provided torsion profiles
         : param mol: rdkit molecule
@@ -167,9 +168,9 @@ class TorsionInfoList:
         : param customTorsionProfiles: list of custom torsion profiles
         : param kwargs: additional arguments for ComputeGaussianFit
         """
-        cls = TorsionInfoList(mol)
+        clsInst = DihedralsInfo(mol)
         nDihedrals = len(dihedralIndices)
-        cls.indices = dihedralIndices
+        clsInst.indices = dihedralIndices
 
         binsize = 2*np.pi/36
         yHists, yHistsCount, xHist = ComputeTorsionHistograms(customTorsionProfiles, binsize)
@@ -181,19 +182,19 @@ class TorsionInfoList:
             coeffs.append(c)
             bounds.append(b)
             id += 1
-        cls.bounds = bounds
-        cls.coeffs = coeffs
-        cls.torsionTypes = [TorsionType.USER_DEFINED] * nDihedrals
-        cls.smarts = [None] * nDihedrals
-        cls.fitFuncs = [FitFunc.GAUSS] * nDihedrals
+        clsInst.bounds = bounds
+        clsInst.coeffs = coeffs
+        clsInst.torsionTypes = [TorsionType.USER_DEFINED] * nDihedrals
+        clsInst.smarts = [None] * nDihedrals
+        clsInst.fitFuncs = [FitFunc.GAUSS] * nDihedrals
 
         def _PlotProb(ax, indx):
             xFit = np.linspace(0, 2*np.pi, 2*len(xHist))
-            yFit = FitFunc.GAUSS.call(cls.coeffs[indx], xFit)
+            yFit = FitFunc.GAUSS.call(clsInst.coeffs[indx], xFit)
             ax.bar(xHist, yHists[indx], width=binsize, color="lightblue", alpha=0.7)
             ax.plot(xFit, yFit, color="black")
 
-            ba = cls.bounds[indx]
+            ba = clsInst.bounds[indx]
             for a in ba:
                 ax.axvline(a, color="black")
 
@@ -203,7 +204,7 @@ class TorsionInfoList:
         if showFits:
             _GridPlot(nDihedrals, _PlotProb)
 
-        return cls
+        return clsInst
     
     def GetConformerTorsions(self):
         if self.molTemplate.GetNumConformers() == 0:
@@ -277,7 +278,10 @@ class TorsionInfoList:
 
         nTABS = _CountOrbits(multiplicities, perms) * ring_mult
 
-        return nTABS
+        if nTABS != int(nTABS):
+            raise ValueError("nTABS is not an integer")
+
+        return int(nTABS)
     
     def __len__(self):
         return self.nDihedrals
@@ -289,7 +293,7 @@ class TorsionInfoList:
         c = self.coeffs[indx]
         di = self.indices[indx]
         ff = self.fitFuncs[indx]
-        return TorsionInfo(s, tt, ba, coeffs=c, indices=di, fitFunc=ff)
+        return DihedralInfo(s, tt, ba, coeffs=c, indices=di, fitFunc=ff)
 
 def _needsHs(mol):
     for atom in mol.GetAtoms():
@@ -457,7 +461,7 @@ def ExtractTorsionInfoWithLibs(m, libs):
     else:
         addDihedrals = []
 
-    torsionList = TorsionInfoList(m)
+    torsionList = DihedralsInfo(m)
 
     for log in dihedrals:
         s = log["smarts"]
@@ -468,7 +472,7 @@ def ExtractTorsionInfoWithLibs(m, libs):
             if s in lib:
                 entry = lib[s]
                 bAngles = np.array(entry.bounds) * np.pi / 180
-                tInfo = TorsionInfo(s, entry.torsionType, bAngles, indices=di, coeffs=entry.coeffs, fitFunc=entry.fitFunc)
+                tInfo = DihedralInfo(s, entry.torsionType, bAngles, indices=di, coeffs=entry.coeffs, fitFunc=entry.fitFunc)
                 torsionList.append(tInfo)
                 found = True
                 break
@@ -482,7 +486,7 @@ def ExtractTorsionInfoWithLibs(m, libs):
         c = []
         ba = [30, 90, 150, 210, 270, 330]
         di = [int(indx) for indx in additional.split(" ")]
-        tInfo = TorsionInfo(s, tt, ba, indices=di, coeffs=c)
+        tInfo = DihedralInfo(s, tt, ba, indices=di, coeffs=c)
         torsionList.append(tInfo)
 
     # check results against what would be matched by rdkit rotatable bond definition
