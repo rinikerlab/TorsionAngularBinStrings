@@ -5,7 +5,11 @@ from importlib.resources import files
 import json
 import math
 from rdkit.Chem import rdMolTransforms
+from rdkit.Chem.Draw import IPythonConsole
+import py3Dmol
+from ipywidgets import interact, IntSlider
 
+IPythonConsole.ipython_3d = True
 plt.rcParams.update({'font.size': 12})
 
 def _GridPlot(nPlots, plotFn, plotsPerRow=4, title=None, args=None, start=0, projection=None):
@@ -168,3 +172,28 @@ def PlotDihedralDistributions(m, dihedrals):
                     ax[j].set_ylabel("Count")
                     count += 1
     return fig
+
+def VisualizeEnsemble(mol, dihedral=[], showTABS=False):
+    colours=('cyanCarbon','redCarbon','blueCarbon','magentaCarbon','whiteCarbon','purpleCarbon')
+    if mol.GetNumConformers() < 1:
+        raise ValueError("No conformers in the molecule.")
+    if showTABS:
+        from tabs.torsions import TorsionInfoList
+        torInfo = TorsionInfoList.WithTorsionLibs(mol)
+        confTABS = torInfo.GetTABS()
+    def DrawConformer(confId):
+        if showTABS:
+            print(f"TABS: {confTABS[confId]}")
+        p = py3Dmol.view(width=400, height=400)
+        p.removeAllModels()
+        IPythonConsole.addMolToView(mol,p,confId=confId)
+        p.setStyle({"stick": {}})
+        # p.setStyle({'model':0,},
+                            # {'stick':{'colorscheme':colours[0%len(colours)]}})
+        if dihedral:
+            for atomId in dihedral:
+                p.setStyle({"serial": atomId}, {"stick": {"color": "red"}})
+        p.zoomTo()
+        return p.show()
+
+    return interact(DrawConformer, confId=IntSlider(min=0, max=mol.GetNumConformers()-1, step=1, value=0))
