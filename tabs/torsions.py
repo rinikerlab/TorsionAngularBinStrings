@@ -1,5 +1,5 @@
 from rdkit import Chem
-from rdkit.Chem import rdDistGeom
+from rdkit.Chem import rdDistGeom, rdMolTransforms
 import warnings
 import copy
 import numpy as np
@@ -205,6 +205,44 @@ class TorsionInfoList:
 
         return cls
     
+    def GetConformerTorsions(self):
+        if self.molTemplate.GetNumConformers() == 0:
+            raise ValueError("No conformers found in molecule.")
+        cids = [c.GetId() for c in self.molTemplate.GetConformers()]
+        confTorsions = []
+        for d in self.indices:
+            tmp = []
+            for cid in cids:
+                conformer = self.molTemplate.GetConformer(cid)
+                val = rdMolTransforms.GetDihedralRad(conformer, d[0], d[1], d[2], d[3])
+                if val < 0:
+                    val += 2 * np.pi
+                tmp.append(val)
+            confTorsions.append(tmp)
+        # rows: conformers, columns: dihedrals
+        return np.array(confTorsions).T
+    
+    def GetTABS(self, confTorsions=None):
+        if confTorsions is None and self.molTemplate.GetNumConformers() == 0:
+            raise ValueError("No conformers found in molecule.")
+        elif self.molTemplate.GetNumConformers() > 0 and confTorsions is None:
+            confTorsions = self.GetConformerTorsions()
+
+        bounds = self.bounds
+        perms = GetTABSPermutations(self.molTemplate, self.indices)
+
+        nConformers = len(confTorsions)
+        # nDihedrals = len(bounds)
+
+        for i in range(self.nDihedrals):
+            bounds[i].sort()
+        
+        confTABS = []
+        for j in range(nConformers):
+            conf = confTorsions[j]
+            confTABS.append(_GetTABSForConformer(conf, bounds, perms))
+        return confTABS
+
     def GetnTABS(self, maxSize=1000000):
         assert not _needsHs(self.molTemplate), "Molecule does not have explicit Hs. Consider calling AddHs"
 
@@ -358,6 +396,46 @@ def _DoubleBondStereoCheck(m, dihedralIndices, bounds):
             if not trialBond.GetStereo().name in ("STEREONONE","STEREOANY"):
                 bounds[i] = []
                 #multiplicities[i] = 1
+
+def _CanonicalizeTABS(tabs, permutations):
+    """
+    Canonicalize the TABS string based on the provided permutations. 
+    Chosen canonicalization is the lexicographically smallest string.
+    """
+    canon = copy.deepcopy(tabs)
+    for p in permutations:
+        tmp = ""
+        for indx in p:
+            tmp += tabs[indx-1]
+        if tmp < canon:
+            canon = tmp
+    return int(canon)
+
+def _GetTABSForConformer(torsions, sortedBounds, perms):
+    """
+    Generate the TABS (Torsion Angular Bin String) for a single conformer.
+    This function calculates the TABS representation for a conformer by 
+    determining the bin index for each torsion angle based on the provided 
+    sorted bounds. The resulting TABS string is then canonicalized using 
+    the specified permutations.
+    :param torsions: list
+        The angles of the dihedrals of a single conformer.
+    :param sortedBounds: list of list
+        A list where each element is a list of bin angles for a dihedral, 
+        sorted in ascending order.
+    :param perms: list
+        A list of permutations used to canonicalize the TABS string.
+    :return: str
+        The canonicalized TABS string for the conformer.
+    """
+    nDihedrals = len(sortedBounds)
+    t = ""
+    for i in range(nDihedrals):
+        indx = np.searchsorted(sortedBounds[i], torsions[i])
+        if indx == len(sortedBounds[i]): indx = 0
+        t += f"{indx+1}"
+    
+    return _CanonicalizeTABS(t, perms)
 
 def ExtractTorsionInfo(m):
     return ExtractTorsionInfoWithLibs(m, [REGULAR_INFO, SMALLRING_INFO, MACROCYCLE_INFO])
