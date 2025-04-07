@@ -55,6 +55,33 @@ def _ffitnew(x, s1, v1, s2, v2, s3, v3, s4, v4, s5, v5, s6, v6):
 
 def _WrappedGaussian(params, x, period=2*np.pi):
     """
+    Similar to a Gaussian function, but the result is periodic.
+
+    Parameters
+    ----------
+    params : np.ndarray
+        A 2D array of shape (n, 3) containing the wrapped Gaussian parameters.
+        Each row corresponds to a set of parameters [a, b, c], where:
+        - a (float): Amplitude of the Gaussian.
+        - b (float): Center of the Gaussian.
+        - c (float): Width of the Gaussian (must be greater than or equal to 1e-10).
+    x : list of float
+        Sample points at which the wrapped Gaussian is evaluated.
+    period : float, optional
+        The wrap period of the function. Default is 2 * π.
+    Returns
+    -------
+    np.ndarray
+        The periodic Gaussian function evaluated at the sample points `x`.
+    Notes
+    -----
+    - The function ensures periodicity by wrapping the difference between
+      `x` and the center `b` within the specified period.
+    - The width parameter `c` is constrained to a minimum value of 1e-10
+      to avoid numerical instability.
+    """
+    
+    """
     Simmilar to _Gaussian, but the result is periodic
     Parameters:
     - params (np.array(shape=(n, 3), dtype=float)): the wrapped gaussian parameters
@@ -120,12 +147,14 @@ class Histogram:
         partition the histogram into multiple bins around the peaks
 
         Parameters:
+        -----------
         - nMaxPeaks         (int, default=4):           number of maximum peaks used to derive bins, if the number of peaks exceed it the lower peaks are excluded
         - peakThreshold    (float, default=1e-2):      fraction of the peak height to use for defining the peak width
         - smoothSD          (float, default=np.pi/4):   standard deviation for Gaussian smoothing kernel
         - excludePeaks      (float, default=1e-2):      peaks lower than this value will not be considered
 
         Returns:
+        --------
         - List[int], List[int]: the indices of the bin borders and the peaks
         """
         
@@ -225,14 +254,14 @@ class Histogram:
             pi.heightInitial = self.histDensity[peak]
             peaksInfo[peak] = pi
 
-        for pKey in peaksInfo.keys():
+        for pKey in peaksInfo:
             pi = peaksInfo[pKey]
             # print(pi.binIndex*GlobalVars.BINSIZE, pi.binsAssigned, pi.meanInitial, pi.sigmaInitial, pi.heightInitial)
 
         if len(peaks)> 1 and mergePeaks:
             peaksNew = deepcopy(peaks)
             peaksInfoNew = deepcopy(peaksInfo)
-            keys = [k for k in peaksInfo.keys()]
+            keys = peaksInfo.keys()
             for i, key1 in enumerate(keys):
                 for j, key2 in enumerate(keys[i+1:]):
                     dis = np.abs(peaksInfo[key1].meanInitial - peaksInfo[key2].meanInitial)

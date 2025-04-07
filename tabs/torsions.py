@@ -11,7 +11,8 @@ import mdtraj as md
 import matplotlib.pyplot as plt
 from .fits import ComputeTorsionHistograms, ComputeGaussianFit, FitFunc
 from .plots import _GridPlot
-from .tabs import _CountOrbits, _RingMultFromSize, GetTABSPermutations
+from .tabs import _CountOrbits, _RingMultFromSize
+from .symmetry import GetTABSPermutations
 
 #globals
 REGULAR_INFO = None
@@ -71,6 +72,13 @@ def _LoadTorsionLibFiles():
         MACROCYCLE_INFO = {}
         for key in MACROCYCLE_INFO_FILE:
             MACROCYCLE_INFO[key] = TorsionLibEntry(MACROCYCLE_INFO_FILE[key]['bounds'],MACROCYCLE_INFO_FILE[key]['params'],mapping[MACROCYCLE_INFO_FILE[key]['fitFunc']], TorsionType.MC)
+
+    if FALLBACK_INFO is None:
+        with open(str(pathlib.Path(__file__).parent.resolve().joinpath('TorsionPreferences','torsionPreferences_v2_fallback.json'))) as f:
+            FALLBACK_INFO_FILE = json.load(f)
+        FALLBACK_INFO = {}
+        for key in FALLBACK_INFO_FILE:
+            FALLBACK_INFO[key] = TorsionLibEntry(FALLBACK_INFO_FILE[key]['bounds'],FALLBACK_INFO_FILE[key]['params'],mapping[FALLBACK_INFO_FILE[key]['fitFunc']], TorsionType.ARB)
 
 _LoadTorsionLibFiles()
 
