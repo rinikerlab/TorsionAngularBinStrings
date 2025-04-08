@@ -2,4 +2,5 @@
 
 from .plots import PlotOrgDistribution, PlotDihedralDistributions, \
     PlotOrgDistributionFitOnly, VisualizeEnsemble
-from .torsions import DihedralsInfo, GetTorsionProfilesFromMDTraj
+from .torsions import DihedralsInfo, TorsionType, GetTorsionProfilesFromMDTraj, \
+    SortEnsembleByTABS
