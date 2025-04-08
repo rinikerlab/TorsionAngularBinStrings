@@ -9,9 +9,10 @@ import json
 import pathlib
 import mdtraj as md
 import matplotlib.pyplot as plt
+from collections import defaultdict
 from .fits import ComputeTorsionHistograms, ComputeGaussianFit, FitFunc
 from .plots import _GridPlot
-from .tabs import _CountOrbits, _RingMultFromSize
+from .trial import _CountOrbits, _RingMultFromSize
 from .symmetry import GetTABSPermutations
 
 #globals
@@ -41,6 +42,7 @@ class TorsionLibEntry:
 
     def __str__(self):
         return f"{self.bounds}, {self.coeffs}, {self.fitFunc}, {self.torsionType}"
+    
     def __repr__(self):
         return f"{self.bounds}, {self.coeffs}, {self.fitFunc}, {self.torsionType}"
 
@@ -85,7 +87,7 @@ _LoadTorsionLibFiles()
 
 class DihedralInfo:
     """
-    stores mutliple properties for one dihedral
+    stores multiple properties for one dihedral
     """
 
     def __init__(self, s, tt, bounds, indices=None, coeffs=None, fitFunc=None):
@@ -327,6 +329,65 @@ def _HydrogenFilter(m,idx):
             keep.append(x)
     return keep
 
+def _CheckIfNotConsideredAtoms(m):
+    notConsideredAtoms = Chem.MolFromSmarts('[!#1;!#6;!#7;!#8;!#9;!#15;!#16;!#17;!#35;!#53]')
+    return m.HasSubstructMatch(notConsideredAtoms)
+    
+def _DoubleBondStereoCheck(m, dihedralIndices, bounds):
+    #for i, dihedral in enumerate(dihedrals):
+    for i, dihedral in enumerate(dihedralIndices):
+        #dihedral = sdm.dihedral
+        a = int(dihedral[1])
+        b = int(dihedral[2])
+        A = set(x.GetIdx() for x in m.GetAtomWithIdx(a).GetBonds())
+        B = set(x.GetIdx() for x in m.GetAtomWithIdx(b).GetBonds())
+        trialBond =  m.GetBondWithIdx(list(A.intersection(B))[0])
+        # Returns the type of the bond as a double (i.e. 1.0 for SINGLE, 1.5 for AROMATIC, 2.0 for DOUBLE)
+        if trialBond.GetBondTypeAsDouble() == 2.0:
+            if not trialBond.GetStereo().name in ("STEREONONE","STEREOANY"):
+                bounds[i] = []
+                #multiplicities[i] = 1
+
+def _CanonicalizeTABS(tabs, permutations):
+    """
+    Canonicalize the TABS string based on the provided permutations. 
+    Chosen canonicalization is the lexicographically smallest string.
+    """
+    canon = copy.deepcopy(tabs)
+    for p in permutations:
+        tmp = ""
+        for indx in p:
+            tmp += tabs[indx-1]
+        if tmp < canon:
+            canon = tmp
+    return int(canon)
+
+def _GetTABSForConformer(torsions, sortedBounds, perms):
+    """
+    Generate the TABS (Torsion Angular Bin String) for a single conformer.
+    This function calculates the TABS representation for a conformer by 
+    determining the bin index for each torsion angle based on the provided 
+    sorted bounds. The resulting TABS string is then canonicalized using 
+    the specified permutations.
+    :param torsions: list
+        The angles of the dihedrals of a single conformer.
+    :param sortedBounds: list of list
+        A list where each element is a list of bin angles for a dihedral, 
+        sorted in ascending order.
+    :param perms: list
+        A list of permutations used to canonicalize the TABS string.
+    :return: str
+        The canonicalized TABS string for the conformer.
+    """
+    nDihedrals = len(sortedBounds)
+    t = ""
+    for i in range(nDihedrals):
+        indx = np.searchsorted(sortedBounds[i], torsions[i])
+        if indx == len(sortedBounds[i]): indx = 0
+        t += f"{indx+1}"
+    
+    return _CanonicalizeTABS(t, perms)
+
 def ETKDGv3vsRotBondCheck(m):
     # dict for element
     atomNumsToSymbol = {1:'H', 6:'C', 7:'N', 8:'O', 9:'F', 15:'P', 16:'S', 17:'Cl', 35:'Br', 53:'I'}
@@ -389,65 +450,6 @@ def ETKDGv3vsRotBondCheck(m):
         if not dihedrals:
             return
         return zip(dihedrals, patterns)
-
-def _CheckIfNotConsideredAtoms(m):
-    notConsideredAtoms = Chem.MolFromSmarts('[!#1;!#6;!#7;!#8;!#9;!#15;!#16;!#17;!#35;!#53]')
-    return m.HasSubstructMatch(notConsideredAtoms)
-    
-def _DoubleBondStereoCheck(m, dihedralIndices, bounds):
-    #for i, dihedral in enumerate(dihedrals):
-    for i, dihedral in enumerate(dihedralIndices):
-        #dihedral = sdm.dihedral
-        a = int(dihedral[1])
-        b = int(dihedral[2])
-        A = set(x.GetIdx() for x in m.GetAtomWithIdx(a).GetBonds())
-        B = set(x.GetIdx() for x in m.GetAtomWithIdx(b).GetBonds())
-        trialBond =  m.GetBondWithIdx(list(A.intersection(B))[0])
-        # Returns the type of the bond as a double (i.e. 1.0 for SINGLE, 1.5 for AROMATIC, 2.0 for DOUBLE)
-        if trialBond.GetBondTypeAsDouble() == 2.0:
-            if not trialBond.GetStereo().name in ("STEREONONE","STEREOANY"):
-                bounds[i] = []
-                #multiplicities[i] = 1
-
-def _CanonicalizeTABS(tabs, permutations):
-    """
-    Canonicalize the TABS string based on the provided permutations. 
-    Chosen canonicalization is the lexicographically smallest string.
-    """
-    canon = copy.deepcopy(tabs)
-    for p in permutations:
-        tmp = ""
-        for indx in p:
-            tmp += tabs[indx-1]
-        if tmp < canon:
-            canon = tmp
-    return int(canon)
-
-def _GetTABSForConformer(torsions, sortedBounds, perms):
-    """
-    Generate the TABS (Torsion Angular Bin String) for a single conformer.
-    This function calculates the TABS representation for a conformer by 
-    determining the bin index for each torsion angle based on the provided 
-    sorted bounds. The resulting TABS string is then canonicalized using 
-    the specified permutations.
-    :param torsions: list
-        The angles of the dihedrals of a single conformer.
-    :param sortedBounds: list of list
-        A list where each element is a list of bin angles for a dihedral, 
-        sorted in ascending order.
-    :param perms: list
-        A list of permutations used to canonicalize the TABS string.
-    :return: str
-        The canonicalized TABS string for the conformer.
-    """
-    nDihedrals = len(sortedBounds)
-    t = ""
-    for i in range(nDihedrals):
-        indx = np.searchsorted(sortedBounds[i], torsions[i])
-        if indx == len(sortedBounds[i]): indx = 0
-        t += f"{indx+1}"
-    
-    return _CanonicalizeTABS(t, perms)
 
 def ExtractTorsionInfo(m):
     return ExtractTorsionInfoWithLibs(m, [REGULAR_INFO, SMALLRING_INFO, MACROCYCLE_INFO])
@@ -514,3 +516,13 @@ def GetTorsionProfilesFromMDTraj(mdtraj, torsionIndices):
     dAngles = md.compute_dihedrals(mdtraj, torsionIndices)
     dAngles[dAngles < 0] += 2*np.pi
     return dAngles
+
+def SortEnsembleByTABS(m):
+    if m.GetNumConformers() < 1:
+        raise ValueError("No conformers found in molecule.")
+    info = DihedralsInfo.FromTorsionLib(m)
+    allTabs = info.GetTABS()
+    sortedByTabs = defaultdict(list)
+    for i, t in enumerate(allTabs):
+        sortedByTabs[t].append(i)
+    return sortedByTabs
