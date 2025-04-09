@@ -12,14 +12,36 @@ import matplotlib.pyplot as plt
 from collections import defaultdict
 from .fits import ComputeTorsionHistograms, ComputeGaussianFit, FitFunc
 from .plots import _GridPlot
-from .trial import _CountOrbits, _RingMultFromSize
+# from .trial import _CountOrbits, _RingMultFromSize
 from .symmetry import GetTABSPermutations
 
-#globals
+# globals
 REGULAR_INFO = None
 SMALLRING_INFO = None
 MACROCYCLE_INFO = None
 FALLBACK_INFO = None
+
+# the maximum value nTABS can take
+MAXSIZE = 1000000
+# the empirical values from ring studies
+_mediumRingsUpperBounds = {
+    3: 1,
+    4: 3,
+    5: 11,
+    6: 15,
+    7: 29,
+    8: 45,
+    9: 115,
+    10: 181,
+    11: 331,
+}
+_macrocyclesUpperBounds = {
+    12: 16549,
+    13: 44934,
+    14: 122002,
+    15: 331251,
+    16: 899394,
+}
 
 class TorsionType(enum.IntEnum):
     REGULAR = 1
@@ -388,6 +410,32 @@ def _GetTABSForConformer(torsions, sortedBounds, perms):
     
     return _CanonicalizeTABS(t, perms)
 
+def _CountOrbits(mults, perms):
+    n_fixed_points = 0
+    for perm in perms:
+        n_perm_fixed_points = 1
+        visited = [False] * len(perms[0])
+
+        for p in perm:
+            if not visited[p-1]:
+                while not visited[p-1]:
+                    visited[p-1] = True
+                    p = perm[p-1]
+
+                n_perm_fixed_points *= mults[p-1]
+
+        n_fixed_points += n_perm_fixed_points
+
+    return n_fixed_points / len(perms)
+
+def _RingMultFromSize(size):
+    if size < 12:
+        return _mediumRingsUpperBounds[size]
+    elif size < 17:
+        return _macrocyclesUpperBounds[size]
+    else:
+        return MAXSIZE
+
 def ETKDGv3vsRotBondCheck(m):
     # dict for element
     atomNumsToSymbol = {1:'H', 6:'C', 7:'N', 8:'O', 9:'F', 15:'P', 16:'S', 17:'Cl', 35:'Br', 53:'I'}
@@ -516,13 +564,3 @@ def GetTorsionProfilesFromMDTraj(mdtraj, torsionIndices):
     dAngles = md.compute_dihedrals(mdtraj, torsionIndices)
     dAngles[dAngles < 0] += 2*np.pi
     return dAngles
-
-def SortEnsembleByTABS(m):
-    if m.GetNumConformers() < 1:
-        raise ValueError("No conformers found in molecule.")
-    info = DihedralsInfo.FromTorsionLib(m)
-    allTabs = info.GetTABS()
-    sortedByTabs = defaultdict(list)
-    for i, t in enumerate(allTabs):
-        sortedByTabs[t].append(i)
-    return sortedByTabs
