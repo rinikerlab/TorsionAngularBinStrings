@@ -132,6 +132,16 @@ class DihedralsInfo:
 
     def __init__(self, mol):
         self.molTemplate = mol
+        self.undefinedStereo = False
+        # for bond in self.molTemplate.GetBonds():
+        #     if bond.GetBondTypeAsDouble() == 2.0  and bond.GetStereo().name in ["STEREONONE","STEREOANY"]:
+        #         self.undefinedStereo = True
+        #         warnings.warn(f"WARNING: Bond {bond.GetIdx()} has undefined stereo", stacklevel=2)
+        chiralInfo = Chem.FindMolChiralCenters(self.molTemplate, includeUnassigned=True)
+        if chiralInfo:
+            if all(item[1] == '?' for item in chiralInfo):
+                self.undefinedStereo = True
+                warnings.warn("WARNING: Molecule has chiral centers with undefined stereo", stacklevel=2)
         self.smarts = []
         self.torsionTypes = []
         self.indices = []
@@ -187,7 +197,7 @@ class DihedralsInfo:
             torsionLibs = [REGULAR_INFO, SMALLRING_INFO, MACROCYCLE_INFO]
         
         clsInst = ExtractTorsionInfoWithLibs(mol, torsionLibs)
-        if clsInst.nDihedrals == 0: warnings.warn("WARNING: no dihedrals found")
+        if clsInst.nDihedrals == 0: warnings.warn("WARNING: No dihedrals found",stacklevel=2)
 
         return clsInst
 
@@ -479,7 +489,7 @@ def ETKDGv3vsRotBondCheck(m):
             rotBondsLipinski.add(tuple(sorted(bond)))
     if rotBondsLipinski.difference(bonds):
         if not bonds:
-            warnings.warn("WARNING: no patterns matched by ETKDG",UserWarning)
+            warnings.warn("WARNING: No ETKDG torsion library patterns matched",UserWarning,stacklevel=2)
         else:
             # check which bonds already considered by ETKDG
             rotBondsLipinski = rotBondsLipinski.difference(bonds)
@@ -558,6 +568,7 @@ def ExtractTorsionInfoWithLibs(m, libs):
             raise NameError(f"Error: unmatched pattern: {s}")
 
     for additional in addDihedrals:
+        # change this to make use of the fallback library
         s = "[*:1][*:2]!@;-[*:3][*:4]"
         tt = TorsionType.ARB
         c = []
