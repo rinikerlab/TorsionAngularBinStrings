@@ -1,7 +1,7 @@
 from rdkit import Chem
 import numpy as np
 
-def GetTorsionPermutations(mol,dihedrals):
+def _GetTorsionPermutations(mol,dihedrals):
     ## per bond analysis
     assert len(dihedrals)>0, "no experimental torsions mapped to this molecule"
     mol = Chem.RemoveHs(mol)
@@ -17,7 +17,7 @@ def GetTorsionPermutations(mol,dihedrals):
         allPermsSeen.add(tuple(remapped))
     return tuple(allPermsSeen)
 
-def GetSymmetryOrder(mol, dihedrals):
+def _GetSymmetryOrder(mol, dihedrals):
     ## analysis on atoms
     matches = Chem.RemoveHs(mol).GetSubstructMatches(Chem.RemoveHs(mol),useChirality=True,uniquify=False)
     permutationArray = np.array(matches,dtype=np.int16)
@@ -96,15 +96,3 @@ def GetTABSPermutations(mol, dihedrals):
     # make sure that all entries are unique
     tabs = [list(x) for x in set(tuple(x) for x in tabs)]
     return tabs
-
-def FixateRingsInPermutations(permutations, types):
-    touchedUpPermutations = set()
-    pArray = np.array([np.array(xi) for xi in permutations])
-    for j, c in enumerate(pArray[0,:]):
-        if types[c-1] == "sr":
-            pArray[:,j] = c
-    for i in range(pArray.shape[0]):
-        tmp = tuple(pArray[i,:])
-        touchedUpPermutations.add(tmp)
-    touchedUpPermutations = [list(tmp) for tmp in touchedUpPermutations]
-    return touchedUpPermutations
