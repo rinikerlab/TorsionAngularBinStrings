@@ -51,7 +51,7 @@ torInfo.GetnTABS()
 If you want to contribute, please make sure that all currently provided unittests run and that new unittests are provided for any new functionalities.
 Run the tests with
 ```
-python -m unittest
+pytest
 ```
 
 ## Data
