@@ -3,4 +3,4 @@
 from .plots import PlotOrgDistribution, PlotDihedralDistributions, \
     PlotOrgDistributionFitOnly, VisualizeEnsemble
 from .torsions import DihedralsInfo, TorsionType, GetTorsionProfilesFromMDTraj
-from .application import SortEnsembleByTABS
+from .application import SortEnsembleByTABS, AnalyzeTABSforInterRmsd, AnalyzeTABSforIntraRmsd

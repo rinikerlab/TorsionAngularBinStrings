@@ -27,15 +27,9 @@ def SortEnsembleByTABS(m):
 
 def AnalyzeTABSforIntraRmsd(m, sortedTabsDict):
     """
-    Analyzes the Torsion Angular Bin Strings (TABS) for the intra-molecular RMSD.
-
-    Parameters:
-    - m (rdkit mol): The molecule to analyze.
-    - sortedTabsDict (dict): A dictionary containing the sorted TABS.
-
-    Returns:
-    - rmsds (dict): A dictionary containing the calculated RMSDs for each key in the sortedTabsDict.
-
+    :param m: The molecule to analyze.
+    :param sortedTabsDict: A dictionary containing the sorted TABS.
+    :return: A dictionary containing the calculated RMSDs for each key in the sortedTabsDict.
     """
     rmsds = {}
     # copying over only for debugging reasons
@@ -52,14 +46,9 @@ def AnalyzeTABSforIntraRmsd(m, sortedTabsDict):
 
 def AnalyzeTABSforInterRmsd(m, sortedTabsDict):
     """
-    Analyzes the Torsion Angular Bin Strings (TABS) for inter-RMSD values.
-
-    Parameters:
-    - m (rdkit mol): The input molecule to analyze.
-    - sortedTabsDict (dict): A dictionary containing sorted TABS data.
-
-    Returns:
-    - rmsds (dict): A dictionary containing the inter-RMSD values for each key in sortedTabsDict.
+    :param m: The input molecule to analyze.
+    :param sortedTabsDict: A dictionary containing sorted TABS data.
+    :returns: A dictionary containing the inter-RMSD values for each key in sortedTabsDict.
     """
     rmsds = {}
     # copying over only for debugging reasons

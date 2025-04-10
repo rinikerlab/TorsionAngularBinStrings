@@ -354,6 +354,23 @@ def _HydrogenFilter(m,idx):
 def _CheckIfNotConsideredAtoms(m):
     notConsideredAtoms = Chem.MolFromSmarts('[!#1;!#6;!#7;!#8;!#9;!#15;!#16;!#17;!#35;!#53]')
     return m.HasSubstructMatch(notConsideredAtoms)
+
+def _GetAtomIdxNotConsideredAtoms(m):
+    notConsideredAtoms = Chem.MolFromSmarts('[!#1;!#6;!#7;!#8;!#9;!#15;!#16;!#17;!#35;!#53]')
+    matches = m.GetSubstructMatches(notConsideredAtoms)
+    atomIdx = []
+    for match in matches:
+        atomIdx.extend(match)
+    return atomIdx
+
+def _GetNotDescribedBonds(m):
+    bonds = _BondsByRdkitRotatableBondDef(m)
+    notConsideredAtoms = _GetAtomIdxNotConsideredAtoms(m)
+    notConsideredBonds = []
+    for bond in bonds:
+        if bond[0] in notConsideredAtoms or bond[1] in notConsideredAtoms:
+            notConsideredBonds.append(bond)
+    return notConsideredBonds
     
 def _DoubleBondStereoCheck(m, dihedralIndices, bounds):
     #for i, dihedral in enumerate(dihedrals):
@@ -505,7 +522,9 @@ def ExtractTorsionInfo(m):
 def ExtractTorsionInfoWithLibs(m, libs):
     assert not _needsHs(m), "Molecule does not have explicit Hs. Consider calling AddHs"
     if _CheckIfNotConsideredAtoms(m):
-        warnings.warn("WARNING: any torsions with atoms containing anything but H, C, N, O, F, Cl, Br, I, S or P are not considered")
+        warnings.warn("\nWARNING: any torsions with atoms containing anything but H, C, N, O, F, Cl, Br, I, S or P are not considered. \n"
+                      "This is likely to result in an underestimation of nTABS.\n"
+                      f"Bonds not considered: {_GetNotDescribedBonds(m)}", UserWarning, stacklevel=2)
 
     ps = rdDistGeom.ETKDGv3()
     ps.verbose = False

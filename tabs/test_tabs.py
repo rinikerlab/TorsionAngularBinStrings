@@ -10,6 +10,9 @@ except ImportError:
 class TestTABS(unittest.TestCase):
     mol1 = Chem.AddHs(Chem.MolFromSmiles("OCCCCC=CCCCCO"))
     mol2 = Chem.AddHs(Chem.MolFromSmiles("C1C(C)CC(CC)CC1"))
+    mol3 = Chem.AddHs(Chem.MolFromSmiles("CS(=O)(=O)NCc1nc2cnc3[nH]ccc3c2n1[C@@H]1C[C@H]2CC[C@@H]1C2"))
+    mol4 = Chem.AddHs(Chem.MolFromSmiles('CCCc1cc2cc3c(C#C[Si](CC)(CC)CC)c4cc5sc(CCC)cc5cc4c(C#C[Si](CC)(CC)CC)c3cc2s1'))
+
     def testReporter(self):
         info = DihedralsInfo.FromTorsionLib(self.mol1)
         self.assertEqual(info.smarts,['[$([CX3]([C])([H])):1]=[CX3:2]([H])!@;-[CH2:3][C:4]',
@@ -31,6 +34,7 @@ class TestTABS(unittest.TestCase):
                                 TorsionType.REGULAR,
                                 TorsionType.REGULAR])
         self.assertEqual(info.multiplicities,[3, 3, 3, 3, 3, 3, 3, 3, 2])
+
     def testReporterSmallRing(self):
         info = DihedralsInfo.FromTorsionLib(self.mol2)
         self.assertEqual(info.smarts,['[!#1:1][CX4:2]!@;-[CX4:3][!#1:4]',
@@ -48,6 +52,26 @@ class TestTABS(unittest.TestCase):
                                 TorsionType.SMALL_RING,
                                 TorsionType.SMALL_RING])
         self.assertEqual(info.multiplicities, [3, 3, 3, 3, 3, 3, 3])
+
+    def testReporterAdditionalTorsionContributions(self):
+        info = DihedralsInfo.FromTorsionLib(self.mol3)
+        self.assertIn(TorsionType.ADDITIONAL_ROTATABLE_BOND, info.torsionTypes)
+
+    def testnTABS(self):
+        info = DihedralsInfo.FromTorsionLib(self.mol1)
+        nTABS = info.GetnTABS()
+        self.assertEqual(nTABS, 6642)
+        info = DihedralsInfo.FromTorsionLib(self.mol2)
+        nTABS = info.GetnTABS()
+        self.assertEqual(nTABS, 45)
+        info = DihedralsInfo.FromTorsionLib(self.mol3)
+        nTABS = info.GetnTABS()
+        self.assertEqual(nTABS, 96)
+
+    def testNotConsideredAtomTypes(self):
+        self.assertWarnsRegex(UserWarning,"WARNING: any torsions with atoms containing anything but H, C, N, O, F, Cl, Br, I, S or P are not considered",\
+                            DihedralsInfo.FromTorsionLib,\
+                            self.mol4)
 
 if __name__ == '__main__':
     unittest.main()
