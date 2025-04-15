@@ -189,16 +189,7 @@ def VisualizeEnsemble(mol, dihedral=[], showTABS=False):
     except ImportError:
         print("py3Dmol not installed. Please install it using conda.")
         return
-
-    with warnings.catch_warnings(record=True) as checker:
-        warnings.simplefilter("always")
-        CheckPackageInstalled('py3Dmol')
-    if checker:
-        for warning in checker:
-            print(f"Warning caught:\n {warning.message}")
-        return
-    else:
-        import py3Dmol
+    
     # build in the hoovering functionality:
     # when hovering over the atoms, the id should show
     colours=('cyanCarbon','redCarbon','blueCarbon','magentaCarbon','whiteCarbon','purpleCarbon')
