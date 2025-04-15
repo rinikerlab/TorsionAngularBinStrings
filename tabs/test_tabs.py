@@ -7,7 +7,7 @@ from .helpers import LoadMultipleConformerSDFile
 try:
     from tabs import DihedralsInfo, TorsionType
 except ImportError:
-    raise ImportError("The tabs module is not installed. Please install it using 'pip install tabs'.")
+    raise ImportError("The tabs module is not installed. Please install it.'")
 
 class TestTABS(unittest.TestCase):
     # paths for loading test data
