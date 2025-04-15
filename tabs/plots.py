@@ -33,8 +33,9 @@ def _GridPlot(nPlots, plotFn, plotsPerRow=4, title=None, args=None, start=0, pro
     """
     if nPlots == 0: return
 
-        
-    rows = (nPlots + plotsPerRow - 1) // plotsPerRow
+    rows = (nPlots) // plotsPerRow 
+    if nPlots % plotsPerRow:
+        rows += 1
     fig, axes = plt.subplots(rows, plotsPerRow, figsize=(plotsPerRow * 5, rows * 5), subplot_kw=dict(projection=projection))
 
     axes = np.array(axes).flatten()
