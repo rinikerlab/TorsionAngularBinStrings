@@ -1,6 +1,6 @@
 from rdkit import Chem
 from rdkit.Chem import rdMolAlign
-from .torsions import DihedralsInfo
+from .torsions import DihedralsInfo, FromTorsionLib
 from collections import defaultdict
 
 def SortEnsembleByTABS(m):
@@ -18,7 +18,7 @@ def SortEnsembleByTABS(m):
     """
     if m.GetNumConformers() < 1:
         raise ValueError("No conformers found in molecule.")
-    info = DihedralsInfo.FromTorsionLib(m)
+    info = FromTorsionLib(m)
     allTabs = info.GetTABS()
     sortedByTabs = defaultdict(list)
     for i, t in enumerate(allTabs):
