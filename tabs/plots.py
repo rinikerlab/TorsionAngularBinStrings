@@ -6,11 +6,20 @@ import json
 import math
 from rdkit.Chem import rdMolTransforms
 from rdkit.Chem.Draw import IPythonConsole
-import py3Dmol
+import importlib.util
+import warnings
+# import py3Dmol
 from ipywidgets import interact, IntSlider
 
 IPythonConsole.ipython_3d = True
 plt.rcParams.update({'font.size': 12})
+
+def CheckPackageInstalled(package_name):
+    if importlib.util.find_spec(package_name) is None:
+        warnings.warn(
+            f"The package '{package_name}' is not installed. Please install it using conda.",
+            UserWarning
+        )
 
 def _GridPlot(nPlots, plotFn, plotsPerRow=4, title=None, args=None, start=0, projection=None):
     """ 
@@ -174,6 +183,15 @@ def PlotDihedralDistributions(m, dihedrals):
     return fig
 
 def VisualizeEnsemble(mol, dihedral=[], showTABS=False):
+    with warnings.catch_warnings(record=True) as checker:
+        warnings.simplefilter("always")
+        CheckPackageInstalled('py3Dmol')
+    if checker:
+        for warning in checker:
+            print(f"Warning caught:\n {warning.message}")
+        return
+    else:
+        import py3Dmol
     # build in the hoovering functionality:
     # when hovering over the atoms, the id should show
     colours=('cyanCarbon','redCarbon','blueCarbon','magentaCarbon','whiteCarbon','purpleCarbon')
