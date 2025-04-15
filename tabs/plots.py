@@ -184,6 +184,12 @@ def PlotDihedralDistributions(m, dihedrals):
     return fig
 
 def VisualizeEnsemble(mol, dihedral=[], showTABS=False):
+    try:
+        import py3Dmol
+    except ImportError:
+        print("py3Dmol not installed. Please install it using conda.")
+        return
+
     with warnings.catch_warnings(record=True) as checker:
         warnings.simplefilter("always")
         CheckPackageInstalled('py3Dmol')
@@ -199,8 +205,8 @@ def VisualizeEnsemble(mol, dihedral=[], showTABS=False):
     if mol.GetNumConformers() < 1:
         raise ValueError("No conformers in the molecule.")
     if showTABS:
-        from tabs.torsions import DihedralsInfo
-        torInfo = DihedralsInfo.FromTorsionLib(mol)
+        from tabs.torsions import FromTorsionLib
+        torInfo = FromTorsionLib(mol)
         confTABS = torInfo.GetTABS()
     def DrawConformer(confId):
         if showTABS:

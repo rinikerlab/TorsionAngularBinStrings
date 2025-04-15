@@ -20,7 +20,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[C:1][C;r{9-}:2](=O)@;-[NX3H1;r:3][CX4H1:4]": {
         "entrynr": 2,
@@ -43,7 +43,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[C:1][C;r{9-}:2](=O)@;-[NX3H0;r:3][CX4H2:4]": {
         "entrynr": 3,
@@ -66,7 +66,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[C;r{9-}:2]@;-[O;r{9-}:3]~[CH0:4]": {
         "entrynr": 4,
@@ -88,7 +88,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[C;r{9-}:2]([N])@;-[O;r{9-}:3]~[C:4]": {
         "entrynr": 5,
@@ -110,7 +110,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[C;r{9-}:2]@;-[O;r{9-}:3]~[C:4]": {
         "entrynr": 6,
@@ -132,7 +132,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[C;r{9-}:2]@;-[O;r{9-}:3]~[!#1:4]": {
         "entrynr": 7,
@@ -154,7 +154,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][O;r{9-}:2]@;-[c;r{9-}:3]~[*:4]": {
         "entrynr": 8,
@@ -177,7 +177,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][O;r{9-}:2]@;-[CX3;r{9-}:3]~[*:4]": {
         "entrynr": 9,
@@ -201,7 +201,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][O;r{9-}:2]@;-[CH1;r{9-}:3][H:4]": {
         "entrynr": 10,
@@ -223,7 +223,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][O;r{9-}:2]@;-[CH2;r{9-}:3]~[C:4]": {
         "entrynr": 11,
@@ -247,7 +247,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[H:1][CX4H1;r{9-}:2]@;-[O;r{9-}:3][CX4:4]": {
         "entrynr": 12,
@@ -269,7 +269,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[C:1][CH2;r{9-}:2]@;-[O;r{9-}:3][CX4:4]": {
         "entrynr": 13,
@@ -293,7 +293,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[*:1][CX4;r{9-}:2]@;-[O;r{9-}:3][$([CX3](=[!O])):4]": {
         "entrynr": 14,
@@ -315,7 +315,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1][CX4;r{9-}:2]@;-[O;r{9-}:3][CX4:4]": {
         "entrynr": 15,
@@ -339,7 +339,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[*:1][CX4;r{9-}:2]@;-[O;r{9-}:3][CX4:4]": {
         "entrynr": 16,
@@ -363,7 +363,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1:1][c;r{9-}:2]([cH1])@;-[O;r{9-}:3][S:4]": {
         "entrynr": 17,
@@ -386,7 +386,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1:1][c;r{9-}:2]([cH0])@;-[O;r{9-}:3][S:4]": {
         "entrynr": 18,
@@ -409,7 +409,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]([cH0])@;-[O;r{9-}:3][S:4]": {
         "entrynr": 19,
@@ -432,7 +432,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1:1][c;r{9-}:2]([cH1])@;-[O;r{9-}:3][c:4]": {
         "entrynr": 20,
@@ -457,7 +457,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1:1][c;r{9-}:2]([cH0])@;-[O;r{9-}:3][c:4]": {
         "entrynr": 21,
@@ -481,7 +481,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]([cH0])@;-[O;r{9-}:3][c:4]": {
         "entrynr": 22,
@@ -504,7 +504,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]([cH0])@;-[O;r{9-}:3][P:4]": {
         "entrynr": 23,
@@ -527,7 +527,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]([cH0])@;-[O;r{9-}:3][p:4]": {
         "entrynr": 24,
@@ -550,7 +550,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH:1][c;r{9-}:2]([cH])@;-[O;r{9-}:3][$(C([F])([F])[F]):4]": {
         "entrynr": 25,
@@ -573,7 +573,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]([cH0])@;-[O;r{9-}:3][CX4H0:4]": {
         "entrynr": 26,
@@ -596,7 +596,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][c;r{9-}:2]([a])@;-[O;r{9-}:3][CX4H0:4]": {
         "entrynr": 27,
@@ -621,7 +621,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1,n:1][c;r{9-}:2]@;-[O;r{9-}:3][CRH1:4]": {
         "entrynr": 28,
@@ -644,7 +644,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1,n:1][c;r{9-}:2]@;-[O;r{9-}:3][CH1:4]": {
         "entrynr": 29,
@@ -667,7 +667,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[nX2H0:1][c;r{9-}:2]([cH0])@;-[O;r{9-}:3][CX4H0:4]": {
         "entrynr": 30,
@@ -689,7 +689,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]([nX2])@;-[O;r{9-}:3][C:4]": {
         "entrynr": 31,
@@ -711,7 +711,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[nX2:1][c;r{9-}:2]([nX2])@;-[O;r{9-}:3][C:4]": {
         "entrynr": 32,
@@ -734,7 +734,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[nX2:1][c;r{9-}:2]([nX3])@;-[O;r{9-}:3][C:4]": {
         "entrynr": 33,
@@ -756,7 +756,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1:1][c;r{9-}:2]([nX3])@;-[O;r{9-}:3][C:4]": {
         "entrynr": 34,
@@ -778,7 +778,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1:1][c;r{9-}:2]([nX2])@;-[O;r{9-}:3][C:4]": {
         "entrynr": 35,
@@ -800,7 +800,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$([cH0]([CX3])):1][c;r{9-}:2]([cH1])@;-[O;r{9-}:3][C:4]": {
         "entrynr": 36,
@@ -822,7 +822,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1:1][c;r{9-}:2](cO)@;-[O;r{9-}:3][C:4]": {
         "entrynr": 37,
@@ -844,7 +844,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(cO):1][c;r{9-}:2](cO)@;-[O;r{9-}:3][C:4]": {
         "entrynr": 38,
@@ -867,7 +867,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]([cH0])@;-[O;r{9-}:3][C:4]": {
         "entrynr": 39,
@@ -890,7 +890,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]([cH1])@;-[O;r{9-}:3][C:4]": {
         "entrynr": 40,
@@ -912,7 +912,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1:1][c;r{9-}:2]([cH1])@;-[O;r{9-}:3][C:4]": {
         "entrynr": 41,
@@ -935,7 +935,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][c;r{9-}:2]@;-[O;r{9-}:3][CX3H0:4]": {
         "entrynr": 42,
@@ -958,7 +958,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[aH0:1][c;r{9-}:2]@;-[OX2;r{9-}:3][!#1:4]": {
         "entrynr": 43,
@@ -981,7 +981,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][CX4H0;r{9-}:2]@;-[OX2;r{9-}:3][!#1:4]": {
         "entrynr": 44,
@@ -1005,7 +1005,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[H:1][CX4H1;r{9-}:2]@;-[OX2;r{9-}:3][!#1:4]": {
         "entrynr": 45,
@@ -1027,7 +1027,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[C:1][CX4H2;r{9-}:2]@;-[OX2;r{9-}:3][c:4]": {
         "entrynr": 46,
@@ -1051,7 +1051,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[c:1][CX4H2;r{9-}:2]@;-[OX2;r{9-}:3][C:4]": {
         "entrynr": 47,
@@ -1075,7 +1075,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[C:1][CX4H2;r{9-}:2]@;-[OX2;r{9-}:3][C:4]": {
         "entrynr": 48,
@@ -1099,7 +1099,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[c:1][CX4H2;r{9-}:2]@;-[OX2;r{9-}:3][c:4]": {
         "entrynr": 49,
@@ -1123,7 +1123,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][CX4H2;r{9-}:2]@;-[OX2;r{9-}:3][c:4]": {
         "entrynr": 50,
@@ -1147,7 +1147,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][CX4H2;r{9-}:2]@;-[OX2;r{9-}:3][C:4]": {
         "entrynr": 51,
@@ -1171,7 +1171,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[c:1][CX4H2;r{9-}:2]@;-[OX2;r{9-}:3][!#1:4]": {
         "entrynr": 52,
@@ -1195,7 +1195,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[C:1][CX4H2;r{9-}:2]@;-[OX2;r{9-}:3][!#1:4]": {
         "entrynr": 53,
@@ -1217,7 +1217,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][CX4H2;r{9-}:2]@;-[OX2;r{9-}:3][!#1:4]": {
         "entrynr": 54,
@@ -1241,7 +1241,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][CX4;r{9-}:2]@;-[OX2;r{9-}:3][!#1:4]": {
         "entrynr": 55,
@@ -1264,7 +1264,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$([CX3]=O):1][NX3H0;r{9-}:2](C)@;-[CX4H2;r{9-}:3][C:4]": {
         "entrynr": 56,
@@ -1287,7 +1287,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$([CX3]=O):1][NX3H1;r{9-}:2]@;-[CX4H2;r{9-}:3][C:4]": {
         "entrynr": 57,
@@ -1311,7 +1311,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(S(=O)(=O)):1][NX3H0;r{9-}:2]@;-[CX4H2;r{9-}:3][!#1:4]": {
         "entrynr": 58,
@@ -1334,7 +1334,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(S(=O)(=O)):1][NX3H1;r{9-}:2]@;-[CX4H2;r{9-}:3][!#1:4]": {
         "entrynr": 59,
@@ -1359,7 +1359,7 @@
             -0.9
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(S(=O)(=O)):1][NX3H0;r{9-}:2]@;-[CX4H1;r{9-}:3][H:4]": {
         "entrynr": 60,
@@ -1382,7 +1382,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(S(=O)(=O)):1][NX3H1;r{9-}:2]@;-[CX4H1;r{9-}:3][H:4]": {
         "entrynr": 61,
@@ -1404,7 +1404,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(S(=O)(=O)):1][NH1;r{9-}:2]@;-[c;r{9-}:3][nX2:4]": {
         "entrynr": 62,
@@ -1427,7 +1427,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(S(=O)(=O)):1][NH0;r{9-}:2]@;-[c;r{9-}:3]([cH1])[cH1:4]": {
         "entrynr": 63,
@@ -1450,7 +1450,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(S(=O)(=O)):1][NH1;r{9-}:2]@;-[c;r{9-}:3]([cH1])[cH1:4]": {
         "entrynr": 64,
@@ -1475,7 +1475,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(S(=O)(=O)):1][NH0;r{9-}:2]@;-[c;r{9-}:3]([cH1])[cH0:4]": {
         "entrynr": 65,
@@ -1498,7 +1498,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(S(=O)(=O)):1][NH1;r{9-}:2]@;-[c;r{9-}:3]([cH1])[cH0:4]": {
         "entrynr": 66,
@@ -1520,7 +1520,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(S(=O)(=O)):1][NH0;r{9-}:2]@;-[c;r{9-}:3]([cH0])[cH0:4]": {
         "entrynr": 67,
@@ -1543,7 +1543,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(S(=O)(=O)):1][NH1;r{9-}:2]@;-[c;r{9-}:3]([cH0])[cH0:4]": {
         "entrynr": 68,
@@ -1566,7 +1566,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(S(=O)(=O)):1][N;r{9-}:2]@;-[c;r{9-}:3][a:4]": {
         "entrynr": 69,
@@ -1591,7 +1591,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O-:1][N+;r{9-}:2](=O)@;-[c;r{9-}:3]([cH,nX2H0])[cH,nX2H0:4]": {
         "entrynr": 70,
@@ -1614,7 +1614,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O-:1][N+;r{9-}:2](=O)@;-[c;r{9-}:3]([cH0])[cH,nX2H0:4]": {
         "entrynr": 71,
@@ -1641,7 +1641,7 @@
             -1.3
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O-:1][N+;r{9-}:2](=O)@;-[c;r{9-}:3]([cH0])[cH0:4]": {
         "entrynr": 72,
@@ -1666,7 +1666,7 @@
             0.2
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O-:1][N+;r{9-}:2](=O)@;-[c;r{9-}:3][a:4]": {
         "entrynr": 73,
@@ -1689,7 +1689,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]([cH0])@;-[NX3H1;r{9-}:3][C,c:4](~[N,n])(~[N,n])": {
         "entrynr": 74,
@@ -1712,7 +1712,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]([cH1])@;-[NX3H1;r{9-}:3][C,c:4](~[N,n])(~[N,n])": {
         "entrynr": 75,
@@ -1734,7 +1734,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]([nX2H0])@;-[NX3H1;r{9-}:3][C,c:4](~[N,n])(~[N,n])": {
         "entrynr": 76,
@@ -1756,7 +1756,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1:1][c;r{9-}:2]([cH1])@;-[NX3H1;r{9-}:3][C,c:4](~[N,n])(~[N,n])": {
         "entrynr": 77,
@@ -1779,7 +1779,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[nX2H0:1][c;r{9-}:2]([nX2H0])@;-[NX3H1;r{9-}:3][C,c:4](~[N,n])(~[N,n])": {
         "entrynr": 78,
@@ -1802,7 +1802,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[nX2H0:1][c;r{9-}:2]([nX3H1])@;-[NX3H1;r{9-}:3][C,c:4](~[N,n])(~[N,n])": {
         "entrynr": 79,
@@ -1825,7 +1825,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][a;r{9-}:2]@;-[NH1;r{9-}:3][C,c:4](~[N,n])(~[N,n])": {
         "entrynr": 80,
@@ -1848,7 +1848,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[C:1][NH;r{9-}:2]@;-[C;r{9-}:3](=[NH2:4])[NH2]": {
         "entrynr": 81,
@@ -1871,7 +1871,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[NH2][C:1](=[NH2])[NH;r{9-}:2]@;-[CH2;r{9-}:3][C:4]": {
         "entrynr": 82,
@@ -1895,7 +1895,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][c;r{9-}:2]@;-[NX2;r{9-}:3]=[$(C([NX3])n):4]": {
         "entrynr": 83,
@@ -1920,7 +1920,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[nX2:1][c;r{9-}:2]@;-[NX2;r{9-}:3]=[$(C([NX3])N):4]": {
         "entrynr": 84,
@@ -1943,7 +1943,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]@;-[NX2;r{9-}:3]=[$(C([NX3])N):4]": {
         "entrynr": 85,
@@ -1968,7 +1968,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1:1][c;r{9-}:2]@;-[NX2;r{9-}:3]=[$(C([NX3])N):4]": {
         "entrynr": 86,
@@ -1993,7 +1993,7 @@
             -0.1
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[C;r{9-}:2]([NH1])@;-[NX3H1;r{9-}:3](C=O)[H:4]": {
         "entrynr": 87,
@@ -2015,7 +2015,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[C;r{9-}:2]@;-[NX3H1;r{9-}:3](C=O)[H:4]": {
         "entrynr": 88,
@@ -2038,7 +2038,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[C;r{9-}:2]@;-[NX3;r{9-}:3](C=O)[*:4]": {
         "entrynr": 89,
@@ -2061,7 +2061,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3H1;r{9-}:2]@;-[CX3;r{9-}:3]=[NX2:4]": {
         "entrynr": 90,
@@ -2084,7 +2084,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3H0;r{9-}:2]@;-[CX3;r{9-}:3]=[*H0:4]": {
         "entrynr": 91,
@@ -2107,7 +2107,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3H0;r{9-}:2]@;-[CX3;r{9-}:3]=[*H1:4]": {
         "entrynr": 92,
@@ -2131,7 +2131,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3H1;r{9-}:2]@;-[CX3;r{9-}:3]=[*H2:4]": {
         "entrynr": 93,
@@ -2154,7 +2154,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3H1;r{9-}:2]@;-[CX3;r{9-}:3]=[*H1:4]": {
         "entrynr": 94,
@@ -2178,7 +2178,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3H1;r{9-}:2]@;-[CX3;r{9-}:3]=[*H0:4]": {
         "entrynr": 95,
@@ -2201,7 +2201,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3H0;r{9-}:2]@;-[CX3H1;r{9-}:3]=[*:4]": {
         "entrynr": 96,
@@ -2223,7 +2223,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3H1;r{9-}:2]@;-[CX3H1;r{9-}:3]=[*:4]": {
         "entrynr": 97,
@@ -2245,7 +2245,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$([C](=O)):1][NX3H0;r{9-}:2]@;-[CX4H2;r{9-}:3][$([c]([cH,nX2H0])[cH,nX2H0]):4]": {
         "entrynr": 98,
@@ -2268,7 +2268,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3H1;r{9-}:2]@;-[CX4H2;r{9-}:3][$([c]([cH,nX2H0])[cH,nX2H0]):4]": {
         "entrynr": 99,
@@ -2293,7 +2293,7 @@
             0.3
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3H0;r{9-}:2]@;-[CX4H2;r{9-}:3][!#1:4]": {
         "entrynr": 100,
@@ -2316,7 +2316,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3H1;r{9-}:2]@;-[CX4H2;r{9-}:3][!#1:4]": {
         "entrynr": 101,
@@ -2340,7 +2340,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3H0;r{9-}:2]@;-[CX4H1;r{9-}:3][H:4]": {
         "entrynr": 102,
@@ -2363,7 +2363,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3H1;r{9-}:2]@;-[CX4H1;r{9-}:3][H:4]": {
         "entrynr": 103,
@@ -2385,7 +2385,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3H0;r{9-}:2]@;-[CX4H0;r{9-}:3][C:4]": {
         "entrynr": 104,
@@ -2409,7 +2409,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3H1;r{9-}:2]@;-[CX4H0;r{9-}:3][C:4]": {
         "entrynr": 105,
@@ -2433,7 +2433,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3;r{9-}:2]@;-[!#1;r{9-}:3][!#1:4]": {
         "entrynr": 106,
@@ -2458,7 +2458,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$([C](=O)([$([NX3H1]),$([NX3H2])])[NX3H1]):1][NX3H1;r{9-}:2]@;-[c;r{9-}:3]([nH1])[nH0:4]": {
         "entrynr": 107,
@@ -2480,7 +2480,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$([C](=O)([$([NX3H1]),$([NX3H2])])[NX3H1]):1][NX3H1;r{9-}:2]@;-[c;r{9-}:3]([nH0])[cH1:4]": {
         "entrynr": 108,
@@ -2502,7 +2502,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$([C](=O)):1][NX3H1;r{9-}:2]@;-[$([a]([nH0,o]));r{9-}:3][cH1:4]": {
         "entrynr": 109,
@@ -2524,7 +2524,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$([C](=O)([$([NX3H1]),$([NX3H2])])[NX3H1]):1][NX3H1;r{9-}:2]@;-[c&r6;r{9-}:3][nH0&r6:4]": {
         "entrynr": 110,
@@ -2547,7 +2547,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$([C](=O)):1][NX3H1;r{9-}:2]@;-[c;r{9-}:3]([cH])[nX2H0:4]": {
         "entrynr": 111,
@@ -2569,7 +2569,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3H0;r{9-}:2]@;-[c;r{9-}:3]([s,o])[n:4]": {
         "entrynr": 112,
@@ -2591,7 +2591,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3H1;r{9-}:2]@;-[c;r{9-}:3]([s,o])[n:4]": {
         "entrynr": 113,
@@ -2613,7 +2613,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$([C](=O)):1][NX3;r{9-}:2]@;-[a;r{9-}:3](s)[a:4]": {
         "entrynr": 114,
@@ -2635,7 +2635,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3;r{9-}:2]@;-[a;r{9-}:3][nH:4]": {
         "entrynr": 115,
@@ -2657,7 +2657,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3H1;r{9-}:2]@;-[c;r{9-}:3]([cH0]Cl)[cH:4]": {
         "entrynr": 116,
@@ -2679,7 +2679,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3H1;r{9-}:2]@;-[c;r{9-}:3]([cH0]F)[cH:4]": {
         "entrynr": 117,
@@ -2701,7 +2701,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3;r{9-}:2]@;-[$([a]([cH1]));r{9-}:3][$([aH0](!@O)):4]": {
         "entrynr": 118,
@@ -2723,7 +2723,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3;r{9-}:2]@;-[a;r{9-}:3][aH0:4]": {
         "entrynr": 119,
@@ -2747,7 +2747,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3H1;r{9-}:2]@;-[c;r{9-}:3]([cH1])[cH1:4]": {
         "entrynr": 120,
@@ -2770,7 +2770,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3H0;r{9-}:2]@;-[c;r{9-}:3]([cH1])[cH1:4]": {
         "entrynr": 121,
@@ -2793,7 +2793,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3H0;r{9-}:2]@;-[c;r{9-}:3]([cH0])[cH:4]": {
         "entrynr": 122,
@@ -2816,7 +2816,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3H1;r{9-}:2]@;-[c;r{9-}:3]([cH0])[cH:4]": {
         "entrynr": 123,
@@ -2838,7 +2838,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3H0;r{9-}:2]@;-[c;r{9-}:3]([cH0])[cH0:4]": {
         "entrynr": 124,
@@ -2861,7 +2861,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(C=O):1][NX3H1;r{9-}:2]@;-[c;r{9-}:3]([cH0])[cH0:4]": {
         "entrynr": 125,
@@ -2884,7 +2884,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O,S:1]=[C;r{9-}:2]([$([NX3H1]),$([NX3H2])])@;-[$([NX3]c[nH0]);r{9-}:3][H:4]": {
         "entrynr": 126,
@@ -2907,7 +2907,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[C;r{9-}:2]@;-[$([NX3](c([nH1])n));r{9-}:3][H:4]": {
         "entrynr": 127,
@@ -2929,7 +2929,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[C;r{9-}:2](c)@;-[$([NX3](c([nX2H0])([nX2H0])));r{9-}:3][H:4]": {
         "entrynr": 128,
@@ -2952,7 +2952,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[CX3;r{9-}:2]([$([NX3H1]C)])@;-[NX3H1;r{9-}:3][!#1:4]": {
         "entrynr": 129,
@@ -2974,7 +2974,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[C;r{9-}:2]([!$([NH1])])@;-[NX3H1;r{9-}:3]([H:4])[$(c([nX2H0])([nX2H0]))]": {
         "entrynr": 130,
@@ -2996,7 +2996,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O,S:1]=[C;r{9-}:2]([$([NX3H1]),$([NX3H2])])@;-[$([NX3](cn));r{9-}:3][H:4]": {
         "entrynr": 131,
@@ -3019,7 +3019,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[C;r{9-}:2]@;-[NX3H0;r{9-}:3]([a:4])[A]": {
         "entrynr": 132,
@@ -3042,7 +3042,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[CX3;r{9-}:2](a)@;-[NX3H0;r{9-}:3][!#1:4]": {
         "entrynr": 133,
@@ -3065,7 +3065,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[CX3;r{9-}:2]@;-[NX3H0;r{9-}:3][!#1:4]": {
         "entrynr": 134,
@@ -3088,7 +3088,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[CX3;r{9-}:2]@;-[NX3H1;r{9-}:3][!#1:4]": {
         "entrynr": 135,
@@ -3110,7 +3110,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[CH0:1][NX3;r{9-}:2]([CH0])@;-[c;r{9-}:3][a:4]": {
         "entrynr": 136,
@@ -3133,7 +3133,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[CH0:1][NX3;r{9-}:2]([CH1])@;-[c;r{9-}:3][a:4]": {
         "entrynr": 137,
@@ -3156,7 +3156,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1,nX2H0:1][c;r{9-}:2]([cH1,nX2H0])@;-[NX3&r;r{9-}:3][*:4]": {
         "entrynr": 138,
@@ -3179,7 +3179,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][c;r{9-}:2]@;-[NX3H1;r{9-}:3][$([CX4&r]([C;r])([C;r])):4]": {
         "entrynr": 139,
@@ -3202,7 +3202,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1:1][c;r{9-}:2]([cH1])@;-[NX3;r{9-}:3][CX4:4]": {
         "entrynr": 140,
@@ -3225,7 +3225,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]([cH,nX2H0])@;-[NX3H1;r{9-}:3][CX4:4]": {
         "entrynr": 141,
@@ -3247,7 +3247,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]([cH,nX2H0])@;-[NX3H0;r{9-}:3][CX4:4]": {
         "entrynr": 142,
@@ -3271,7 +3271,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]([cH0])@;-[NX3;r{9-}:3][CX4:4]": {
         "entrynr": 143,
@@ -3296,7 +3296,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[c:1][c;r{9-}:2](c)@;-[NX3;r{9-}:3][CX4:4]": {
         "entrynr": 144,
@@ -3323,7 +3323,7 @@
             -0.6
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1:1][c;r{9-}:2]([cH1])@;-[NX3;r{9-}:3][a:4]": {
         "entrynr": 145,
@@ -3346,7 +3346,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1:1][c;r{9-}:2]([cH0])@;-[NX3;r{9-}:3][a:4]": {
         "entrynr": 146,
@@ -3370,7 +3370,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]([cH0])@;-[NX3;r{9-}:3][a:4]": {
         "entrynr": 147,
@@ -3393,7 +3393,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][a;r{9-}:2]@;-[NX3H0;r{9-}:3][$([CX3]=O):4]": {
         "entrynr": 148,
@@ -3416,7 +3416,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][a;r{9-}:2]@;-[NX3H1;r{9-}:3][$([CX3]=O):4]": {
         "entrynr": 149,
@@ -3443,7 +3443,7 @@
             -0.5
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[nX2H0:1][a;r{9-}:2]([nX2H0])@;-[NX3H0;r{9-}:3][$([CX3]=O):4]": {
         "entrynr": 150,
@@ -3465,7 +3465,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[nX2H0:1][$(a([!nX2H0])([nX2H0])@;-[NX3H1]);r{9-}:2]!@[NX3H1;r{9-}:3][$([CX3](a)=O):4]": {
         "entrynr": 151,
@@ -3487,7 +3487,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[nX2H0:1][a;r{9-}:2]@;-[NX3H1;r{9-}:3][$([CX3]=O):4]": {
         "entrynr": 152,
@@ -3510,7 +3510,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][a;r{9-}:2]@;-[NX3H1;r{9-}:3][$([CX3]=O):4]": {
         "entrynr": 153,
@@ -3533,7 +3533,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][a;r{9-}:2]@;-[NX3;r{9-}:3][CX4H0:4]": {
         "entrynr": 154,
@@ -3558,7 +3558,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][a;r{9-}:2]@;-[NX3;r{9-}:3][!#1:4]": {
         "entrynr": 155,
@@ -3585,7 +3585,7 @@
             -0.6
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[CX3;r{9-}:2]@;-[nX3;r{9-}:3]([aH0:4])([aH0])": {
         "entrynr": 156,
@@ -3608,7 +3608,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[CX3;r{9-}:2]@;-[nX3;r{9-}:3][aH1:4]": {
         "entrynr": 157,
@@ -3631,7 +3631,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][CX3;r{9-}:2](=S)@;-[NX3;r{9-}:3][a:4]": {
         "entrynr": 158,
@@ -3653,7 +3653,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][CX3;r{9-}:2](=S)@;-[NX3H0;r{9-}:3][!#1:4]": {
         "entrynr": 159,
@@ -3676,7 +3676,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][CX3;r{9-}:2](=S)@;-[NX3H1;r{9-}:3][!#1:4]": {
         "entrynr": 160,
@@ -3699,7 +3699,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][CH2;r{9-}:2]@;-[n;r{9-}:3][cH0:4]": {
         "entrynr": 161,
@@ -3722,7 +3722,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][CH2;r{9-}:2]@;-[n;r{9-}:3][a:4]": {
         "entrynr": 162,
@@ -3745,7 +3745,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][n;r{9-}:2]@;-[CX3H0;r{9-}:3]~[$([n,N](-a)):4]": {
         "entrynr": 163,
@@ -3770,7 +3770,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[CX4:1][CX4H2;r{9-}:2]@;-[NX3;r{9-}:3][CX4:4]": {
         "entrynr": 164,
@@ -3795,7 +3795,7 @@
             0.7
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[C:1][CX4H2;r{9-}:2]@;-[NX3;r{9-}:3][C:4]": {
         "entrynr": 165,
@@ -3820,7 +3820,7 @@
             0.7
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[C:1][CX4;r{9-}:2]@;-[NX3;r{9-}:3][C:4]": {
         "entrynr": 166,
@@ -3844,7 +3844,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][CX4H2;r{9-}:2]@;-[NX3H1;r{9-}:3][!#1:4]": {
         "entrynr": 167,
@@ -3868,7 +3868,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][CX4H2;r{9-}:2]@;-[NX3;r{9-}:3][!#1:4]": {
         "entrynr": 168,
@@ -3892,7 +3892,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][CX4H1;r{9-}:2]@;-[NX3;r{9-}:3][!#1:4]": {
         "entrynr": 169,
@@ -3916,7 +3916,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][CX4;r{9-}:2]@;-[NX3;r{9-}:3][!#1:4]": {
         "entrynr": 170,
@@ -3940,7 +3940,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][$(S(=O)=O);r{9-}:2]@;-[nX3;r{9-}:3]([aH1])[aH1:4]": {
         "entrynr": 171,
@@ -3963,7 +3963,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][$(S(=O)=O);r{9-}:2]@;-[nX3;r{9-}:3][aH0:4]": {
         "entrynr": 172,
@@ -3986,7 +3986,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[c:1][S;r{9-}:2](=O)(=O)@;-[NX2H0-;r{9-}:3]-[*:4]": {
         "entrynr": 173,
@@ -4009,7 +4009,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[*:1][$(S(=O)=O);r{9-}:2]@;-[NX3H0&r;r{9-}:3][*:4]": {
         "entrynr": 174,
@@ -4032,7 +4032,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[C:1][$(S(=O)=O);r{9-}:2]@;-[NX3H1;r{9-}:3][c:4]": {
         "entrynr": 175,
@@ -4055,7 +4055,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[C:1][$(S(=O)=O);r{9-}:2]@;-[NX3H0;r{9-}:3][c:4]": {
         "entrynr": 176,
@@ -4078,7 +4078,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[c:1][$(S(=O)=O);r{9-}:2]@;-[NX3H1;r{9-}:3][C:4]": {
         "entrynr": 177,
@@ -4101,7 +4101,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[c:1][$(S(=O)=O);r{9-}:2]@;-[NX3H0;r{9-}:3][C:4]": {
         "entrynr": 178,
@@ -4124,7 +4124,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[c:1][$(S(=O)=O);r{9-}:2]@;-[NX3H1;r{9-}:3][c:4]": {
         "entrynr": 179,
@@ -4147,7 +4147,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[c:1][$(S(=O)=O);r{9-}:2]@;-[NX3H0;r{9-}:3][c:4]": {
         "entrynr": 180,
@@ -4170,7 +4170,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[C:1][$(S(=O)=O);r{9-}:2]@;-[NX3H1;r{9-}:3][C:4]": {
         "entrynr": 181,
@@ -4193,7 +4193,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[C:1][$(S(=O)=O);r{9-}:2]@;-[NX3H0;r{9-}:3][C:4]": {
         "entrynr": 182,
@@ -4216,7 +4216,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[*:1][$(S(=O)=O);r{9-}:2]@;-[NX3H1;r{9-}:3][*:4]": {
         "entrynr": 183,
@@ -4239,7 +4239,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[*:1][$(S(=O)=O);r{9-}:2]@;-[NX3H0;r{9-}:3][*:4]": {
         "entrynr": 184,
@@ -4262,7 +4262,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][CX3;r{9-}:2]@;-[SX2;r{9-}:3][!#1:4]": {
         "entrynr": 185,
@@ -4285,7 +4285,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][CX4;r{9-}:2]@;-[SX2;r{9-}:3][!#1:4]": {
         "entrynr": 186,
@@ -4310,7 +4310,7 @@
             0.3
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][CX3;r{9-}:2]@;-[SX3;r{9-}:3][!#1:4]": {
         "entrynr": 187,
@@ -4333,7 +4333,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][CX4;r{9-}:2]@;-[SX3;r{9-}:3][!#1:4]": {
         "entrynr": 188,
@@ -4357,7 +4357,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][CX3;r{9-}:2]@;-[SX4;r{9-}:3][!#1:4]": {
         "entrynr": 189,
@@ -4380,7 +4380,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[H:1][CX4H1;r{9-}:2]@;-[SX4;r{9-}:3][!#1:4]": {
         "entrynr": 190,
@@ -4404,7 +4404,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][CX4;r{9-}:2]@;-[SX4;r{9-}:3][!#1:4]": {
         "entrynr": 191,
@@ -4428,7 +4428,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[aH1:1][c;r{9-}:2]([aH1])@;-[SX2;r{9-}:3][!#1:4]": {
         "entrynr": 192,
@@ -4453,7 +4453,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[aH1:1][c;r{9-}:2]([aH0])@;-[SX2;r{9-}:3][*R:4]": {
         "entrynr": 193,
@@ -4478,7 +4478,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[aH1:1][c;r{9-}:2]([aH0])@;-[SX2;r{9-}:3][!#1:4]": {
         "entrynr": 194,
@@ -4503,7 +4503,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[aH0:1][c;r{9-}:2]([aH0])@;-[SX2;r{9-}:3][!#1:4]": {
         "entrynr": 195,
@@ -4530,7 +4530,7 @@
             -1.1
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][c;r{9-}:2]@;-[SX2;r{9-}:3][!#1:4]": {
         "entrynr": 196,
@@ -4553,7 +4553,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][c;r{9-}:2]@;-[SX3;r{9-}:3][!#1:4]": {
         "entrynr": 197,
@@ -4576,7 +4576,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[aH1:1][c;r{9-}:2]([aH1])@;-[SX4;r{9-}:3][!#1:4]": {
         "entrynr": 198,
@@ -4599,7 +4599,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[aH0:1][c;r{9-}:2]([aH1])@;-[SX4;r{9-}:3][!#1:4]": {
         "entrynr": 199,
@@ -4623,7 +4623,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[aH0:1][c;r{9-}:2]([aH0])@;-[SX4;r{9-}:3][!#1:4]": {
         "entrynr": 200,
@@ -4646,7 +4646,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[CX3;r{9-}:2]([NH1])@;-[CH2;r{9-}:3][CX3:4]=O": {
         "entrynr": 201,
@@ -4670,7 +4670,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[CX3;r{9-}:2]([NH1])@;-[CH2;r{9-}:3][C:4]": {
         "entrynr": 202,
@@ -4692,7 +4692,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$([CX3]([C])([H])):1]=[CX3;r{9-}:2]([C])@;-[CH2;r{9-}:3][C:4]": {
         "entrynr": 203,
@@ -4716,7 +4716,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$([CX3]([C])([H])):1]=[CX3;r{9-}:2]([H])@;-[CH1;r{9-}:3](C)[C:4]": {
         "entrynr": 204,
@@ -4740,7 +4740,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$([CX3]([C])([H])):1]=[CX3;r{9-}:2]([H])@;-[CH2;r{9-}:3][C:4]": {
         "entrynr": 205,
@@ -4764,7 +4764,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[N:1][C;r{9-}:2](=O)@;-[CX4H2;r{9-}:3][CX4H2:4]": {
         "entrynr": 206,
@@ -4786,7 +4786,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "N[C;r{9-}:2](=[O:1])@;-[CH2;r{9-}:3][N:4]": {
         "entrynr": 207,
@@ -4809,7 +4809,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[C;r{9-}:2]([O-])@;-[CX4H1;r{9-}:3][H:4]": {
         "entrynr": 208,
@@ -4834,7 +4834,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[CX3H2:1]=[CX3;r{9-}:2]@;-[CX3;r{9-}:3]=[C:4]": {
         "entrynr": 209,
@@ -4856,7 +4856,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[CX3:1]=[CX3;r{9-}:2]@;-[CH2;r{9-}:3][OX2:4]": {
         "entrynr": 210,
@@ -4880,7 +4880,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[CX3:1]=[CX3;r{9-}:2]@;-[CH1;r{9-}:3](C)[C:4]": {
         "entrynr": 211,
@@ -4904,7 +4904,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[CX3:1]=[CX3;r{9-}:2]@;-[CH2;r{9-}:3][C:4]": {
         "entrynr": 212,
@@ -4928,7 +4928,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[CX3:1]=[CX3;r{9-}:2]@;-[CH2;r{9-}:3][c:4]": {
         "entrynr": 213,
@@ -4952,7 +4952,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[CX3:1]=[CX3;r{9-}:2]@;-[CH2;r{9-}:3][!#1:4]": {
         "entrynr": 214,
@@ -4976,7 +4976,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[CX3;r{9-}:2](O)@;-[CX3;r{9-}:3]([$([NH1,NH2,CH2])])=[O:4]": {
         "entrynr": 215,
@@ -4999,7 +4999,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[CX3;r{9-}:2]@;-[CX3;r{9-}:3]=[O:4]": {
         "entrynr": 216,
@@ -5021,7 +5021,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[CX3R:1]=[CX3R;r{9-}:2]@;-[CX3;r{9-}:3]=[CX3:4]": {
         "entrynr": 217,
@@ -5044,7 +5044,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[CX3H0:1]=[CX3H0;r{9-}:2]@;-[CX3;r{9-}:3]=[CX3H0:4]": {
         "entrynr": 218,
@@ -5068,7 +5068,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[CX3H0:1]=[CX3H0;r{9-}:2]@;-[CX3H0;r{9-}:3]=[CX3:4]": {
         "entrynr": 219,
@@ -5091,7 +5091,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[CX3H0:1]=[CX3;r{9-}:2]@;-[CX3H0;r{9-}:3]=[CX3:4]": {
         "entrynr": 220,
@@ -5113,7 +5113,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[CX3H0:1]=[CX3H0;r{9-}:2]@;-[CX3;r{9-}:3]=[CX3:4]": {
         "entrynr": 221,
@@ -5135,7 +5135,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[CX3:1]=[CX3;r{9-}:2]@;-[CX3;r{9-}:3]=[CX3:4]": {
         "entrynr": 222,
@@ -5157,7 +5157,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[*^2:1]~[C^2;r{9-}:2]([!H])@;-[C^2;r{9-}:3]~[*^2:4]": {
         "entrynr": 223,
@@ -5180,7 +5180,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[*^2:1]~[C^2;r{9-}:2]@;-[C^2;r{9-}:3]~[*^2:4]": {
         "entrynr": 224,
@@ -5203,7 +5203,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[CX3;r{9-}:2]@;-[CX4&r3;r{9-}:3]!@[!#1:4]": {
         "entrynr": 225,
@@ -5228,7 +5228,7 @@
             0.2
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[CX3;r{9-}:2]@;-[CX4H1&r3;r{9-}:3][H:4]": {
         "entrynr": 226,
@@ -5251,7 +5251,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[OX2:1][CX4H2;r{9-}:2]@;-[CX4H2;r{9-}:3][N&r:4]": {
         "entrynr": 227,
@@ -5275,7 +5275,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[OX2:1][CX4H2;r{9-}:2]@;-[CX4H2;r{9-}:3][N:4]": {
         "entrynr": 228,
@@ -5299,7 +5299,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[OX2:1][CX4;r{9-}:2]@;-[CX4;r{9-}:3][N:4]": {
         "entrynr": 229,
@@ -5323,7 +5323,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[OX2:1][CX4H2;r{9-}:2]@;-[CX4H2;r{9-}:3][OX2:4]": {
         "entrynr": 230,
@@ -5347,7 +5347,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[OX2:1][CX4;r{9-}:2]@;-[CX4;r{9-}:3][OX2:4]": {
         "entrynr": 231,
@@ -5371,7 +5371,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][CX4&r;r{9-}:2]@;-[CX4&r;r{9-}:3][!#1:4]": {
         "entrynr": 232,
@@ -5395,7 +5395,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][CX4H2;r{9-}:2]@;-[CX4H2;r{9-}:3][!#1:4]": {
         "entrynr": 233,
@@ -5419,7 +5419,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][CX4;r{9-}:2]@;-[CX4;r{9-}:3][!#1:4]": {
         "entrynr": 234,
@@ -5443,7 +5443,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[OX2:1][CX4H2;r{9-}:2]@;-[CX3;r{9-}:3]([$([NX3H1,NX3H2])])=[O:4]": {
         "entrynr": 235,
@@ -5466,7 +5466,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[OH1:1][CX4;r{9-}:2]@;-[CX3;r{9-}:3]=[O:4]": {
         "entrynr": 236,
@@ -5489,7 +5489,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[NH1:1][CX4;r{9-}:2]@;-[CX3;r{9-}:3]=[O:4]": {
         "entrynr": 237,
@@ -5512,7 +5512,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1][CX4;r{9-}:2]@;-[CX3;r{9-}:3]=[O:4]": {
         "entrynr": 238,
@@ -5535,7 +5535,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[N:1][CX4;r{9-}:2]@;-[CX3;r{9-}:3]=[O:4]": {
         "entrynr": 239,
@@ -5558,7 +5558,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[C:1][CX4H2;r{9-}:2]@;-[CX3;r{9-}:3]=[O:4]": {
         "entrynr": 240,
@@ -5583,7 +5583,7 @@
             -0.3
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[c:1][CX4H2;r{9-}:2]@;-[CX3;r{9-}:3]=[O:4]": {
         "entrynr": 241,
@@ -5609,7 +5609,7 @@
             0.2
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][CX4H2;r{9-}:2]@;-[CX3;r{9-}:3]=[O:4]": {
         "entrynr": 242,
@@ -5636,7 +5636,7 @@
             -0.6
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[c:1][CX4;r{9-}:2]@;-[CX3;r{9-}:3]=[O:4]": {
         "entrynr": 243,
@@ -5660,7 +5660,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[C:1][CX4;r{9-}:2]@;-[CX3;r{9-}:3]=[O:4]": {
         "entrynr": 244,
@@ -5684,7 +5684,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][CX4;r{9-}:2]@;-[CX3;r{9-}:3]=[O:4]": {
         "entrynr": 245,
@@ -5708,7 +5708,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[c:1][CX4;r{9-}:2]@;-[CX3;r{9-}:3][C:4]": {
         "entrynr": 246,
@@ -5732,7 +5732,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[C:1][CX4;r{9-}:2]@;-[CX3;r{9-}:3][c:4]": {
         "entrynr": 247,
@@ -5756,7 +5756,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[c:1][CX4;r{9-}:2]@;-[CX3;r{9-}:3][c:4]": {
         "entrynr": 248,
@@ -5780,7 +5780,7 @@
             -0.4
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[C:1][CX4;r{9-}:2]@;-[CX3;r{9-}:3][C:4]": {
         "entrynr": 249,
@@ -5804,7 +5804,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][CX4;r{9-}:2]@;-[CX3H0;r{9-}:3][!#1:4]": {
         "entrynr": 250,
@@ -5828,7 +5828,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[H:1][CX4H1;r{9-}:2]@;-[CX3;r{9-}:3][!#1:4]": {
         "entrynr": 251,
@@ -5851,7 +5851,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[!#1:1][CX4H2;r{9-}:2]@;-[CX3;r{9-}:3][!#1:4]": {
         "entrynr": 252,
@@ -5876,7 +5876,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$([cH0]([$([NX3H2]),$([NX3H1])])):1][a;r{9-}:2]@;-[a;r{9-}:3][nX2:4]": {
         "entrynr": 253,
@@ -5899,7 +5899,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[nH0:1][c&r6;r{9-}:2]([nH0])@;-[c&r6;r{9-}:3]([nH0])[nH0:4]": {
         "entrynr": 254,
@@ -5922,7 +5922,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[nH0&r6:1][c&r6;r{9-}:2]([nH0&r6])@;-[c&r6;r{9-}:3]([cH1&r6])[nH0&r6:4]": {
         "entrynr": 255,
@@ -5945,7 +5945,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[nH0&r6:1][c&r6;r{9-}:2]([nH0&r6])@;-[c&r6;r{9-}:3]([cH1&r6])[cH1&r6:4]": {
         "entrynr": 256,
@@ -5968,7 +5968,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[c:1][c;r{9-}:2]@;-[c;r{9-}:3][$(c!@c):4]": {
         "entrynr": 257,
@@ -5994,7 +5994,7 @@
             0.3
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]([cH0])@;-[c;r{9-}:3]([cH0:4])[cH0]": {
         "entrynr": 258,
@@ -6017,7 +6017,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]([cH0])@;-[c;r{9-}:3]([cH0:4])[cH1]": {
         "entrynr": 259,
@@ -6040,7 +6040,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]([cH1])@;-[c;r{9-}:3]([cH0:4])[cH1]": {
         "entrynr": 260,
@@ -6063,7 +6063,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]([cH0])@;-[c;r{9-}:3]([cH1:4])[cH1]": {
         "entrynr": 261,
@@ -6086,7 +6086,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]([cH1])@;-[c;r{9-}:3]([cH1:4])[cH1]": {
         "entrynr": 262,
@@ -6111,7 +6111,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1:1][c;r{9-}:2]([cH1])@;-[c;r{9-}:3]([cH1:4])[cH1]": {
         "entrynr": 263,
@@ -6138,7 +6138,7 @@
             -1.5
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[nX2H0:1][c;r{9-}:2]@;-[c;r{9-}:3][nX3H1:4]": {
         "entrynr": 264,
@@ -6161,7 +6161,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[nX2H0:1][c;r{9-}:2]([!nX2H0])@;-[c;r{9-}:3]([!nX2H0])[nX2H0:4]": {
         "entrynr": 265,
@@ -6183,7 +6183,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[nX2H0:1][$(c([nX2H0])(a(a)(a))@;-c[nX2H0]);r{9-}:2]!@[c;r{9-}:3][nX2H0:4]": {
         "entrynr": 266,
@@ -6205,7 +6205,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[nX2H0:1][$([c&r6](c[OH]));r{9-}:2]@;-[$([c&r6](c[OH]));r{9-}:3][nX2H0:4]": {
         "entrynr": 267,
@@ -6227,7 +6227,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[c:1][c;r{9-}:2]@;-[c;r{9-}:3][s,o,nX3H1:4]": {
         "entrynr": 268,
@@ -6250,7 +6250,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]([cH0])@;-[c;r{9-}:3][nX2H0:4]": {
         "entrynr": 269,
@@ -6273,7 +6273,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]@;-[c;r{9-}:3]([cH0])[nX2H0:4]": {
         "entrynr": 270,
@@ -6297,7 +6297,7 @@
             -0.2
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[c:1][c;r{9-}:2]@;-[c;r{9-}:3]([cH0])[nX2H0:4]": {
         "entrynr": 271,
@@ -6322,7 +6322,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[c:1][c;r{9-}:2]([cH0])@;-[c;r{9-}:3][nX2H0:4]": {
         "entrynr": 272,
@@ -6345,7 +6345,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1:1][c;r{9-}:2]@;-[c;r{9-}:3]([cH1])[nX2H0:4]": {
         "entrynr": 273,
@@ -6368,7 +6368,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[c:1][c&r5;r{9-}:2]@;-[c&r5;r{9-}:3][c:4]": {
         "entrynr": 274,
@@ -6391,7 +6391,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[c:1][c&r6;r{9-}:2]@;-[c&r5;r{9-}:3][c:4]": {
         "entrynr": 275,
@@ -6416,7 +6416,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[c:1][c&r6;r{9-}:2]@;-[c&r6;r{9-}:3][cH0:4]": {
         "entrynr": 276,
@@ -6439,7 +6439,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[c:1][c&r6;r{9-}:2]@;-[c&r6;r{9-}:3][c:4]": {
         "entrynr": 277,
@@ -6464,7 +6464,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[c:1][c;r{9-}:2]@;-[c;r{9-}:3][c:4]": {
         "entrynr": 278,
@@ -6489,7 +6489,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[nX2&r6:1][cH0&r6;r{9-}:2]([cH1&r6])@;-[CX4H2;r{9-}:3][O!H:4]": {
         "entrynr": 279,
@@ -6511,7 +6511,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]@;-[CX4H0;r{9-}:3][a:4]": {
         "entrynr": 280,
@@ -6535,7 +6535,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]@;-[CX4H0;r{9-}:3][N,O,S:4]": {
         "entrynr": 281,
@@ -6559,7 +6559,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]@;-[CX4H0;r{9-}:3][CX3:4]": {
         "entrynr": 282,
@@ -6583,7 +6583,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]@;-[CX4H0;r{9-}:3][CX4:4]": {
         "entrynr": 283,
@@ -6607,7 +6607,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]@;-[CX4H0;r{9-}:3][*:4]": {
         "entrynr": 284,
@@ -6631,7 +6631,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]@;-[CX4H2;r{9-}:3][a:4]": {
         "entrynr": 285,
@@ -6656,7 +6656,7 @@
             0.3
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]@;-[CX4H2;r{9-}:3][CX3:4]": {
         "entrynr": 286,
@@ -6681,7 +6681,7 @@
             0.3
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1:1][c;r{9-}:2]([cH1])@;-[CX4H2;r{9-}:3][$([CX4H1]C(=O)O):4]": {
         "entrynr": 287,
@@ -6704,7 +6704,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1:1][c;r{9-}:2]([cH1])@;-[CX4H2;r{9-}:3][CX4:4]": {
         "entrynr": 288,
@@ -6727,7 +6727,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]@;-[CX4H2;r{9-}:3][CX4:4]": {
         "entrynr": 289,
@@ -6752,7 +6752,7 @@
             0.3
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]@;-[CX4H2;r{9-}:3][N,O,S:4]": {
         "entrynr": 290,
@@ -6777,7 +6777,7 @@
             0.3
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]@;-[CX4H2;r{9-}:3][!#1:4]": {
         "entrynr": 291,
@@ -6802,7 +6802,7 @@
             0.3
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]@;-[CX4H1;r{9-}:3][a:4]": {
         "entrynr": 292,
@@ -6827,7 +6827,7 @@
             0.1
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]@;-[CX4H1;r{9-}:3][CX4:4]": {
         "entrynr": 293,
@@ -6850,7 +6850,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]@;-[CX4H1;r{9-}:3][CX3:4]": {
         "entrynr": 294,
@@ -6875,7 +6875,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]@;-[CX4H1;r{9-}:3][N,O,S:4]": {
         "entrynr": 295,
@@ -6900,7 +6900,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]@;-[CX4H1;r{9-}:3][H:4]": {
         "entrynr": 296,
@@ -6923,7 +6923,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][c;r{9-}:2]@;-[CX4H0;r{9-}:3][a:4]": {
         "entrynr": 297,
@@ -6949,7 +6949,7 @@
             0.1
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][c;r{9-}:2]@;-[CX4H0;r{9-}:3][CX3:4]": {
         "entrynr": 298,
@@ -6974,7 +6974,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][c;r{9-}:2]@;-[CX4H0;r{9-}:3][CX4:4]": {
         "entrynr": 299,
@@ -6999,7 +6999,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][c;r{9-}:2]@;-[CX4H0;r{9-}:3][N,O:4]": {
         "entrynr": 300,
@@ -7022,7 +7022,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][c;r{9-}:2]@;-[CX4H2;r{9-}:3][a:4]": {
         "entrynr": 301,
@@ -7045,7 +7045,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][c;r{9-}:2]@;-[CX4H2;r{9-}:3][CX3:4]": {
         "entrynr": 302,
@@ -7068,7 +7068,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[n,o,s:1][c;r{9-}:2]@;-[CX4H2;r{9-}:3][CX4:4]": {
         "entrynr": 303,
@@ -7093,7 +7093,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][c;r{9-}:2]@;-[CX4H2;r{9-}:3][!#1:4]": {
         "entrynr": 304,
@@ -7116,7 +7116,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][c;r{9-}:2]@;-[CX4H1;r{9-}:3][N,O:4]": {
         "entrynr": 305,
@@ -7141,7 +7141,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][c;r{9-}:2]@;-[CX4H1;r{9-}:3][a:4]": {
         "entrynr": 306,
@@ -7164,7 +7164,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][c;r{9-}:2]@;-[CX4H1;r{9-}:3][H:4]": {
         "entrynr": 307,
@@ -7187,7 +7187,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[nX2H0:1][c;r{9-}:2]@;-[C;r{9-}:3](=[N:4])(-[NH1,NH2])": {
         "entrynr": 308,
@@ -7210,7 +7210,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][c;r{9-}:2]@;-[C;r{9-}:3](=[$([N][CX4]):4])([$(N[CX4])])": {
         "entrynr": 309,
@@ -7233,7 +7233,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][c;r{9-}:2]@;-[C;r{9-}:3](=[$([NH0][CX4]):4])(-N)": {
         "entrynr": 310,
@@ -7256,7 +7256,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][c;r{9-}:2]@;-[C;r{9-}:3](=[$([N][!#1]):4])([$(N(C)[!#1])])": {
         "entrynr": 311,
@@ -7281,7 +7281,7 @@
             -0.1
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][c;r{9-}:2]@;-[C;r{9-}:3](=[$([N][!#1]):4])([$(N(C)~[!#1])])": {
         "entrynr": 312,
@@ -7304,7 +7304,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][c;r{9-}:2]@;-[C;r{9-}:3](=[N:4])(-N)": {
         "entrynr": 313,
@@ -7329,7 +7329,7 @@
             -0.1
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[C;r{9-}:2]([O-])@;-[c;r{9-}:3][$(aC(=O)(O)):4]": {
         "entrynr": 314,
@@ -7352,7 +7352,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[C;r{9-}:2]([O-])@;-[c;r{9-}:3][nX3H1:4]": {
         "entrynr": 315,
@@ -7375,7 +7375,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[C;r{9-}:2]([O-])@;-[c;r{9-}:3][nX2H0:4]": {
         "entrynr": 316,
@@ -7398,7 +7398,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[C;r{9-}:2]([O-])@;-[c;r{9-}:3]([cH0])[cH0:4]": {
         "entrynr": 317,
@@ -7423,7 +7423,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[C;r{9-}:2]([O-])@;-[c;r{9-}:3]([cH1])[$([cH0][NH1,NH2]):4]": {
         "entrynr": 318,
@@ -7446,7 +7446,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[C;r{9-}:2]([O-])@;-[c;r{9-}:3]([cH1])[cH0:4]": {
         "entrynr": 319,
@@ -7469,7 +7469,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[C;r{9-}:2]([O-])@;-[c;r{9-}:3]([cH1])[cH1:4]": {
         "entrynr": 320,
@@ -7492,7 +7492,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[O:1]=[C;r{9-}:2]([O-])@;-[c;r{9-}:3][a:4]": {
         "entrynr": 321,
@@ -7515,7 +7515,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$([c]([NH1,NH2])):1][c;r{9-}:2]@;-[CX3;r{9-}:3]([!O])=[O:4]": {
         "entrynr": 322,
@@ -7537,7 +7537,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(a[OH1]):1][a;r{9-}:2]@;-[CX3;r{9-}:3]([NX3H0,CX4H0,c])=[O:4]": {
         "entrynr": 323,
@@ -7559,7 +7559,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$(a[NH1,NH2]):1][a;r{9-}:2]@;-[CX3;r{9-}:3]([NX3H0,CX4H0,c])=[O:4]": {
         "entrynr": 324,
@@ -7581,7 +7581,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]([cH1])@;-[CX3;r{9-}:3](c)=[O:4]": {
         "entrynr": 325,
@@ -7606,7 +7606,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1:1][c;r{9-}:2]([cH1])@;-[CX3;r{9-}:3](c)=[O:4]": {
         "entrynr": 326,
@@ -7631,7 +7631,7 @@
             -0.5
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][a;r{9-}:2]@;-[CX3;r{9-}:3](a)=[O:4]": {
         "entrynr": 327,
@@ -7653,7 +7653,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$([cH0](=O)):1][c;r{9-}:2]([cH1])@;-[CX3;r{9-}:3]([NX3H1,NX3H2])=[O:4]": {
         "entrynr": 328,
@@ -7675,7 +7675,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[nH0&r6:1][c&r6;r{9-}:2]([cH1&r6])@;-[C;r{9-}:3]([NH1,NH2])=[O:4]": {
         "entrynr": 329,
@@ -7697,7 +7697,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[s:1][c;r{9-}:2]@;-[C;r{9-}:3]([NH1])=[O:4]": {
         "entrynr": 330,
@@ -7720,7 +7720,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$([cH0]Cl):1][c;r{9-}:2]([cH1])@;-[CX3;r{9-}:3]([NX3H1])=[O:4]": {
         "entrynr": 331,
@@ -7746,7 +7746,7 @@
             0.3
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$([cH0]F):1][c;r{9-}:2]([cH1])@;-[CX3;r{9-}:3]([NX3H1])=[O:4]": {
         "entrynr": 332,
@@ -7768,7 +7768,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$([cH0][OH0]):1][c;r{9-}:2]([cH1])@;-[C;r{9-}:3](=O)[NH1:4]": {
         "entrynr": 333,
@@ -7790,7 +7790,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$([cH0][OH1]):1][c;r{9-}:2]([cH1])@;-[C;r{9-}:3](=O)[NH1:4]": {
         "entrynr": 334,
@@ -7813,7 +7813,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]([cH1])@;-[CX3;r{9-}:3]([NX3H1])=[O:4]": {
         "entrynr": 335,
@@ -7840,7 +7840,7 @@
             1.2
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]([cH1])@;-[CX3;r{9-}:3]([NX3H0])=[O:4]": {
         "entrynr": 336,
@@ -7863,7 +7863,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1:1][c;r{9-}:2]([cH1])@;-[C;r{9-}:3]([NH1,NH2])=[O:4]": {
         "entrynr": 337,
@@ -7886,7 +7886,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][c;r{9-}:2]@;-[C;r{9-}:3]([NH0])=[O:4]": {
         "entrynr": 338,
@@ -7913,7 +7913,7 @@
             1.2
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][c;r{9-}:2]@;-[C;r{9-}:3]([NH1,NH2])=[O:4]": {
         "entrynr": 339,
@@ -7936,7 +7936,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[s:1][c;r{9-}:2]([aX2,cH1])@;-[CX3;r{9-}:3](O)=[O:4]": {
         "entrynr": 340,
@@ -7959,7 +7959,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[s:1][c;r{9-}:2]([aX2,cH1])@;-[CX3;r{9-}:3]=[O:4]": {
         "entrynr": 341,
@@ -7981,7 +7981,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$([cH0](F)):1][c;r{9-}:2]([cH1])@;-[CX3;r{9-}:3]([O,N])=[O:4]": {
         "entrynr": 342,
@@ -8004,7 +8004,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$([cH0]F):1][c;r{9-}:2]([cH1])@;-[CX3;r{9-}:3]=[O:4]": {
         "entrynr": 343,
@@ -8026,7 +8026,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$([cH0](Cl)):1][c;r{9-}:2]([cH1])@;-[CX3;r{9-}:3]([CX3H])=[O:4]": {
         "entrynr": 344,
@@ -8051,7 +8051,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$([cH0](Cl)):1][c;r{9-}:2]([cH1])@;-[CX3H;r{9-}:3]=[O:4]": {
         "entrynr": 345,
@@ -8073,7 +8073,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$([cH0](Cl)):1][c;r{9-}:2]([cH1])@;-[CX3;r{9-}:3](O)=[O:4]": {
         "entrynr": 346,
@@ -8096,7 +8096,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[nX3H1:1][a;r{9-}:2]@;-[CX3;r{9-}:3]=[O:4]": {
         "entrynr": 347,
@@ -8119,7 +8119,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[nX2H0:1][c;r{9-}:2]([cH1])@;-[CX3H1;r{9-}:3]=[O:4]": {
         "entrynr": 348,
@@ -8141,7 +8141,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[nX2H0&r6:1][c&r6;r{9-}:2]([c&r6])@;-[CX3;r{9-}:3]([!O])=[O:4]": {
         "entrynr": 349,
@@ -8163,7 +8163,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[nX2H0:1][a;r{9-}:2]([nX2H0])@;-[CX3;r{9-}:3]=[O:4]": {
         "entrynr": 350,
@@ -8186,7 +8186,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[$([cH0]@;-[*^2]):1][c;r{9-}:2]([cH1])!@[CX3;r{9-}:3]=[O:4]": {
         "entrynr": 351,
@@ -8209,7 +8209,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]([cH1])@;-[CX3;r{9-}:3]=[O:4]": {
         "entrynr": 352,
@@ -8232,7 +8232,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]([cH0])@;-[CX3;r{9-}:3]=[O:4]": {
         "entrynr": 353,
@@ -8257,7 +8257,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1:1][c;r{9-}:2]([cH1])@;-[CX3;r{9-}:3]([CX3H0])=[O:4]": {
         "entrynr": 354,
@@ -8280,7 +8280,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1:1][c;r{9-}:2]([cH1])@;-[CX3;r{9-}:3]=[O:4]": {
         "entrynr": 355,
@@ -8303,7 +8303,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][a;r{9-}:2]@;-[CX3;r{9-}:3]=[O:4]": {
         "entrynr": 356,
@@ -8326,7 +8326,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1:1][c;r{9-}:2]([nX2])@;-[CX3;r{9-}:3]=[NX3:4]": {
         "entrynr": 357,
@@ -8349,7 +8349,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1:1][c;r{9-}:2]([nX3H1])@;-[CX3;r{9-}:3]=[NX2:4]": {
         "entrynr": 358,
@@ -8371,7 +8371,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1:1][c;r{9-}:2]([nX2])@;-[CX3;r{9-}:3]=[NX2:4]": {
         "entrynr": 359,
@@ -8394,7 +8394,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1:1][c;r{9-}:2]([$([cH0][OH1])])@;-[CX3;r{9-}:3]=[NX2:4]": {
         "entrynr": 360,
@@ -8416,7 +8416,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1:1][c;r{9-}:2]([cH0])@;-[CX3x0;r{9-}:3]=[NX2:4]": {
         "entrynr": 361,
@@ -8439,7 +8439,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH1:1][c;r{9-}:2]([cH1])@;-[CX3;r{9-}:3]=[NX2:4]": {
         "entrynr": 362,
@@ -8462,7 +8462,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[cH0:1][c;r{9-}:2]([cH0])@;-[CX3!r;r{9-}:3]=[NX2!r:4]": {
         "entrynr": 363,
@@ -8489,7 +8489,7 @@
             -0.6
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][c;r{9-}:2]@;-[CX3;r{9-}:3]=[CX3H0:4]": {
         "entrynr": 364,
@@ -8516,7 +8516,7 @@
             -0.5
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][a;r{9-}:2]@;-[CX3;r{9-}:3]=[CX3H2:4]": {
         "entrynr": 365,
@@ -8539,7 +8539,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[a:1][a;r{9-}:2]@;-[CX3;r{9-}:3]=[CX3H1:4]": {
         "entrynr": 366,
@@ -8562,7 +8562,7 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     },
     "[*:1][SX2;r{9-}:2]@;-[SX2;r{9-}:3][*:4]": {
         "entrynr": 367,
@@ -8585,6 +8585,6 @@
             0.0
         ],
         "fitFunc": "COS",
-        "torsionType": "MC"
+        "torsionType": "MACROCYCLE"
     }
 }

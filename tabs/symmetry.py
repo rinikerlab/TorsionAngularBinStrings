@@ -1,6 +1,7 @@
 from rdkit import Chem
 import numpy as np
 
+#REVIEW: this function is not called anywhere
 def _GetTorsionPermutations(mol,dihedrals):
     ## per bond analysis
     assert len(dihedrals)>0, "no experimental torsions mapped to this molecule"
@@ -17,6 +18,7 @@ def _GetTorsionPermutations(mol,dihedrals):
         allPermsSeen.add(tuple(remapped))
     return tuple(allPermsSeen)
 
+#REVIEW: this function is not called anywhere
 def _GetSymmetryOrder(mol, dihedrals):
     ## analysis on atoms
     matches = Chem.RemoveHs(mol).GetSubstructMatches(Chem.RemoveHs(mol),useChirality=True,uniquify=False)
@@ -47,13 +49,11 @@ def _find(lst, b):
     return [i for i, x in enumerate(lst) if x==b]
 
 def _GetDictStrippedOriginal(mol):
-    mapping = {}
     for atom in mol.GetAtoms():
-        atom.SetProp("atomNumberOrg",str(atom.GetIdx()))
+        atom.SetIntProp("atomNumberOrg",atom.GetIdx())
     mol = Chem.RemoveHs(mol)
-    for atom in mol.GetAtoms():
-        mapping[atom.GetIdx()] = int(atom.GetProp("atomNumberOrg"))
-    return mapping
+    mapping = {x.GetIdx():x.GetIntProp("atomNumberOrg") for x in mol.GetAtoms()}
+    return mapping,mol
 
 def _TranslateMatches(matches,dictStrippedOrg):
     newMatches = []
@@ -68,16 +68,15 @@ def GetTABSPermutations(mol, dihedrals):
     ## analysis on atoms
     ## bond always shall be stored as smaller atom number first !!!
     # Hs have to be removed
-    dictStrippedOrg = _GetDictStrippedOriginal(mol)
-    matches = np.array(Chem.RemoveHs(mol).GetSubstructMatches(Chem.RemoveHs(mol),useChirality=True,uniquify=False))
+    dictStrippedOrg,mol_noHs = _GetDictStrippedOriginal(mol)
+    matches = np.array(mol_noHs.GetSubstructMatches(mol_noHs,useChirality=True,uniquify=False))
     matches = _TranslateMatches(matches,dictStrippedOrg)
     ## bonds in dihedrals
     bonds = []
     for i, dihedral in enumerate(dihedrals):
         bondA1 = dihedral[1]
         bondA2 = dihedral[2]
-        aid = [bondA1,bondA2]
-        aid.sort()
+        aid = [min(bondA1,bondA2),max(bondA1,bondA2)]
         bonds.append(aid)
     ## build the initial TABS is first entry
     tabs = []
@@ -88,8 +87,7 @@ def GetTABSPermutations(mol, dihedrals):
             p2 = np.where(matches[0]==dihedral[2])[0][0]
             bondA1 = match[p1]
             bondA2 = match[p2]
-            aid = [bondA1,bondA2]
-            aid.sort()
+            aid = [min(bondA1,bondA2),max(bondA1,bondA2)]
             idx = _find(bonds,aid)
             tmp.append(idx[0]+1)
         tabs.append(tmp)

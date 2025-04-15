@@ -45,13 +45,9 @@ _macrocyclesUpperBounds = {
 
 class TorsionType(enum.IntEnum):
     REGULAR = 1
-    R = 1
     SMALL_RING = 2
-    SR = 2
-    MACRO_CYCLE = 3
-    MC = 3
+    MACROCYCLE = 3
     ADDITIONAL_ROTATABLE_BOND = 4
-    ARB = 4
     USER_DEFINED = 5
 
 
@@ -81,28 +77,28 @@ def _LoadTorsionLibFiles():
             REGULAR_INFO_FILE = json.load(f)
         REGULAR_INFO = {}
         for key in REGULAR_INFO_FILE:
-            REGULAR_INFO[key] = TorsionLibEntry(REGULAR_INFO_FILE[key]['bounds'],REGULAR_INFO_FILE[key]['params'],mapping[REGULAR_INFO_FILE[key]['fitFunc']], TorsionType.R)
+            REGULAR_INFO[key] = TorsionLibEntry(REGULAR_INFO_FILE[key]['bounds'],REGULAR_INFO_FILE[key]['params'],mapping[REGULAR_INFO_FILE[key]['fitFunc']], TorsionType.REGULAR)
 
     if SMALLRING_INFO is None:
         with open(str(pathlib.Path(__file__).parent.resolve().joinpath('TorsionPreferences','torsionPreferences_v2_smallring.json'))) as f:
             SMALLRING_INFO_FILE = json.load(f)
         SMALLRING_INFO = {}
         for key in SMALLRING_INFO_FILE:
-            SMALLRING_INFO[key] = TorsionLibEntry(SMALLRING_INFO_FILE[key]['bounds'],SMALLRING_INFO_FILE[key]['params'],mapping[SMALLRING_INFO_FILE[key]['fitFunc']], TorsionType.SR)
+            SMALLRING_INFO[key] = TorsionLibEntry(SMALLRING_INFO_FILE[key]['bounds'],SMALLRING_INFO_FILE[key]['params'],mapping[SMALLRING_INFO_FILE[key]['fitFunc']], TorsionType.SMALL_RING)
         
     if MACROCYCLE_INFO is None:
         with open(str(pathlib.Path(__file__).parent.resolve().joinpath('TorsionPreferences','torsionPreferences_v2_macrocycle.json'))) as f:
             MACROCYCLE_INFO_FILE = json.load(f)
         MACROCYCLE_INFO = {}
         for key in MACROCYCLE_INFO_FILE:
-            MACROCYCLE_INFO[key] = TorsionLibEntry(MACROCYCLE_INFO_FILE[key]['bounds'],MACROCYCLE_INFO_FILE[key]['params'],mapping[MACROCYCLE_INFO_FILE[key]['fitFunc']], TorsionType.MC)
+            MACROCYCLE_INFO[key] = TorsionLibEntry(MACROCYCLE_INFO_FILE[key]['bounds'],MACROCYCLE_INFO_FILE[key]['params'],mapping[MACROCYCLE_INFO_FILE[key]['fitFunc']], TorsionType.MACROCYCLE)
 
     if FALLBACK_INFO is None:
         with open(str(pathlib.Path(__file__).parent.resolve().joinpath('TorsionPreferences','torsionPreferences_v2_fallback.json'))) as f:
             FALLBACK_INFO_FILE = json.load(f)
         FALLBACK_INFO = {}
         for key in FALLBACK_INFO_FILE:
-            FALLBACK_INFO[key] = TorsionLibEntry(FALLBACK_INFO_FILE[key]['bounds'],FALLBACK_INFO_FILE[key]['params'],mapping[FALLBACK_INFO_FILE[key]['fitFunc']], TorsionType.ARB)
+            FALLBACK_INFO[key] = TorsionLibEntry(FALLBACK_INFO_FILE[key]['bounds'],FALLBACK_INFO_FILE[key]['params'],mapping[FALLBACK_INFO_FILE[key]['fitFunc']], TorsionType.ADDITIONAL_ROTATABLE_BOND)
 
 _LoadTorsionLibFiles()
 
@@ -131,12 +127,11 @@ class DihedralsInfo:
     """
 
     def __init__(self, mol):
+        #REVIEW: I think the check for whether or not the molecule has explicit Hs 
+        # should be done here, not in the GetTabs() or GetnTABS() methods
+        assert not _needsHs(mol), "Molecule does not have explicit Hs. Consider calling AddHs"
         self.molTemplate = mol
         self.undefinedStereo = False
-        # for bond in self.molTemplate.GetBonds():
-        #     if bond.GetBondTypeAsDouble() == 2.0  and bond.GetStereo().name in ["STEREONONE","STEREOANY"]:
-        #         self.undefinedStereo = True
-        #         warnings.warn(f"WARNING: Bond {bond.GetIdx()} has undefined stereo", stacklevel=2)
         chiralInfo = Chem.FindMolChiralCenters(self.molTemplate, includeUnassigned=True)
         if chiralInfo:
             if all(item[1] == '?' for item in chiralInfo):
@@ -161,16 +156,16 @@ class DihedralsInfo:
         return [self.multiplicity(i) for i in range(self.nDihedrals)]
     @property
     def nRegularTorsions(self):
-        return self.torsionTypes.count(TorsionType.R)
+        return self.torsionTypes.count(TorsionType.REGULAR)
     @property
     def nSmallRingTorsions(self):
-        return self.torsionTypes.count(TorsionType.SR)
+        return self.torsionTypes.count(TorsionType.SMALL_RING)
     @property
     def nMacroCycleTorsions(self):
-        return self.torsionTypes.count(TorsionType.MC)
+        return self.torsionTypes.count(TorsionType.MACROCYCLE)
     @property
     def nAdditionalTorsions(self):
-        return self.torsionTypes.count(TorsionType.ARB)
+        return self.torsionTypes.count(TorsionType.ADDITIONAL_ROTATABLE_BOND)
 
     def append(self, tInfo):
         self.smarts.append(tInfo.smarts)
@@ -182,72 +177,7 @@ class DihedralsInfo:
 
     def multiplicity(self, indx):
         return max(len(self.bounds[indx]), 1)
-
-    ## make this a constructor? Might be hard
-    @classmethod
-    def FromTorsionLib(self, mol, torsionLibs=None):
-        """
-        build a TorsionInfoList based on the experimental torsions library
-        : param mol: rdkit molecule
-        : param torsionLibs: list of dictionaries with torsion information
-        : return: TorsionInfoList
-        : raises Warning: if no dihedrals are found
-        """
-        if torsionLibs is None:
-            torsionLibs = [REGULAR_INFO, SMALLRING_INFO, MACROCYCLE_INFO]
-        
-        clsInst = ExtractTorsionInfoWithLibs(mol, torsionLibs)
-        if clsInst.nDihedrals == 0: warnings.warn("WARNING: No dihedrals found",stacklevel=2)
-
-        return clsInst
-
-    @classmethod
-    def FromCustomTorsions(self, mol, dihedralIndices, customTorsionProfiles, showFits=False, **kwargs):
-        """
-        returns a TorsionInfoList with bounds and fit coefficients based on the provided torsion profiles
-        : param mol: rdkit molecule
-        : param dihedralIndices: list of atom indices for every dihedral
-        : param customTorsionProfiles: list of custom torsion profiles
-        : param kwargs: additional arguments for ComputeGaussianFit
-        """
-        clsInst = DihedralsInfo(mol)
-        nDihedrals = len(dihedralIndices)
-        clsInst.indices = dihedralIndices
-
-        binsize = 2*np.pi/36
-        yHists, yHistsCount, xHist = ComputeTorsionHistograms(customTorsionProfiles, binsize)
-        coeffs = []
-        bounds = []
-        id = 0
-        for yHist, yHistCount in zip(yHists,yHistsCount):
-            c, b = ComputeGaussianFit(xHist, yHist, yHistCount, binsize, **kwargs)
-            coeffs.append(c)
-            bounds.append(b)
-            id += 1
-        clsInst.bounds = bounds
-        clsInst.coeffs = coeffs
-        clsInst.torsionTypes = [TorsionType.USER_DEFINED] * nDihedrals
-        clsInst.smarts = [None] * nDihedrals
-        clsInst.fitFuncs = [FitFunc.GAUSS] * nDihedrals
-
-        def _PlotProb(ax, indx):
-            xFit = np.linspace(0, 2*np.pi, 2*len(xHist))
-            yFit = FitFunc.GAUSS.call(clsInst.coeffs[indx], xFit)
-            ax.bar(xHist, yHists[indx], width=binsize, color="lightblue", alpha=0.7)
-            ax.plot(xFit, yFit, color="black")
-
-            ba = clsInst.bounds[indx]
-            for a in ba:
-                ax.axvline(a, color="black")
-
-            ax.set_xlabel("Dihedral angle / rad")
-            ax.set_ylabel("Count")
-
-        if showFits:
-            _GridPlot(nDihedrals, _PlotProb)
-
-        return clsInst
-    
+  
     def GetConformerTorsions(self):
         if self.molTemplate.GetNumConformers() == 0:
             raise ValueError("No conformers found in molecule.")
@@ -277,18 +207,17 @@ class DihedralsInfo:
         nConformers = len(confTorsions)
         # nDihedrals = len(bounds)
 
+        #REVIEW: this modifies the bounds in place (i.e. modifies the DihedralsInfo object).
+        # Is this intentional?
         for i in range(self.nDihedrals):
             bounds[i].sort()
         
         confTABS = []
-        for j in range(nConformers):
-            conf = confTorsions[j]
+        for conf in confTorsions:
             confTABS.append(_GetTABSForConformer(conf, bounds, perms))
         return confTABS
 
     def GetnTABS(self, maxSize=1000000):
-        assert not _needsHs(self.molTemplate), "Molecule does not have explicit Hs. Consider calling AddHs"
-
         # do the permutation analysis to check how many subgroups there are
         ring_mult = 1
         mult = 1
@@ -300,7 +229,7 @@ class DihedralsInfo:
         # check for the contributions due to small/medium rings
         contributingRingsIdentified = set()
         for i, dInfo in enumerate(self):
-            if dInfo.torsionType in (TorsionType.SR, TorsionType.MC):
+            if dInfo.torsionType in (TorsionType.SMALL_RING, TorsionType.MACROCYCLE):
                 multiplicities[i] = 1
 
                 for ring in ringIndices:
@@ -337,13 +266,74 @@ class DihedralsInfo:
         ff = self.fitFuncs[indx]
         return DihedralInfo(s, tt, ba, coeffs=c, indices=di, fitFunc=ff)
 
+
+#FIX: this is probably not the best name
+def FromTorsionLib(mol, torsionLibs=None):
+    """
+    build a TorsionInfoList based on the experimental torsions library
+    : param mol: rdkit molecule
+    : param torsionLibs: list of dictionaries with torsion information
+    : return: TorsionInfoList
+    : raises Warning: if no dihedrals are found
+    """
+    if torsionLibs is None:
+        torsionLibs = [REGULAR_INFO, SMALLRING_INFO, MACROCYCLE_INFO]
+    
+    clsInst = ExtractTorsionInfoWithLibs(mol, torsionLibs)
+    if clsInst.nDihedrals == 0: warnings.warn("WARNING: No dihedrals found",stacklevel=2)
+
+    return clsInst
+
+#REVIEW: there should be a test for this function
+def FromCustomTorsions(mol, dihedralIndices, customTorsionProfiles, showFits=False, **kwargs):
+    """
+    returns a TorsionInfoList with bounds and fit coefficients based on the provided torsion profiles
+    : param mol: rdkit molecule
+    : param dihedralIndices: list of atom indices for every dihedral
+    : param customTorsionProfiles: list of custom torsion profiles
+    : param kwargs: additional arguments for ComputeGaussianFit
+    """
+    clsInst = DihedralsInfo(mol)
+    nDihedrals = len(dihedralIndices)
+    clsInst.indices = dihedralIndices
+
+    binsize = 2*np.pi/36
+    yHists, yHistsCount, xHist = ComputeTorsionHistograms(customTorsionProfiles, binsize)
+    coeffs = []
+    bounds = []
+    for yHist, yHistCount in zip(yHists,yHistsCount):
+        c, b = ComputeGaussianFit(xHist, yHist, yHistCount, binsize, **kwargs)
+        coeffs.append(c)
+        bounds.append(b)
+    clsInst.bounds = bounds
+    clsInst.coeffs = coeffs
+    clsInst.torsionTypes = [TorsionType.USER_DEFINED] * nDihedrals
+    clsInst.smarts = [None] * nDihedrals
+    clsInst.fitFuncs = [FitFunc.GAUSS] * nDihedrals
+
+    def _PlotProb(ax, indx):
+        xFit = np.linspace(0, 2*np.pi, 2*len(xHist))
+        yFit = FitFunc.GAUSS.call(clsInst.coeffs[indx], xFit)
+        ax.bar(xHist, yHists[indx], width=binsize, color="lightblue", alpha=0.7)
+        ax.plot(xFit, yFit, color="black")
+
+        ba = clsInst.bounds[indx]
+        for a in ba:
+            ax.axvline(a, color="black")
+
+        ax.set_xlabel("Dihedral angle / rad")
+        ax.set_ylabel("Count")
+
+    if showFits:
+        _GridPlot(nDihedrals, _PlotProb)
+
+    return clsInst
+
+
+
 def _needsHs(mol):
     for atom in mol.GetAtoms():
-         nHNbrs = 0
-         for nbri in atom.GetNeighbors():
-              if nbri.GetAtomicNum() == 1:
-                  nHNbrs+=1
-         if atom.GetTotalNumHs(False) > nHNbrs:
+        if atom.GetTotalNumHs(includeNeighbors=False):
             return True
     return False  
 
@@ -355,10 +345,7 @@ def _BondsByRdkitRotatableBondDef(m):
     return matches
 
 def _HydrogenFilter(m,idx):
-    keep = []
-    for x in idx:
-        if m.GetAtomWithIdx(x).GetAtomicNum() > 1:
-            keep.append(x)
+    keep = [x for x in idx if m.GetAtomWithIdx(x).GetAtomicNum() > 1]
     return keep
 
 def _CheckIfNotConsideredAtoms(m):
@@ -383,32 +370,33 @@ def _GetNotDescribedBonds(m):
     return notConsideredBonds
     
 def _DoubleBondStereoCheck(m, dihedralIndices, bounds):
-    #for i, dihedral in enumerate(dihedrals):
     for i, dihedral in enumerate(dihedralIndices):
-        #dihedral = sdm.dihedral
         a = int(dihedral[1])
         b = int(dihedral[2])
         A = set(x.GetIdx() for x in m.GetAtomWithIdx(a).GetBonds())
-        B = set(x.GetIdx() for x in m.GetAtomWithIdx(b).GetBonds())
-        trialBond =  m.GetBondWithIdx(list(A.intersection(B))[0])
-        # Returns the type of the bond as a double (i.e. 1.0 for SINGLE, 1.5 for AROMATIC, 2.0 for DOUBLE)
-        if trialBond.GetBondTypeAsDouble() == 2.0:
-            if not trialBond.GetStereo().name in ("STEREONONE","STEREOANY"):
+        B = [x.GetIdx() for x in m.GetAtomWithIdx(b).GetBonds()]
+        trialBond = m.GetBondWithIdx(A.intersection(B).pop())
+        if trialBond.GetBondType() == Chem.BondType.DOUBLE:
+            if not trialBond.GetStereo() in (Chem.BondStereo.STEREONONE,Chem.BondStereo.STEREOANY):
                 bounds[i] = []
-                #multiplicities[i] = 1
 
 def _CanonicalizeTABS(tabs, permutations):
     """
     Canonicalize the TABS string based on the provided permutations. 
     Chosen canonicalization is the lexicographically smallest string.
     """
-    canon = copy.deepcopy(tabs)
+    canon = tabs
     for p in permutations:
         tmp = ""
-        for indx in p:
+        shortCircuit = False
+        for i,indx in enumerate(p):
             tmp += tabs[indx-1]
-        if tmp < canon:
-            canon = tmp
+            # if we are already larger than the current canonicalization, we can short circuit
+            if tmp>canon[:i+1]:
+                break
+        # this works without checking whether or not we short circuited because
+        # in python '123' < '13'
+        canon = min(tmp,canon)
     return int(canon)
 
 def _GetTABSForConformer(torsions, sortedBounds, perms):
@@ -432,8 +420,9 @@ def _GetTABSForConformer(torsions, sortedBounds, perms):
     t = ""
     for i in range(nDihedrals):
         indx = np.searchsorted(sortedBounds[i], torsions[i])
-        if indx == len(sortedBounds[i]): indx = 0
-        t += f"{indx+1}"
+        if indx == len(sortedBounds[i]): 
+            indx = 0
+        t += str(indx+1)
     
     return _CanonicalizeTABS(t, perms)
 
@@ -466,9 +455,7 @@ def _RingMultFromSize(size):
 def ETKDGv3vsRotBondCheck(m):
     # dict for element
     atomNumsToSymbol = {1:'H', 6:'C', 7:'N', 8:'O', 9:'F', 15:'P', 16:'S', 17:'Cl', 35:'Br', 53:'I'}
-    keys = atomNumsToSymbol.keys()
     # gives back the dihedrals and patterns that are currently not treated by ETKDG
-    # assert Chem.rdmolops.HasQueryHs(m)[0], "Molecule does not have explicit Hs. Consider calling AddHs"
     assert not _needsHs(m), "Molecule does not have explicit Hs. Consider calling AddHs"
     ps = rdDistGeom.ETKDGv3()
     ps.verbose = False
@@ -503,24 +490,24 @@ def ETKDGv3vsRotBondCheck(m):
             aid1.remove(rotBond[1])
             aid1 = _HydrogenFilter(m,aid1)
             if aid1:
-                aid1 = np.min(aid1)
+                aid1 = min(aid1)
             else:
                 continue
             aid2 = [x.GetIdx() for x in m.GetAtomWithIdx(rotBond[1]).GetNeighbors()]
             aid2.remove(rotBond[0])
             aid2 = _HydrogenFilter(m,aid2)
             if aid2:
-                aid2 = np.min(aid2)
+                aid2 = min(aid2)
             else:
                 continue
-            dihedral = f"{aid1} {rotBond[0]} {rotBond[1]} {aid2}"
-            paid1 = m.GetAtomWithIdx(int(aid1)).GetAtomicNum()
-            paid2 = m.GetAtomWithIdx(int(rotBond[0])).GetAtomicNum()
-            paid3 = m.GetAtomWithIdx(int(rotBond[1])).GetAtomicNum()
-            paid4 = m.GetAtomWithIdx(int(aid2)).GetAtomicNum()
-            if paid1 in keys and paid2 in keys and paid3 in keys and paid4 in keys:
-                pattern = f"{atomNumsToSymbol[paid1]} {atomNumsToSymbol[paid2]} {atomNumsToSymbol[paid3]} {atomNumsToSymbol[paid4]}"
+            paid1 = m.GetAtomWithIdx(aid1).GetAtomicNum()
+            paid2 = m.GetAtomWithIdx(rotBond[0]).GetAtomicNum()
+            paid3 = m.GetAtomWithIdx(rotBond[1]).GetAtomicNum()
+            paid4 = m.GetAtomWithIdx(aid2).GetAtomicNum()
+            if paid1 in atomNumsToSymbol and paid2 in atomNumsToSymbol and paid3 in atomNumsToSymbol and paid4 in atomNumsToSymbol:
+                dihedral = f"{aid1} {rotBond[0]} {rotBond[1]} {aid2}"
                 dihedrals.append(dihedral)
+                pattern = f"{atomNumsToSymbol[paid1]} {atomNumsToSymbol[paid2]} {atomNumsToSymbol[paid3]} {atomNumsToSymbol[paid4]}"
                 patterns.append(pattern)
         if not dihedrals:
             return
@@ -552,7 +539,7 @@ def ExtractTorsionInfoWithLibs(m, libs):
 
     for log in dihedrals:
         s = log["smarts"]
-        di = list(log["atomIndices"])
+        di = log["atomIndices"]
 
         found = False
         for lib in libs:
@@ -570,7 +557,7 @@ def ExtractTorsionInfoWithLibs(m, libs):
     for additional in addDihedrals:
         # change this to make use of the fallback library
         s = "[*:1][*:2]!@;-[*:3][*:4]"
-        tt = TorsionType.ARB
+        tt = TorsionType.ADDITIONAL_ROTATABLE_BOND
         c = []
         ba = [30, 90, 150, 210, 270, 330]
         di = [int(indx) for indx in additional.split(" ")]

@@ -11,6 +11,6 @@
         ],
         "params": [],
         "fitFunc": "COS",
-        "torsionType": "ARB"
+        "torsionType": "ADDITIONAL_ROTATABLE_BOND"
     }
 }
