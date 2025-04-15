@@ -38,13 +38,16 @@ from rdkit import Chem
 
 mol = Chem.AddHs(Chem.MolFromSmiles("CCCCC"))
 # build TorsionInfoList class object
-torInfo = TorsionInfoList.WithTorsionLibs(mol)
+info = DihedralsInfo.FromTorsionLib(mol)
 # check the matched SMARTS, multiplicities, torsion types
-torInfo.smarts, torInfo.multiplicities, torInfo.torsionTypes
+info.smarts, info.multiplicities, info.torsionTypes, info.indices
 # get the number of possible TABS (calculation based on the Burnside Lemma)
-torInfo.GetnTABS()
+info.GetnTABS()
 
 # embed molecule, get TABS
+Chem.rdDistGeom.EmbedMultipleConfs(mol, randomSeed=42, numConfs=10)
+infoEnsemble = DihedralsInfo.FromTorsionLib(mol)
+infoEnsemble.GetTABS()
 ```
 
 ## How to contribute
