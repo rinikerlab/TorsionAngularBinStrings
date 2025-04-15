@@ -1,13 +1,21 @@
 import unittest
+import os
 from rdkit import Chem
 from rdkit.Chem import AllChem
 import numpy as np
+from .helpers import LoadMultipleConformerSDFile
 try:
     from tabs import DihedralsInfo, TorsionType
 except ImportError:
     raise ImportError("The tabs module is not installed. Please install it using 'pip install tabs'.")
 
 class TestTABS(unittest.TestCase):
+    # paths for loading test data
+    current = os.getcwd()
+    filePath = os.path.join(current,"Data/Tests/ensemble.sdf")
+    if not os.path.exists(filePath):
+        raise FileNotFoundError(f"File not found: {filePath}")
+
     mol1 = Chem.AddHs(Chem.MolFromSmiles("OCCCCC=CCCCCO"))
     mol2 = Chem.AddHs(Chem.MolFromSmiles('CC[C@@H]1CCC[C@@H](C)C1'))
     mol3 = Chem.AddHs(Chem.MolFromSmiles("CS(=O)(=O)NCc1nc2cnc3[nH]ccc3c2n1[C@@H]1C[C@H]2CC[C@@H]1C2"))
@@ -17,6 +25,7 @@ class TestTABS(unittest.TestCase):
     mol7 = Chem.AddHs(Chem.MolFromSmiles(r"C/C=C\C"))
     mol8 = Chem.AddHs(Chem.MolFromSmiles("CC=CC"))
     mol9 = Chem.AddHs(Chem.MolFromSmiles("C1C(C)CC(CC)CC1"))
+    mol10 = LoadMultipleConformerSDFile(filePath,removeHs=False)
 
     def testReporter(self):
         info = DihedralsInfo.FromTorsionLib(self.mol1)
@@ -76,6 +85,12 @@ class TestTABS(unittest.TestCase):
             info = DihedralsInfo.FromTorsionLib(self.mol6)
         nTABS = info.GetnTABS()
         self.assertEqual(nTABS, 1)
+
+    def testTABS(self):
+        print(Chem.MolToSmiles(self.mol10))
+        info = DihedralsInfo.FromTorsionLib(self.mol10)
+        testingTabs = info.GetTABS()
+        self.assertEqual(testingTabs, [23, 11, 22, 23, 13, 33, 33, 33, 23, 23])
 
     def testNotConsideredAtomTypes(self):
         # only tests that there is a warning, not the warning message
