@@ -15,6 +15,9 @@ from .plots import _GridPlot
 # from .trial import _CountOrbits, _RingMultFromSize
 from .symmetry import GetTABSPermutations
 
+# warning behaviour: always show all user warnings
+warnings.simplefilter("always", UserWarning)
+
 # globals
 REGULAR_INFO = None
 SMALLRING_INFO = None
@@ -329,8 +332,6 @@ def FromCustomTorsions(mol, dihedralIndices, customTorsionProfiles, showFits=Fal
 
     return clsInst
 
-
-
 def _needsHs(mol):
     for atom in mol.GetAtoms():
         if atom.GetTotalNumHs(includeNeighbors=False):
@@ -539,8 +540,8 @@ def ExtractTorsionInfoWithLibs(m, libs):
 
     for log in dihedrals:
         s = log["smarts"]
-        di = log["atomIndices"]
-
+        di = list(log["atomIndices"])
+        
         found = False
         for lib in libs:
             if s in lib:
