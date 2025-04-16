@@ -3,7 +3,7 @@ import os
 from rdkit import Chem
 from rdkit.Chem import AllChem
 import numpy as np
-from .helpers import LoadMultipleConformerSDFile
+import pickle
 try:
     from tabs import DihedralsInfo, TorsionType, DihedralInfoFromTorsionLib
     from tabs import torsions
@@ -13,7 +13,7 @@ except ImportError:
 class TestTABS(unittest.TestCase):
     # paths for loading test data
     current = os.getcwd()
-    filePath = os.path.join(current,"Data/Tests/ensemble.sdf")
+    filePath = os.path.join(current,"Data/Tests/ensemble.pkl")
     if not os.path.exists(filePath):
         raise FileNotFoundError(f"File not found: {filePath}")
 
@@ -26,7 +26,8 @@ class TestTABS(unittest.TestCase):
     mol7 = Chem.AddHs(Chem.MolFromSmiles(r"C/C=C\C"))
     mol8 = Chem.AddHs(Chem.MolFromSmiles("CC=CC"))
     mol9 = Chem.AddHs(Chem.MolFromSmiles("C1C(C)CC(CC)CC1"))
-    mol10 = LoadMultipleConformerSDFile(filePath,removeHs=False)
+    with open(filePath, 'rb') as f:
+        mol10 = pickle.load(f)
 
     def testReporter(self):
         info = DihedralInfoFromTorsionLib(self.mol1)
