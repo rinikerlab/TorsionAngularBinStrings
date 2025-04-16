@@ -16,6 +16,9 @@ class TestTABS(unittest.TestCase):
     filePath = os.path.join(current,"Data/Tests/ensemble.pkl")
     if not os.path.exists(filePath):
         raise FileNotFoundError(f"File not found: {filePath}")
+    filePath2 = os.path.join(current,"Data/Tests/ensemble2.pkl")
+    if not os.path.exists(filePath2):
+        raise FileNotFoundError(f"File not found: {filePath2}")
 
     mol1 = Chem.AddHs(Chem.MolFromSmiles("OCCCCC=CCCCCO"))
     mol2 = Chem.AddHs(Chem.MolFromSmiles('CC[C@@H]1CCC[C@@H](C)C1'))
@@ -28,6 +31,8 @@ class TestTABS(unittest.TestCase):
     mol9 = Chem.AddHs(Chem.MolFromSmiles("C1C(C)CC(CC)CC1"))
     with open(filePath, 'rb') as f:
         mol10 = pickle.load(f)
+    with open(filePath2, 'rb') as f:
+        mol11 = pickle.load(f)
 
     def testReporter(self):
         info = DihedralInfoFromTorsionLib(self.mol1)
@@ -89,10 +94,21 @@ class TestTABS(unittest.TestCase):
         self.assertEqual(nTABS, 1)
 
     def testTABS(self):
-        print(Chem.MolToSmiles(self.mol10))
         info = DihedralInfoFromTorsionLib(self.mol10)
         testingTabs = info.GetTABS()
         self.assertEqual(testingTabs, [23, 11, 22, 23, 13, 33, 33, 33, 23, 23])
+        info = DihedralInfoFromTorsionLib(self.mol11)
+        testingTabs = info.GetTABS()
+        self.assertEqual(testingTabs, [1112111222232451121231,
+                                        1112112213132451121231,
+                                        1111111221222352211231,
+                                        1111112122332452121231,
+                                        1121111231111361211231,
+                                        1111112113222352221231,
+                                        1121111121121452121231,
+                                        1122112121232352221231,
+                                        1121112121331352221231,
+                                        1122111212221352221231])
 
     def testNotConsideredAtomTypes(self):
         # only tests that there is a warning, not the warning message
