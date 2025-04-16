@@ -280,8 +280,6 @@ def FromTorsionLib(mol, torsionLibs=None):
 
     return clsInst
 
-#REVIEW: there should be a test for this function
-
 def _needsHs(mol):
     for atom in mol.GetAtoms():
         if atom.GetTotalNumHs(includeNeighbors=False):
