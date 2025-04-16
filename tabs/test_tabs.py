@@ -1,3 +1,4 @@
+import pytest
 import unittest
 import os
 from rdkit import Chem
@@ -7,6 +8,7 @@ import pickle
 try:
     from tabs import DihedralsInfo, TorsionType, DihedralInfoFromTorsionLib
     from tabs import torsions
+    from tabs import custom
 except ImportError:
     raise ImportError("The tabs module is not installed. Please install it.'")
 
@@ -144,6 +146,24 @@ class TestTABS(unittest.TestCase):
                             "WARNING: Molecule has chiral centers with undefined stereo",\
                             DihedralInfoFromTorsionLib,\
                             self.mol9)
+        
+class TestCustomTABS(unittest.TestCase):
+    try:
+        import mdtraj as md
+    except ImportError:
+        raise ImportError("MDTraj is not installed. Please install it using conda.")
+    current = os.getcwd()
+    filePath = os.path.join(current,"Data/Tests/traj.h5")
+    if not os.path.exists(filePath):
+        raise FileNotFoundError(f"File not found: {filePath}")
+    traj = md.load(filePath)
+    mol = Chem.AddHs(Chem.MolFromSmiles("COC(=O)c1ccccc1NC(=O)[C@@H]1CCCCC1=O"))
+
+    @pytest.mark.custom
+    def testGettingCustomProfiles(self):
+        info = DihedralInfoFromTorsionLib(self.mol)
+        customProfiles = custom.GetTorsionProfilesFromMDTraj(self.traj, info.indices)        
+        self.assertEqual(customProfiles.shape, (250, 11))
 
 if __name__ == '__main__':
     unittest.main()
