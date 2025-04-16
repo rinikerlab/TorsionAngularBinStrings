@@ -12,3 +12,4 @@ dependencies:
   - ipywidgets
   - py3Dmol
   - pytest
+  - mdtraj
