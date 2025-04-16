@@ -2,7 +2,7 @@ name: tabs
 channels:
   - conda-forge
 dependencies:
-  - rdkit=2023.09.4=py310hb79e901_0
+  - rdkit
   - scikit-learn
   - jupyter
   - ca-certificates
