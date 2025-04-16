@@ -262,9 +262,7 @@ class DihedralsInfo:
         ff = self.fitFuncs[indx]
         return DihedralInfo(s, tt, ba, coeffs=c, indices=di, fitFunc=ff)
 
-
-#FIX: this is probably not the best name
-def FromTorsionLib(mol, torsionLibs=None):
+def DihedralInfoFromTorsionLib(mol, torsionLibs=None):
     """
     build a TorsionInfoList based on the experimental torsions library
     : param mol: rdkit molecule
