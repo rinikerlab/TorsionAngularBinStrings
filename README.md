@@ -33,12 +33,12 @@ python -m pip install git+https://github.com/rinikerlab/TorsionAngularBinStrings
 With the new version of TABS, major changes in the API were introduced.
 
 ```
-from tabs import TorsionInfoList
+from tabs import DihedralInfoFromTorsionLib
 from rdkit import Chem
 
 mol = Chem.AddHs(Chem.MolFromSmiles("CCCCC"))
-# build TorsionInfoList class object
-info = DihedralsInfo.FromTorsionLib(mol)
+# build DihedralsInfo class object
+info = DihedralInfoFromTorsionLib(mol)
 # check the matched SMARTS, multiplicities, torsion types
 info.smarts, info.multiplicities, info.torsionTypes, info.indices
 # get the number of possible TABS (calculation based on the Burnside Lemma)
@@ -46,7 +46,7 @@ info.GetnTABS()
 
 # embed molecule, get TABS
 Chem.rdDistGeom.EmbedMultipleConfs(mol, randomSeed=42, numConfs=10)
-infoEnsemble = DihedralsInfo.FromTorsionLib(mol)
+infoEnsemble = DihedralInfoFromTorsionLib(mol)
 infoEnsemble.GetTABS()
 ```
 
