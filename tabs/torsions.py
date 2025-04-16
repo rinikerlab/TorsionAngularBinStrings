@@ -1,18 +1,11 @@
 from rdkit import Chem
 from rdkit.Chem import rdDistGeom, rdMolTransforms
 import warnings
-import copy
 import numpy as np
 import enum
-from scipy.ndimage import gaussian_filter1d
 import json
 import pathlib
-import mdtraj as md
-import matplotlib.pyplot as plt
-from collections import defaultdict
-from .fits import ComputeTorsionHistograms, ComputeGaussianFit, FitFunc
-from .plots import _GridPlot
-# from .trial import _CountOrbits, _RingMultFromSize
+from .fits import FitFunc
 from .symmetry import GetTABSPermutations
 
 # warning behaviour: always show all user warnings
@@ -288,49 +281,6 @@ def FromTorsionLib(mol, torsionLibs=None):
     return clsInst
 
 #REVIEW: there should be a test for this function
-def FromCustomTorsions(mol, dihedralIndices, customTorsionProfiles, showFits=False, **kwargs):
-    """
-    returns a TorsionInfoList with bounds and fit coefficients based on the provided torsion profiles
-    : param mol: rdkit molecule
-    : param dihedralIndices: list of atom indices for every dihedral
-    : param customTorsionProfiles: list of custom torsion profiles
-    : param kwargs: additional arguments for ComputeGaussianFit
-    """
-    clsInst = DihedralsInfo(mol)
-    nDihedrals = len(dihedralIndices)
-    clsInst.indices = dihedralIndices
-
-    binsize = 2*np.pi/36
-    yHists, yHistsCount, xHist = ComputeTorsionHistograms(customTorsionProfiles, binsize)
-    coeffs = []
-    bounds = []
-    for yHist, yHistCount in zip(yHists,yHistsCount):
-        c, b = ComputeGaussianFit(xHist, yHist, yHistCount, binsize, **kwargs)
-        coeffs.append(c)
-        bounds.append(b)
-    clsInst.bounds = bounds
-    clsInst.coeffs = coeffs
-    clsInst.torsionTypes = [TorsionType.USER_DEFINED] * nDihedrals
-    clsInst.smarts = [None] * nDihedrals
-    clsInst.fitFuncs = [FitFunc.GAUSS] * nDihedrals
-
-    def _PlotProb(ax, indx):
-        xFit = np.linspace(0, 2*np.pi, 2*len(xHist))
-        yFit = FitFunc.GAUSS.call(clsInst.coeffs[indx], xFit)
-        ax.bar(xHist, yHists[indx], width=binsize, color="lightblue", alpha=0.7)
-        ax.plot(xFit, yFit, color="black")
-
-        ba = clsInst.bounds[indx]
-        for a in ba:
-            ax.axvline(a, color="black")
-
-        ax.set_xlabel("Dihedral angle / rad")
-        ax.set_ylabel("Count")
-
-    if showFits:
-        _GridPlot(nDihedrals, _PlotProb)
-
-    return clsInst
 
 def _needsHs(mol):
     for atom in mol.GetAtoms():
@@ -569,16 +519,3 @@ def ExtractTorsionInfoWithLibs(m, libs):
 
     _DoubleBondStereoCheck(m, torsionList.indices, torsionList.bounds)
     return torsionList
-
-def GetTorsionProfilesFromMDTraj(mdtraj, torsionIndices):
-    """ compute the dihedral angles
-    Parameters:
-    - mdtraj: trajectory object
-    - torsionIndices: list of dihedral indices
-
-    Returns:
-    - np.array(shape=(nConformers, nDihedrals), dtype=float): dihedral angles in [0, 2*pi]
-    """
-    dAngles = md.compute_dihedrals(mdtraj, torsionIndices)
-    dAngles[dAngles < 0] += 2*np.pi
-    return dAngles
