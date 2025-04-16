@@ -49,13 +49,14 @@ def FromCustomTorsions(mol, dihedralIndices, customTorsionProfiles, showFits=Fal
     return clsInst
 
 def GetTorsionProfilesFromMDTraj(mdtraj, torsionIndices):
-    """ compute the dihedral angles
-    Parameters:
-    - mdtraj: trajectory object
-    - torsionIndices: list of dihedral indices
+    """
+    Compute the dihedral angles from an MD trajectory.
 
-    Returns:
-    - np.array(shape=(nConformers, nDihedrals), dtype=float): dihedral angles in [0, 2*pi]
+    :param mdtraj: MDTraj trajectory object containing the molecular dynamics data.
+    :param torsionIndices: List of dihedral indices, where each index is a list of 
+        four atom indices defining a torsion angle.
+    :returns: A NumPy array of shape (nConformers, nDihedrals) containing the 
+        dihedral angles in radians, adjusted to the range [0, 2*pi].
     """
     dAngles = md.compute_dihedrals(mdtraj, torsionIndices)
     dAngles[dAngles < 0] += 2*np.pi
