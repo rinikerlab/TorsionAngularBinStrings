@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 import pickle
 import numpy as np
 from importlib.resources import files
@@ -6,20 +5,25 @@ import json
 import math
 from rdkit.Chem import rdMolTransforms
 from rdkit.Chem.Draw import IPythonConsole
-import importlib.util
-import warnings
-# import py3Dmol
-from ipywidgets import interact, IntSlider
+import sys
+try: 
+    from ipywidgets import interact, IntSlider
+except ImportError:
+    print("ipywidgets not installed. Please install it using conda.")
+    sys.exit(1)
+try:
+    import matplotlib.pyplot as plt
+except ImportError:
+    print("matplotlib not installed. Please install it using conda.")
+    sys.exit(1)
+try:
+    import py3Dmol
+except ImportError:
+    print("py3Dmol not installed. Please install it using conda.")
+    sys.exit(1)
 
 IPythonConsole.ipython_3d = True
 plt.rcParams.update({'font.size': 12})
-
-def CheckPackageInstalled(package_name):
-    if importlib.util.find_spec(package_name) is None:
-        warnings.warn(
-            f"The package '{package_name}' is not installed. Please install it using conda.",
-            UserWarning
-        )
 
 def _GridPlot(nPlots, plotFn, plotsPerRow=4, title=None, args=None, start=0, projection=None):
     """ 
@@ -196,8 +200,8 @@ def VisualizeEnsemble(mol, dihedral=[], showTABS=False):
     if mol.GetNumConformers() < 1:
         raise ValueError("No conformers in the molecule.")
     if showTABS:
-        from tabs.torsions import FromTorsionLib
-        torInfo = FromTorsionLib(mol)
+        from tabs.torsions import DihedralInfoFromTorsionLib
+        torInfo = DihedralInfoFromTorsionLib(mol)
         confTABS = torInfo.GetTABS()
     def DrawConformer(confId):
         if showTABS:
