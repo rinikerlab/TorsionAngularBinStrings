@@ -3,10 +3,10 @@
 [![DOI](https://zenodo.org/badge/843293558.svg)](https://zenodo.org/doi/10.5281/zenodo.13384005) 
 ![Test Image](https://github.com/rinikerlab/TorsionAngularBinStrings/blob/main/TOC.jpg)
 
-## Publication
+# Publication
 [1] J. Chem. Inf. Model. 2024, DOI: [https://pubs.acs.org/doi/10.1021/acs.jcim.4c01513#](https://pubs.acs.org/doi/10.1021/acs.jcim.4c01513#)
 
-## Abstract
+# Abstract
 
 Molecular flexibility is a commonly used, but not easily quantified term. 
 It is at the core of understanding composition and size of a conformational ensemble and contributes to many molecular properties.
@@ -17,7 +17,7 @@ Overcoming known drawbacks like the molecular size dependency and threshold pick
 The current proof-of-concept implementation is based on the ETKDGv3sr conformer generator and known torsion preferences extracted from small-molecule crystallographic data.
 
 
-## Installation
+# Installation
 Installation of the dependencies via conda using the provided environment.yml file:
 ```
 conda env create -n tabs -f environment.yml
@@ -33,9 +33,9 @@ python -m pip install git+https://github.com/rinikerlab/TorsionAngularBinStrings
 ```
 
 
-## Usage
+# Usage
 
-# TABS
+## TABS
 With the new version of TABS, major changes in the API were introduced.
 
 ```
@@ -56,6 +56,7 @@ infoEnsemble = DihedralInfoFromTorsionLib(mol)
 infoEnsemble.GetTABS()
 ```
 
+## Custom TABS
 If you want to use the customTABS functionalities to analyze the ensemble observed in  a trajectory:
 
 ```
@@ -74,7 +75,7 @@ customProfiles = custom.GetTorsionProfilesFromMDTraj(md.load("your_traj.h5"),ind
 infoCustom = custom.CustomDihedralInfo(mol, indices, customProfiles, showFits=True)
 ```
 
-## How to contribute
+# How to contribute
 If you want to contribute, please make sure that all currently provided unittests run and that new unittests are provided for any new functionalities.
 Run the tests with
 ```
@@ -85,21 +86,21 @@ For the CustomTABS functionalities, run the tests with
 pytest -m "custom"
 ```
 
-## Data
+# Data
 The complete datasets used in the study can be reproduced by going to Data/TABS and Data/nTABS and running the provided conformer generation scripts as described in the respective READMEs.
 
-## Analysis
+# Analysis
 The analysis notebooks to reproduce the plots shown in the study can be found in Analysis/.
 
-## FAQs
+# FAQs
 *Are TABS dependent or independent on the atom order of otherwise identical molecules?*
 
 As the atom numbering of a molecule is not canonicalized as part of the TABS code, it is possible to arrive at two different TABS for equivalent conformers of the same molecule if they differ in their atom ordering.
 The easiest way to resolve this is to renumber the atoms in one of the molecules to make the atom numberings equivalent; the RDKit provides code to do this and a usage example is provided in Demos/AtomRenumbering.ipynb. 
 In general for the analysis of conformer ensembles, it is recommended to work with one RDKit molecule containing all of the conformers in the ensemble. 
 
-## Authors 
+# Authors 
 Jessica Braun, Djahan Lamei, Greg Landrum
 
-## Project status
+# Project status
 in development
