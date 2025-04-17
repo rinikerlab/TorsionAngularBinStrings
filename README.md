@@ -60,6 +60,10 @@ Run the tests with
 ```
 pytest
 ```
+For the CustomTABS functionalities, run the tests with
+```
+pytest -m "custom"
+```
 
 ## Data
 The complete datasets used in the study can be reproduced by going to Data/TABS and Data/nTABS and running the provided conformer generation scripts as described in the respective READMEs.
@@ -75,7 +79,7 @@ The easiest way to resolve this is to renumber the atoms in one of the molecules
 In general for the analysis of conformer ensembles, it is recommended to work with one RDKit molecule containing all of the conformers in the ensemble. 
 
 ## Authors 
-Jessica Braun, Djahan Lamei
+Jessica Braun, Djahan Lamei, Greg Landrum
 
 ## Project status
 in development
