@@ -4,7 +4,7 @@ from .torsions import DihedralsInfo, TorsionType
 from .plots import _GridPlot
 import mdtraj as md
 
-def FromCustomTorsions(mol, dihedralIndices, customTorsionProfiles, showFits=False, **kwargs):
+def CustomDihedralInfo(mol, dihedralIndices, customTorsionProfiles, showFits=False, **kwargs):
     """
     returns a TorsionInfoList with bounds and fit coefficients based on the provided torsion profiles
     : param mol: rdkit molecule
