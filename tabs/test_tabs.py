@@ -1,5 +1,6 @@
 import pytest
 import unittest
+import numpy.testing as npt
 import os
 from rdkit import Chem
 from rdkit.Chem import AllChem
@@ -157,13 +158,27 @@ class TestCustomTABS(unittest.TestCase):
     if not os.path.exists(filePath):
         raise FileNotFoundError(f"File not found: {filePath}")
     traj = md.load(filePath)
-    mol = Chem.AddHs(Chem.MolFromSmiles("COC(=O)c1ccccc1NC(=O)[C@@H]1CCCCC1=O"))
+    mol = Chem.AddHs(Chem.MolFromSmiles("[H]c1c([H])c([H])c(N([H])C(=O)[C@@]2([H])C(=O)C([H])([H])C([H])([H])C([H])([H])C2([H])[H])c(C(=O)OC([H])([H])[H])c1[H]"))
+    info = DihedralInfoFromTorsionLib(mol)
 
     @pytest.mark.custom
     def testGettingCustomProfiles(self):
-        info = DihedralInfoFromTorsionLib(self.mol)
-        customProfiles = custom.GetTorsionProfilesFromMDTraj(self.traj, info.indices)        
+        customProfiles = custom.GetTorsionProfilesFromMDTraj(self.traj, self.info.indices)        
         self.assertEqual(customProfiles.shape, (250, 11))
-
+        binsize = np.pi*2/36
+        yHists, yHistsCount, xHist = custom.ComputeTorsionHistograms(customProfiles, binsize)
+        coeffs, peaks = custom.ComputeGaussianFit(xHist,yHists[4],yHistsCount[4],binsize)
+        self.assertEqual(coeffs.shape, (3, 3))
+        npt.assert_almost_equal(coeffs,
+                                np.array([[0.42544792, 0.43633231, 0.37752448],
+                                            [0.35669299, 3.14159265, 0.61328729],
+                                            [0.47731244, 6.02138592, 0.42366185]]), 
+                                decimal=2)
+        npt.assert_almost_equal(peaks, [1.5044246510148305, 4.7787606561647555, 0.08849556770675474])
+    def testGettingCustomProfiles2(self):
+        customProfiles = custom.GetTorsionProfilesFromMDTraj(self.traj, self.info.indices) 
+        info = DihedralInfoFromTorsionLib(self.mol, self.info.indices, customProfiles)
+        npt.assert_almost_equal(info.coeffs[0],
+                                np.array([[1.18175221, 6.28318531, 0.48350093]]))
 if __name__ == '__main__':
     unittest.main()
