@@ -138,7 +138,6 @@ class Histogram:
 
     def _PartitionPeaksHist(self,
                             nMaxPeaks=6,
-                            #peakThreshold=1e-2,
                             excludePeaks=1e-4,
                             prominence=1e-4,
                             mergePeaks=False,
@@ -261,7 +260,7 @@ class Histogram:
         if len(peaks)> 1 and mergePeaks:
             peaksNew = deepcopy(peaks)
             peaksInfoNew = deepcopy(peaksInfo)
-            keys = peaksInfo.keys()
+            keys = list(peaksInfo.keys())
             for i, key1 in enumerate(keys):
                 for j, key2 in enumerate(keys[i+1:]):
                     dis = np.abs(peaksInfo[key1].meanInitial - peaksInfo[key2].meanInitial)
