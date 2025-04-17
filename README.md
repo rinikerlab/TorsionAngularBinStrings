@@ -54,7 +54,7 @@ infoEnsemble = DihedralInfoFromTorsionLib(mol)
 infoEnsemble.GetTABS()
 ```
 
-With you want to use the customTABS functionalities to analyze the ensemble observed in  a trajectory:
+If you want to use the customTABS functionalities to analyze the ensemble observed in  a trajectory:
 
 ```
 from rdkit import Chem
