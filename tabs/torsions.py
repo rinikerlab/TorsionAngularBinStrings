@@ -1,6 +1,7 @@
 from rdkit import Chem
 from rdkit.Chem import rdDistGeom, rdMolTransforms
 import warnings
+from copy import deepcopy
 import numpy as np
 import enum
 import json
@@ -147,8 +148,17 @@ class DihedralsInfo:
     def multiplicity(self, indx):
         return max(len(self.bounds[indx]), 1)
   
-    #REVIEW: document this function
     def GetConformerTorsions(self):
+        """
+        Calculate torsion angles for all conformers of the molecule.
+        Computes the dihedral angles (torsions) for each conformer of the 
+        molecule based on the provided indices. 
+        The angles in range [0, 2π].
+
+        :raises ValueError: If the molecule has no conformers.
+        :return: 2D np array where rows correspond to conformers and columns 
+                 correspond to dihedral angles.
+        """
         if self.molTemplate.GetNumConformers() == 0:
             raise ValueError("No conformers found in molecule.")
         cids = [c.GetId() for c in self.molTemplate.GetConformers()]
@@ -165,8 +175,18 @@ class DihedralsInfo:
         # rows: conformers, columns: dihedrals
         return np.array(confTorsions).T
     
-    #REVIEW: document this function
     def GetTABS(self, confTorsions=None):
+        """
+        Compute the Torsion Angular Bin Strings (TABS).
+        This method calculates the TABS for each conformer of the molecule based on 
+        the torsion angles and predefined bounds. If no conformer torsions are provided, 
+        they will be directly calculated from the conformers.
+        :param confTorsions: (optional) Precalculated list of torsion angles for each conformer.
+        :raises ValueError: If no conformers are found in the molecule and no 
+                            torsion angles are provided.
+        :return: A list of TABS for each conformer.
+        """
+
         if confTorsions is None and self.molTemplate.GetNumConformers() == 0:
             raise ValueError("No conformers found in molecule.")
         elif self.molTemplate.GetNumConformers() > 0 and confTorsions is None:
@@ -175,21 +195,28 @@ class DihedralsInfo:
         bounds = self.bounds
         perms = GetTABSPermutations(self.molTemplate, self.indices)
 
-        nConformers = len(confTorsions)
-        # nDihedrals = len(bounds)
-
-        #REVIEW: this modifies the bounds in place (i.e. modifies the DihedralsInfo object).
-        # Is this intentional?
+        # check if bounds are sorted
         for i in range(self.nDihedrals):
-            bounds[i].sort()
+            test = deepcopy(bounds[i])
+            test.sort()
+            if not np.array_equal(test, bounds[i]):
+                warnings.warn(f"WARNING: bounds for dihedral {i} are not sorted. This may lead to incorrect TABS calculation", stacklevel=2)
         
         confTABS = []
         for conf in confTorsions:
             confTABS.append(_GetTABSForConformer(conf, bounds, perms))
         return confTABS
 
-    #REVIEW: document this function
     def GetnTABS(self, maxSize=1000000):
+        """
+        Calculate the number of possible unique TABS (nTABS) for the molecule.
+        In this implementation, the nTABS calculation uses the Burnside Lemma 
+        (correction for symmetry equivalents).
+        It also includes the corrections for highly correlated substructures.
+        :param maxSize: Fixed maximum value of nTABS. Default is 1,000,000.
+        :return: nTABS
+        :raises ValueError: If the calculated number of TABS is not an integer.
+        """
         # do the permutation analysis to check how many subgroups there are
         ring_mult = 1
         mult = 1
