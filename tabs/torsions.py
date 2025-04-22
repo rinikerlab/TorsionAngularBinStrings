@@ -11,15 +11,10 @@ from .symmetry import GetTABSPermutations
 # warning behaviour: always show all user warnings
 warnings.simplefilter("always", UserWarning)
 
-# globals
-REGULAR_INFO = None
-SMALLRING_INFO = None
-MACROCYCLE_INFO = None
-FALLBACK_INFO = None
 
 # the maximum value nTABS can take
 MAXSIZE = 1000000
-# the empirical values from ring studies
+# the empirical values from ring studies (see https://doi.org/10.1021/acs.jcim.4c01513)
 _mediumRingsUpperBounds = {
     3: 1,
     4: 3,
@@ -60,44 +55,22 @@ class TorsionLibEntry:
     def __repr__(self):
         return f"{self.bounds}, {self.coeffs}, {self.fitFunc}, {self.torsionType}"
 
+TORSION_INFO = {}
+
 def _LoadTorsionLibFiles():
-    global REGULAR_INFO
-    global SMALLRING_INFO
-    global MACROCYCLE_INFO
-    global FALLBACK_INFO
-
-    mapping = {"COS": FitFunc.COS, "GAUSS": FitFunc.GAUSS}
-
-    if REGULAR_INFO is None:
-        with open(str(pathlib.Path(__file__).parent.resolve().joinpath('TorsionPreferences','torsionPreferences_v2_regular.json'))) as f:
-            REGULAR_INFO_FILE = json.load(f)
-        REGULAR_INFO = {}
-        for key in REGULAR_INFO_FILE:
-            REGULAR_INFO[key] = TorsionLibEntry(REGULAR_INFO_FILE[key]['bounds'],REGULAR_INFO_FILE[key]['params'],mapping[REGULAR_INFO_FILE[key]['fitFunc']], TorsionType.REGULAR)
-
-    if SMALLRING_INFO is None:
-        with open(str(pathlib.Path(__file__).parent.resolve().joinpath('TorsionPreferences','torsionPreferences_v2_smallring.json'))) as f:
-            SMALLRING_INFO_FILE = json.load(f)
-        SMALLRING_INFO = {}
-        for key in SMALLRING_INFO_FILE:
-            SMALLRING_INFO[key] = TorsionLibEntry(SMALLRING_INFO_FILE[key]['bounds'],SMALLRING_INFO_FILE[key]['params'],mapping[SMALLRING_INFO_FILE[key]['fitFunc']], TorsionType.SMALL_RING)
-        
-    if MACROCYCLE_INFO is None:
-        with open(str(pathlib.Path(__file__).parent.resolve().joinpath('TorsionPreferences','torsionPreferences_v2_macrocycle.json'))) as f:
-            MACROCYCLE_INFO_FILE = json.load(f)
-        MACROCYCLE_INFO = {}
-        for key in MACROCYCLE_INFO_FILE:
-            MACROCYCLE_INFO[key] = TorsionLibEntry(MACROCYCLE_INFO_FILE[key]['bounds'],MACROCYCLE_INFO_FILE[key]['params'],mapping[MACROCYCLE_INFO_FILE[key]['fitFunc']], TorsionType.MACROCYCLE)
-
-    if FALLBACK_INFO is None:
-        with open(str(pathlib.Path(__file__).parent.resolve().joinpath('TorsionPreferences','torsionPreferences_v2_fallback.json'))) as f:
-            FALLBACK_INFO_FILE = json.load(f)
-        FALLBACK_INFO = {}
-        for key in FALLBACK_INFO_FILE:
-            FALLBACK_INFO[key] = TorsionLibEntry(FALLBACK_INFO_FILE[key]['bounds'],FALLBACK_INFO_FILE[key]['params'],mapping[FALLBACK_INFO_FILE[key]['fitFunc']], TorsionType.ADDITIONAL_ROTATABLE_BOND)
+    for ttyp,fn in ( (TorsionType.REGULAR, 'torsionPreferences_v2_regular.json'),
+                     (TorsionType.SMALL_RING, 'torsionPreferences_v2_smallring.json'),
+                     (TorsionType.MACROCYCLE, 'torsionPreferences_v2_macrocycle.json'),
+                     (TorsionType.ADDITIONAL_ROTATABLE_BOND, 'torsionPreferences_v2_fallback.json'),
+                   ):
+        if ttyp not in TORSION_INFO:
+            with open(str(pathlib.Path(__file__).parent.resolve().joinpath('TorsionPreferences',fn))) as f:
+                INFO_FILE = json.load(f)
+            TORSION_INFO[ttyp] = {}
+            for key in INFO_FILE:
+                TORSION_INFO[ttyp][key] = TorsionLibEntry(INFO_FILE[key]['bounds'],INFO_FILE[key]['params'],getattr(FitFunc,INFO_FILE[key]['fitFunc']), ttyp)
 
 _LoadTorsionLibFiles()
-
 
 class DihedralInfo:
     """
@@ -174,6 +147,7 @@ class DihedralsInfo:
     def multiplicity(self, indx):
         return max(len(self.bounds[indx]), 1)
   
+    #REVIEW: document this function
     def GetConformerTorsions(self):
         if self.molTemplate.GetNumConformers() == 0:
             raise ValueError("No conformers found in molecule.")
@@ -191,6 +165,7 @@ class DihedralsInfo:
         # rows: conformers, columns: dihedrals
         return np.array(confTorsions).T
     
+    #REVIEW: document this function
     def GetTABS(self, confTorsions=None):
         if confTorsions is None and self.molTemplate.GetNumConformers() == 0:
             raise ValueError("No conformers found in molecule.")
@@ -213,6 +188,7 @@ class DihedralsInfo:
             confTABS.append(_GetTABSForConformer(conf, bounds, perms))
         return confTABS
 
+    #REVIEW: document this function
     def GetnTABS(self, maxSize=1000000):
         # do the permutation analysis to check how many subgroups there are
         ring_mult = 1
@@ -240,7 +216,7 @@ class DihedralsInfo:
 
         if len(perms) == 1:
             return min(maxSize, nTABS_naive)
-        elif int(nTABS_naive/len(perms)) > maxSize:
+        elif nTABS_naive//len(perms) > maxSize:
             return maxSize
 
         nTABS = _CountOrbits(multiplicities, perms) * ring_mult
@@ -271,7 +247,7 @@ def DihedralInfoFromTorsionLib(mol, torsionLibs=None):
     : raises Warning: if no dihedrals are found
     """
     if torsionLibs is None:
-        torsionLibs = [REGULAR_INFO, SMALLRING_INFO, MACROCYCLE_INFO]
+        torsionLibs = [TORSION_INFO[TorsionType.REGULAR], TORSION_INFO[TorsionType.SMALL_RING], TORSION_INFO[TorsionType.MACROCYCLE]]
     
     clsInst = ExtractTorsionInfoWithLibs(mol, torsionLibs)
     if clsInst.nDihedrals == 0: warnings.warn("WARNING: No dihedrals found",stacklevel=2)
@@ -284,7 +260,7 @@ def _needsHs(mol):
             return True
     return False  
 
-def _BondsByRdkitRotatableBondDef(m):
+def _BondsByRDKitRotatableBondDef(m):
     # strict pattern defintion taken from rdkits function calcNumRotatableBonds
     # https://github.com/rdkit/rdkit/blob/master/Code/GraphMol/Descriptors/Lipinski.cpp#L108
     strict_pattern = "[!$(*#*)&!D1&!$(C(F)(F)F)&!$(C(Cl)(Cl)Cl)&!$(C(Br)(Br)Br)&!$(C([CH3])([CH3])[CH3])&!$([CD3](=[N,O,S])-!@[#7,O,S!D1])&!$([#7,O,S!D1]-!@[CD3]=[N,O,S])&!$([CD3](=[N+])-!@[#7!D1])&!$([#7!D1]-!@[CD3]=[N+])]-,:;!@[!$(*#*)&!D1&!$(C(F)(F)F)&!$(C(Cl)(Cl)Cl)&!$(C(Br)(Br)Br)&!$(C([CH3])([CH3])[CH3])]"
@@ -308,7 +284,7 @@ def _GetAtomIdxNotConsideredAtoms(m):
     return atomIdx
 
 def _GetNotDescribedBonds(m):
-    bonds = _BondsByRdkitRotatableBondDef(m)
+    bonds = _BondsByRDKitRotatableBondDef(m)
     notConsideredAtoms = _GetAtomIdxNotConsideredAtoms(m)
     notConsideredBonds = []
     for bond in bonds:
@@ -414,9 +390,9 @@ def ETKDGv3vsRotBondCheck(m):
         tmp = (log['atomIndices'][1],log['atomIndices'][2])
         if tmp[0] > tmp[1]:
             tmp = (tmp[1],tmp[0])
-        bonds.add(tuple(tmp))
+        bonds.add(tmp)
     rotBondsLipinski = set()
-    rotBondsLipinskiUnsorted = _BondsByRdkitRotatableBondDef(m)
+    rotBondsLipinskiUnsorted = _BondsByRDKitRotatableBondDef(m)
     if rotBondsLipinskiUnsorted:
         # also enforce sorting here
         for bond in rotBondsLipinskiUnsorted:
@@ -461,7 +437,7 @@ def ETKDGv3vsRotBondCheck(m):
         return zip(dihedrals, patterns)
 
 def ExtractTorsionInfo(m):
-    return ExtractTorsionInfoWithLibs(m, [REGULAR_INFO, SMALLRING_INFO, MACROCYCLE_INFO])
+    return ExtractTorsionInfoWithLibs(m, [TORSION_INFO[TorsionType.REGULAR], TORSION_INFO[TorsionType.SMALL_RING], TORSION_INFO[TorsionType.MACROCYCLE]])
 
 def ExtractTorsionInfoWithLibs(m, libs):
     assert not _needsHs(m), "Molecule does not have explicit Hs. Consider calling AddHs"

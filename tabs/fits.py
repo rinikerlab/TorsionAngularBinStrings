@@ -114,6 +114,7 @@ class Histogram:
                         nMaxPeaks=6,
                         excludePeaks=1e-2,
                         prominence=1e-3,
+                        minCountsForPeak=3.0
                         ):
         yHist = self.histSmoothed
         yHistCount = self.histCount
@@ -121,9 +122,8 @@ class Histogram:
         peaksInitial = [int(p) for p in peaksInitial]
         peaksInitial = sorted(peaksInitial)
         peaks = []
-        # only keep the peaks that are made up by at least 3 counts
         for p in peaksInitial:
-            if np.sum(np.take(yHistCount,[p-1,p,p+1],mode="wrap")) > 3.0 :
+            if np.sum(np.take(yHistCount,[p-1,p,p+1],mode="wrap")) > minCountsForPeak: 
                 peaks.append(p)
         peaks = _PeaksAtLeastXDegreeApart(peaks)
 
