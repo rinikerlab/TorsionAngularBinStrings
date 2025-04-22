@@ -24,7 +24,8 @@ def _GetTorsionPermutations(mol,dihedrals):
 def _GetSymmetryOrder(mol, dihedrals):
     """
     Debugging function:
-    Get the symmetry order of the molecule based on the dihedrals."""
+    Get the symmetry order of the molecule based on the dihedrals.
+    """
     ## analysis on atoms
     matches = Chem.RemoveHs(mol).GetSubstructMatches(Chem.RemoveHs(mol),useChirality=True,uniquify=False)
     permutationArray = np.array(matches,dtype=np.int16)
