@@ -82,9 +82,9 @@ Run the tests with
 ```
 pytest
 ```
-For the CustomTABS functionalities, run the tests with  #REVIEW: why are these separate?
+If you want to deseclect the CustomTABS functionalities, run the tests with 
 ```
-pytest -m "custom"
+pytest -m "not custom"
 ```
 
 # Data
