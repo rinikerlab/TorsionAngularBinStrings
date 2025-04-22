@@ -53,14 +53,14 @@ def _GetDictStrippedOriginal(mol):
         atom.SetIntProp("atomNumberOrg",atom.GetIdx())
     mol = Chem.RemoveHs(mol)
     mapping = {x.GetIdx():x.GetIntProp("atomNumberOrg") for x in mol.GetAtoms()}
+    for atom in mol.GetAtoms():
+        atom.ClearProp("atomNumberOrg")
     return mapping,mol
 
 def _TranslateMatches(matches,dictStrippedOrg):
     newMatches = []
     for match in matches:
-        newMatch = []
-        for m in match:
-            newMatch.append(dictStrippedOrg[m])
+        newMatch = [dictStrippedOrg[m] for m in match]
         newMatches.append(newMatch)
     return np.array(newMatches)   
 
@@ -73,7 +73,7 @@ def GetTABSPermutations(mol, dihedrals):
     matches = _TranslateMatches(matches,dictStrippedOrg)
     ## bonds in dihedrals
     bonds = []
-    for i, dihedral in enumerate(dihedrals):
+    for dihedral in dihedrals:
         bondA1 = dihedral[1]
         bondA2 = dihedral[2]
         aid = [min(bondA1,bondA2),max(bondA1,bondA2)]

@@ -25,7 +25,7 @@ def SortEnsembleByTABS(m):
         sortedByTabs[t].append(i)
     return sortedByTabs
 
-def AnalyzeTABSforIntraRmsd(m, sortedTabsDict):
+def AnalyzeTABSForIntraRMSD(m, sortedTabsDict):
     """
     :param m: The molecule to analyze.
     :param sortedTabsDict: A dictionary containing the sorted TABS.
@@ -44,7 +44,7 @@ def AnalyzeTABSforIntraRmsd(m, sortedTabsDict):
         rmsds[key] = tmp
     return rmsds
 
-def AnalyzeTABSforInterRmsd(m, sortedTabsDict):
+def AnalyzeTABSForInterRMSD(m, sortedTabsDict):
     """
     :param m: The input molecule to analyze.
     :param sortedTabsDict: A dictionary containing sorted TABS data.
@@ -54,11 +54,11 @@ def AnalyzeTABSforInterRmsd(m, sortedTabsDict):
     # copying over only for debugging reasons
     molCopy = Chem.Mol(m)
     molCopy = Chem.RemoveHs(molCopy)
-    for k, key in enumerate(sortedTabsDict):
+    for key in sortedTabsDict:
         tmp = []
         idx = sortedTabsDict[key]
-        for k2, key2 in enumerate(sortedTabsDict):
-            if k2 != k:
+        for key2 in sortedTabsDict:
+            if key2 != key:
                 idx2 = sortedTabsDict[key2]
                 for id in idx:
                     for id2 in idx2:

@@ -14,7 +14,7 @@ For many computational workflows, it is necessary to reduce a conformational ens
 We introduce the concepts of Torsion Angular Bin Strings (TABS) as a discrete vector representation of a conformer's dihedral angles and the number of possible TABS (nTABS) as an estimation for a molecule's ensemble size respectively.
 Here we show that nTABS corresponds to an upper limit for the conformer space size for small molecules and compare the classification of conformer ensembles by TABS with classifications by RMSD. 
 Overcoming known drawbacks like the molecular size dependency and threshold picking of the RMSD measure, TABS is shown to meaningful discretize the conformer space and hence allows e.g. for fast conformer space coverage checks.
-The current proof-of-concept implementation is based on the ETKDGv3sr conformer generator and known torsion preferences extracted from small-molecule crystallographic data.
+The current proof-of-concept implementation is based on the srETKDGv3 conformer generator and known torsion preferences extracted from small-molecule crystallographic data.
 
 
 # Installation
@@ -36,11 +36,12 @@ python -m pip install git+https://github.com/rinikerlab/TorsionAngularBinStrings
 # Usage
 
 ## TABS
-With the new version of TABS, major changes in the API were introduced.
+With version 2 of TABS, major changes in the API were introduced.
 
 ```
 from tabs import DihedralInfoFromTorsionLib
 from rdkit import Chem
+from rdkit.Chem import rdDistGeom
 
 mol = Chem.AddHs(Chem.MolFromSmiles("CCCCC"))
 # build DihedralsInfo class object
@@ -51,7 +52,7 @@ info.smarts, info.multiplicities, info.torsionTypes, info.indices
 info.GetnTABS()
 
 # embed molecule, get TABS
-Chem.rdDistGeom.EmbedMultipleConfs(mol, randomSeed=42, numConfs=10)
+rdDistGeom.EmbedMultipleConfs(mol, randomSeed=42, numConfs=10)
 infoEnsemble = DihedralInfoFromTorsionLib(mol)
 infoEnsemble.GetTABS()
 ```
@@ -81,7 +82,7 @@ Run the tests with
 ```
 pytest
 ```
-For the CustomTABS functionalities, run the tests with
+For the CustomTABS functionalities, run the tests with  #REVIEW: why are these separate?
 ```
 pytest -m "custom"
 ```
