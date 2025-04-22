@@ -97,8 +97,6 @@ class DihedralsInfo:
     """
 
     def __init__(self, mol):
-        #REVIEW: I think the check for whether or not the molecule has explicit Hs 
-        # should be done here, not in the GetTabs() or GetnTABS() methods
         assert not _needsHs(mol), "Molecule does not have explicit Hs. Consider calling AddHs"
         self.molTemplate = mol
         self.undefinedStereo = False
