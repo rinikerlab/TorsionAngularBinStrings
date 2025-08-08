@@ -13,3 +13,4 @@ dependencies:
   - py3Dmol
   - pytest
   - mdtraj
+  - pytest-cov
