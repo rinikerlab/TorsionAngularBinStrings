@@ -272,7 +272,7 @@ def DihedralInfoFromTorsionLib(mol, torsionLibs=None):
     : raises Warning: if no dihedrals are found
     """
     if torsionLibs is None:
-        torsionLibs = [TORSION_INFO[TorsionType.REGULAR], TORSION_INFO[TorsionType.SMALL_RING], TORSION_INFO[TorsionType.MACROCYCLE]]
+        torsionLibs = [TORSION_INFO[TorsionType.REGULAR], TORSION_INFO[TorsionType.SMALL_RING], TORSION_INFO[TorsionType.MACROCYCLE], TORSION_INFO[TorsionType.ADDITIONAL_ROTATABLE_BOND]]
     
     clsInst = ExtractTorsionInfoWithLibs(mol, torsionLibs)
     if clsInst.nDihedrals == 0: warnings.warn("WARNING: No dihedrals found",stacklevel=2)
@@ -501,7 +501,16 @@ def ExtractTorsionInfoWithLibs(m, libs):
 
         if not found:
             raise NameError(f"Error: unmatched pattern: {s}")
-
+    
+    for additional in addDihedrals:
+        lib = TORSION_INFO[TorsionType.ADDITIONAL_ROTATABLE_BOND]
+        s = "[*:1][*:2]!@;-[*:3][*:4]"
+        entry = lib[s]
+        bAngles = np.array(entry.bounds) * np.pi / 180
+        di = [int(indx) for indx in additional.split(" ")]
+        tInfo = DihedralInfo(s, entry.torsionType, bAngles, indices=di, coeffs=entry.coeffs, fitFunc=entry.fitFunc)
+        torsionList.append(tInfo)
+    """
     for additional in addDihedrals:
         # change this to make use of the fallback library
         s = "[*:1][*:2]!@;-[*:3][*:4]"
@@ -511,7 +520,7 @@ def ExtractTorsionInfoWithLibs(m, libs):
         di = [int(indx) for indx in additional.split(" ")]
         tInfo = DihedralInfo(s, tt, ba, indices=di, coeffs=c)
         torsionList.append(tInfo)
-
+    """
     # check results against what would be matched by rdkit rotatable bond definition
 
     _DoubleBondStereoCheck(m, torsionList.indices, torsionList.bounds)
