@@ -6,3 +6,9 @@ tabs.egg-info/
 tabs/__pycache__/
 Data/CustomTABS/
 tabs/tabs_old.py
+.coverage
+Analysis/RmsdShapeAnalysis.ipynb
+Analysis/Scripts/
+Analysis/TEST_120.pkl
+Analysis/TEST_120_tabs_old.pkl
+Analysis/TabsShapeAnalysis2.ipynb
