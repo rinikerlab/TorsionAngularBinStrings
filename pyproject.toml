@@ -8,7 +8,7 @@ version = "1.0.0"
 description = "Torsion Angular Bin Strings"
 authors = [{ name = "Jessica Braun", email = "braunje@ethz.ch" }]
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.9"
 dependencies = []
 
 [project.urls]
