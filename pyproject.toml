@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tabs"
+version = "1.0.0"
+description = "Torsion Angular Bin Strings"
+authors = [{ name = "Jessica Braun", email = "braunje@ethz.ch" }]
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/rinikerlab/TorsionAngularBinStrings"
+Issues = "https://github.com/rinikerlab/TorsionAngularBinStrings/issues"
+
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["tabs*"]
+
+[tool.setuptools.package-data]
+tabs = ["torsionPreferences/*.txt"]
+
+[tool.setuptools]
+include-package-data = true
