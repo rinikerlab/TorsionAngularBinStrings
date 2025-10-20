@@ -1,11 +1,8 @@
-import rdkit
 from rdkit import Chem
 from rdkit.Chem import rdDistGeom
-from rdkit import rdBase
 import numpy as np
 import math
 import json
-from importlib.resources import files
 import warnings
 import pathlib
 from collections import defaultdict

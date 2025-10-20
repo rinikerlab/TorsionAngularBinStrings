@@ -1,7 +1,6 @@
 import unittest
 from rdkit import Chem
 from rdkit.Chem import AllChem
-import numpy as np
 try:
     from . import tabs
 except ImportError:

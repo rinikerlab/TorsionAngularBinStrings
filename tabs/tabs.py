@@ -4,8 +4,6 @@ from .symmetry import GetTABSPermutations
 import numpy as np
 from rdkit import Chem
 from rdkit.Chem import rdMolTransforms, rdMolAlign
-import json
-import pathlib
 from collections import defaultdict
 import warnings
 
