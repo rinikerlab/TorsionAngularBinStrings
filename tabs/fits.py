@@ -148,7 +148,7 @@ class Histogram:
         Parameters:
         -----------
         - nMaxPeaks         (int, default=6):           number of maximum peaks used to derive bins, if the number of peaks exceed it the lower peaks are excluded
-        - peakThreshold    (float, default=1e-4):      fraction of the peak height to use for defining the peak width
+        - prominence       (float, default=1e-4):      required prominence of peaks
         - excludePeaks      (float, default=1e-4):      peaks lower than this value will not be considered
         - mergePeaks       (bool, default=False):     whether to merge peaks that are closer than 0.7 radians
 
