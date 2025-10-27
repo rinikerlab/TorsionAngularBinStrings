@@ -147,10 +147,10 @@ class Histogram:
 
         Parameters:
         -----------
-        - nMaxPeaks         (int, default=4):           number of maximum peaks used to derive bins, if the number of peaks exceed it the lower peaks are excluded
-        - peakThreshold    (float, default=1e-2):      fraction of the peak height to use for defining the peak width
-        - smoothSD          (float, default=np.pi/4):   standard deviation for Gaussian smoothing kernel
-        - excludePeaks      (float, default=1e-2):      peaks lower than this value will not be considered
+        - nMaxPeaks         (int, default=6):           number of maximum peaks used to derive bins, if the number of peaks exceed it the lower peaks are excluded
+        - peakThreshold    (float, default=1e-4):      fraction of the peak height to use for defining the peak width
+        - excludePeaks      (float, default=1e-4):      peaks lower than this value will not be considered
+        - mergePeaks       (bool, default=False):     whether to merge peaks that are closer than 0.7 radians
 
         Returns:
         --------
