@@ -24,7 +24,14 @@ def CustomDihedralInfo(mol, dihedralIndices, customTorsionProfiles, showFits=Fal
         c, b = ComputeGaussianFit(xHist, yHist, yHistCount, binsize, **kwargs)
         coeffs.append(c)
         bounds.append(b)
-    clsInst.bounds = bounds
+        
+    # make sure that bounds are sorted
+    boundsSorted = []
+    for i in range(nDihedrals):
+        order = np.argsort(bounds[i])
+        boundsSorted.append([bounds[i][j] for j in order])
+
+    clsInst.bounds = boundsSorted
     clsInst.coeffs = coeffs
     clsInst.torsionTypes = [TorsionType.USER_DEFINED] * nDihedrals
     clsInst.smarts = [None] * nDihedrals
@@ -41,7 +48,8 @@ def CustomDihedralInfo(mol, dihedralIndices, customTorsionProfiles, showFits=Fal
             ax.axvline(a, color="black")
 
         ax.set_xlabel("Dihedral angle / rad")
-        ax.set_ylabel("Count")
+        ax.set_ylabel("Density")
+        ax.set_title(f"Dihedral {indx} - {clsInst.indices[indx]}")
 
     if showFits:
         _GridPlot(nDihedrals, _PlotProb)
