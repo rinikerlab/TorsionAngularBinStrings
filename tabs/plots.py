@@ -56,7 +56,10 @@ def _GridPlot(nPlots, plotFn, plotsPerRow=4, title=None, args=None, start=0, pro
     if title:
         fig.suptitle(title)
         fig.tight_layout()
-        plt.subplots_adjust(top=0.9)
+        plt.subplots_adjust(top=0.9, hspace=0.3)  
+    else:
+        fig.tight_layout()
+        plt.subplots_adjust(hspace=0.3)
     return fig
 
 def _ffitnew(x, s1, v1, s2, v2, s3, v3, s4, v4, s5, v5, s6, v6):
