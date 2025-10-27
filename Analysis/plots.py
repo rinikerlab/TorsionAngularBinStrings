@@ -7,22 +7,41 @@ import numpy as np
 cmapSame = matplotlib.colors.LinearSegmentedColormap.from_list("", ["white","#fdb176"])
 cmapDiff = matplotlib.colors.LinearSegmentedColormap.from_list("", ["white","#577d78"])
 
-def PlotConfusionMatrixSchema():
-    fig, ax = plt.subplots(1,1,figsize=(6,6))
-    confMatSchema = np.zeros((2,2))
-    xlabelsconfMat = ['different','same']
-    ylabelsconfMat = ['different','same']
-    ax.imshow(confMatSchema,cmap='Blues')
-    ax.set_xticks(np.arange(2), xlabelsconfMat,fontsize=24)
-    ax.set_yticks(np.arange(2), ylabelsconfMat,fontsize=24)
-    ax.xaxis.tick_top()
-    ax.set_xlabel("TABS",fontsize=28)
-    ax.xaxis.set_label_position("top")
-    ax.set_ylabel("RMSD",fontsize=28)
-    ax.text(0,0,"TN",fontsize=28)
-    ax.text(0,1,"FN",fontsize=28)
-    ax.text(1,0,"FP",fontsize=28)
-    ax.text(1,1,"TP",fontsize=28)
+def PlotConfusionMatrixSchema(metric):
+    if metric not in ["RMSD","shape"]:
+        raise ValueError("metric must be either 'RMSD' or 'shape'")
+    elif metric == "RMSD":
+        fig, ax = plt.subplots(1,1,figsize=(6,6))
+        confMatSchema = np.zeros((2,2))
+        xlabelsconfMat = ['different','same']
+        ylabelsconfMat = ['different','same']
+        ax.imshow(confMatSchema,cmap='Blues')
+        ax.set_xticks(np.arange(2), xlabelsconfMat,fontsize=24)
+        ax.set_yticks(np.arange(2), ylabelsconfMat,fontsize=24)
+        ax.xaxis.tick_top()
+        ax.set_xlabel("TABS",fontsize=28)
+        ax.xaxis.set_label_position("top")
+        ax.set_ylabel("RMSD",fontsize=28)
+        ax.text(0,0,"TN",fontsize=28)
+        ax.text(0,1,"FN",fontsize=28)
+        ax.text(1,0,"FP",fontsize=28)
+        ax.text(1,1,"TP",fontsize=28)
+    elif metric == "shape":
+        fig, ax = plt.subplots(1,1,figsize=(6,6))
+        confMatSchema = np.zeros((2,2))
+        xlabelsconfMat = ['different','same']
+        ylabelsconfMat = ['different','same']
+        ax.imshow(confMatSchema,cmap='Blues')
+        ax.set_xticks(np.arange(2), xlabelsconfMat,fontsize=24)
+        ax.set_yticks(np.arange(2), ylabelsconfMat,fontsize=24)
+        ax.xaxis.tick_top()
+        ax.set_xlabel("TABS",fontsize=28)
+        ax.xaxis.set_label_position("top")
+        ax.set_ylabel("Shape Score",fontsize=28)
+        ax.text(0,0,"TN",fontsize=28)
+        ax.text(0,1,"FN",fontsize=28)
+        ax.text(1,0,"FP",fontsize=28)
+        ax.text(1,1,"TP",fontsize=28)
 
     return fig
 
