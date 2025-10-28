@@ -29,3 +29,5 @@ Data/TABS/Scripts/SanityCheck.ipynb
 Data/TABS/Scripts/a.sdf
 Data/TABS/Scripts/b.sdf
 Data/TABS/Scripts/test_metrics.txt
+Analysis/feats.py
+Analysis/CustomTabsMacrocycleOld.ipynb
