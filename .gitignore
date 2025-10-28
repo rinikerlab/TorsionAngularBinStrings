@@ -15,3 +15,17 @@ Analysis/TabsShapeAnalysis2.ipynb
 Data/GNNIS/
 Demos/OldData/
 Analysis/OldData/
+Demos/01_OldFunctionalitiesNewAPIdebug.ipynb
+Demos/04_CustomTabs.ipynb
+Analysis/Cyclosporin.ipynb
+Analysis/ShapeConfusion.ipynb
+Analysis/ShapeConfusion2.ipynb
+Analysis/ShapeConfusion3.ipynb
+Analysis/rawMedium.pkl
+Analysis/rawLow.pkl
+Analysis/rawHigh.pkl
+Analysis/molShapeDebug.pkl
+Data/TABS/Scripts/SanityCheck.ipynb
+Data/TABS/Scripts/a.sdf
+Data/TABS/Scripts/b.sdf
+Data/TABS/Scripts/test_metrics.txt
