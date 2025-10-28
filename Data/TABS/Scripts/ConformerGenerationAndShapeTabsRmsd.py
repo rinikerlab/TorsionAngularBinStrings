@@ -24,7 +24,6 @@ def GetFailureCauses(counts):
 
 def ETKDGv3ConformerGeneration(mol, params, uuid_key):
     pickleOutputFilename = f"../Output/{uuid_key}.pkl"
-    pickleObject = open(pickleOutputFilename,"wb")
     metadataFilename = f"../Output/{uuid_key}.json"
     ps = AllChem.ETKDGv3()
     ps.useBasicKnowledge = params['useBasicKnowledge']
@@ -44,8 +43,8 @@ def ETKDGv3ConformerGeneration(mol, params, uuid_key):
     allMetadata["TIME"] = elapsed
     nOut = mol.GetNumConformers()
     allMetadata["NCONFS"] = nOut
-    pickle.dump(mol,pickleObject)
-    pickleObject.flush()
+    with open(pickleOutputFilename,"wb") as pickleObject:
+        pickle.dump(mol,pickleObject)
     with open(metadataFilename,"w") as f:
         json.dump(allMetadata,f)
     # calculate all TABS
