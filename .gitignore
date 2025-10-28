@@ -31,3 +31,7 @@ Data/TABS/Scripts/b.sdf
 Data/TABS/Scripts/test_metrics.txt
 Analysis/feats.py
 Analysis/CustomTabsMacrocycleOld.ipynb
+Analysis/RmsdShapeNpvPpv.ipynb
+Analysis/ShapeFeatureSetting.ipynb
+Analysis/TabsRmsdCombinedPlot.ipynb
+Analysis/TabsShapeAnalysisOld.ipynb
