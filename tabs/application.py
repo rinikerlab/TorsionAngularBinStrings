@@ -1,6 +1,6 @@
 from rdkit import Chem
 from rdkit.Chem import rdMolAlign
-from .torsions import DihedralsInfo, DihedralInfoFromTorsionLib
+from .torsions import DihedralInfoFromTorsionLib
 from collections import defaultdict
 
 def SortEnsembleByTABS(m):
