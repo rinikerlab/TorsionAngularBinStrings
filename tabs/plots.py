@@ -139,7 +139,6 @@ def GetOrgDistribution(smarts,patterntype):
     elif patterntype == "sr":
         pstats = pickle.load(open(str(files("tabs").joinpath('torsionPreferences/ETKDGv3Data',"ringbonds_torsion_ana_all_newpatterns.pkl")),"rb"),encoding="latin1")
         with open(str(files("tabs").joinpath('torsionPreferences','torsionPreferences_smallrings_formatted.txt'))) as f: torsionPreferencesv2 = f.read()
-    tpv2 = dict(json.loads(torsionPreferencesv2))
     v = []
     for j in pstats[smarts]:
         if j < 0: v.append(j+360)
