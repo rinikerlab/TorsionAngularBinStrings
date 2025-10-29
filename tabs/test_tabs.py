@@ -3,10 +3,10 @@ import unittest
 import numpy.testing as npt
 import os
 from rdkit import Chem
-from rdkit.Chem import AllChem
 import numpy as np
 import pickle
 try:
+    # testing the imports (even if some are not used directly in the following tests)
     from tabs import DihedralsInfo, TorsionType, DihedralInfoFromTorsionLib
     from tabs import torsions
     from tabs import custom
