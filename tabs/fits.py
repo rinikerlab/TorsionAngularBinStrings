@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.optimize import minimize
-from scipy.signal import argrelextrema, find_peaks
+from scipy.signal import find_peaks
 from scipy.ndimage import gaussian_filter1d
 from copy import deepcopy
 import enum
@@ -255,7 +255,6 @@ class Histogram:
 
         for pKey in peaksInfo:
             pi = peaksInfo[pKey]
-            # print(pi.binIndex*GlobalVars.BINSIZE, pi.binsAssigned, pi.meanInitial, pi.sigmaInitial, pi.heightInitial)
 
         if len(peaks)> 1 and mergePeaks:
             peaksNew = deepcopy(peaks)
@@ -331,7 +330,6 @@ def _findPeaksPeriodic(x, nPeaks, **kwargs):
     return peaks
 
 def _PeaksAtLeastXDegreeApart(peaks):
-    # what are 15 degrees in number of bins
     disTol = np.deg2rad(30)
     peaksAsAngles = [p*GlobalVars.BINSIZE for p in peaks]
     disMat = np.zeros((len(peaks), len(peaks)))
@@ -462,7 +460,6 @@ def ComputeTorsionHistograms(customTorsionProfiles, binsize):
 def ComputeGaussianFit(xHist, yHist, yHistCount, binsize, sigma=np.pi*0.3, **kwargs):
     GlobalVars.SetBinsize(binsize)
     GlobalVars.SetNSamples(np.sum(yHistCount))
-    # make sigma a keyword argument
     yHistSmooth = gaussian_filter1d(yHist, sigma=sigma, mode="wrap")
     yHistCount = gaussian_filter1d(yHistCount, sigma=sigma, mode="wrap")
     hists = Histogram(yHistCount, yHist, yHistSmooth)
