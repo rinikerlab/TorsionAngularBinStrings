@@ -336,7 +336,6 @@ def _CanonicalizeTABS(tabs, permutations):
     canon = tabs
     for p in permutations:
         tmp = ""
-        shortCircuit = False
         for i,indx in enumerate(p):
             tmp += tabs[indx-1]
             # if we are already larger than the current canonicalization, we can short circuit
