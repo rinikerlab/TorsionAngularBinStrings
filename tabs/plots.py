@@ -190,13 +190,7 @@ def PlotDihedralDistributions(m, dihedrals):
                     count += 1
     return fig
 
-def VisualizeEnsemble(mol, dihedral=[], showTABS=False):
-    try:
-        import py3Dmol
-    except ImportError:
-        print("py3Dmol not installed. Please install it using conda.")
-        return
-    
+def VisualizeEnsemble(mol, dihedral=[], showTABS=False):    
     # build in the hoovering functionality:
     # when hovering over the atoms, the id should show
     colours=('cyanCarbon','redCarbon','blueCarbon','magentaCarbon','whiteCarbon','purpleCarbon')
