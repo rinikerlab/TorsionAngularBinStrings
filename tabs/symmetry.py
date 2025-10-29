@@ -1,6 +1,7 @@
 from rdkit import Chem
 import numpy as np
 
+# this is a developer function
 def _GetTorsionPermutations(mol,dihedrals):
     """
     Debugging function:
@@ -21,6 +22,7 @@ def _GetTorsionPermutations(mol,dihedrals):
         allPermsSeen.add(tuple(remapped))
     return tuple(allPermsSeen)
 
+# this is a developer function
 def _GetSymmetryOrder(mol, dihedrals):
     """
     Debugging function:
