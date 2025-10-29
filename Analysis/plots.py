@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib.transforms as mtransforms
 import matplotlib.colors
 import numpy as np
+from matplotlib.colors import LogNorm
 
 cmapSame = matplotlib.colors.LinearSegmentedColormap.from_list("", ["white","#fdb176"])
 cmapDiff = matplotlib.colors.LinearSegmentedColormap.from_list("", ["white","#577d78"])
@@ -127,4 +128,20 @@ def PlotNTabsCorrelationAnalysis(dat):
                 fontsize=35, va='bottom',weight='bold')
     ax['B'].set_ylim(0,1)
     
+    return fig
+
+def HexbinPlotsForComparisonCategoryAndFlexibilityCategory(title, xMetricLabel, xMetricData, yMetricLabel, yMetricData, xThreshold=None, yThreshold=None, comparisonCategory=None, flexibilityCategory=None):
+    plt.rcParams.update({'font.size': 18})
+    fig, ax = plt.subplots(figsize=(12,8))
+    hb = ax.hexbin(xMetricData, yMetricData, gridsize=50, cmap='viridis', mincnt=1, alpha=0.7, norm=LogNorm())
+    ax.set_xlabel(xMetricLabel)
+    ax.set_ylabel(yMetricLabel)
+    if yThreshold is not None:
+        ax.hlines(yThreshold, xmin=0, xmax=1, color='red', linestyle='--')
+    if xThreshold is not None:
+        ax.vlines(xThreshold, ymin=0, ymax=14, color='red', linestyle='--')
+    ax.set_title(title)
+    fig.colorbar(hb, ax=ax, label="Counts")
+    plt.show()
+
     return fig
