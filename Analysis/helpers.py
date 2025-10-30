@@ -3,6 +3,47 @@ from tabs import custom
 from sklearn.metrics import confusion_matrix
 
 def GetTabsPopulationMatrix(uniqueTabs, counts):
+    """
+    Aggregate counts into a 2D population matrix based on two-state tabs identifiers.
+
+    The function expects each element of `uniqueTabs` to be convertible to a string whose
+    first two characters are decimal digits representing two 1-based state indices
+    (for example "12" means state A=1, state B=2). For each tabs identifier and the
+    corresponding count in `counts`, the function increments the cell at
+    (row = stateA-1, col = stateB-1) in the returned NumPy integer array.
+
+    Parameters
+    ----------
+    uniqueTabs : Iterable
+        Iterable of tabs identifiers.
+    counts : Iterable of int
+        Iterable of non-negative integer counts with the same length as
+        `uniqueTabs`.
+
+    Returns
+    -------
+    numpy.ndarray
+        2D integer array of shape (maxA, maxB) where `maxA` is the maximum A-state
+        value found and `maxB` is the maximum B-state value found. Cells contain
+        the summed counts for each (A,B) pair. Indices in the array are zero-based
+        (state 1 maps to index 0).
+
+    Notes
+    -----
+    - The function interprets state indices as 1-based in the input and converts
+      them to 0-based indices for the output matrix.
+    - Only the first two characters of each tabs identifier are used. If state
+      numbers can be multi-digit, pre-process identifiers to a consistent format
+      (e.g., use a delimiter or a tuple of two integers) before calling this function.
+
+    Examples
+    --------
+    >>> uniqueTabs = ["11", "12", "21"]
+    >>> counts = [5, 3, 2]
+    >>> GetTabsPopulationMatrix(uniqueTabs, counts)
+    array([[5, 3],
+           [2, 0]])
+    """
     statesA = set()
     statesB = set()
     for tabs in uniqueTabs:
@@ -22,6 +63,38 @@ def GetTabsPopulationMatrix(uniqueTabs, counts):
     return matrix
 
 def CheckForCorrelationCandidates(mol, candidates, profiles, threshold=1):
+    """
+    Determine which dihedral candidates are relevant for correlation analysis.
+
+    This function evaluates a list of dihedral candidates and returns those
+    considered "relevant" based on the distribution of TABS-assigned states
+    obtained from the provided per-dihedral profiles. A candidate is marked
+    relevant only if it has more than one observed state and the smallest
+    state-population percentage across its observed states is greater than
+    the provided threshold.
+
+    Parameters
+    ----------
+    mol : object
+        Molecular object passed to custom.CustomDihedralInfo. 
+    candidates : iterable
+        Iterable of dihedral definitions.
+    profiles : dict
+        Mapping from tuple(dihedral) -> profile object. Each profile is passed
+        as `confTorsions` to custom.CustomDihedralInfo and used to compute
+        TABS population assignments.
+    threshold : float, optional
+        Percentage threshold (in percent, 0-100) used to decide relevance.
+        Default is 1.0. A candidate is considered relevant only if the
+        smallest state population percentage for that candidate is strictly
+        greater than `threshold`.
+
+    Returns
+    -------
+    list
+        List of dihedral candidates (in the same form as provided in
+        `candidates`) that passed the relevance criteria.
+    """
     relevant = []
     # not relevant for correlation analysis if there is only one state
     for dihedral in candidates:
@@ -113,6 +186,34 @@ def GetMetrics(yTrue, yPred, comparisonMeasureCutoffTrue, comparisonMeasureCutof
     return metrics
 
 def AnalyticsOnConfusionMatrices(cm, debug=False):
+    """
+    Compute positive and negative predictive values from a confusion matrix.
+
+    Parameters
+    ----------
+    cm : dict
+        A dictionary expected to contain a 2x2 confusion matrix under the key 'cm'.
+        The confusion matrix must be convertible to a flat sequence of four elements
+        in the order [tn, fp, fn, tp] when flattened/raveled (e.g., a 2x2 numpy array).
+    debug : bool, optional
+        If True, print intermediate values used to compute precision (tp and fp).
+        Default is False.
+
+    Returns
+    -------
+    tuple of (float, float)
+        A tuple (ppv, npv) where:
+        - ppv (positive predictive value / precision) = tp / (tp + fp), or 0.0 if (tp + fp) == 0
+        - npv (negative predictive value) = tn / (fn + tn), or 0.0 if (fn + tn) == 0
+
+    Examples
+    --------
+    Assuming a numpy 2x2 confusion matrix:
+    >>> cm = {'cm': np.array([[50, 10],
+    ...                       [ 5, 35]])}
+    >>> AnalyticsOnConfusionMatrices(cm)
+    (0.7777777777777778, 0.9090909090909091)
+    """
     tn, fp, fn, tp = cm['cm'].ravel()
     if (tp + fp) == 0:
         ppv = 0.0
