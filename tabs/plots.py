@@ -6,6 +6,7 @@ import math
 from rdkit.Chem import rdMolTransforms
 from rdkit.Chem.Draw import IPythonConsole
 import sys
+from tabs import fits
 try: 
     from ipywidgets import interact, IntSlider
 except ImportError:
@@ -71,80 +72,36 @@ def _ffitnew(x, s1, v1, s2, v2, s3, v3, s4, v4, s5, v5, s6, v6):
                     + v4*(1+s4*(8*c4-8*c2+1)) + v5*(1+s5*(16*c4*c-20*c2*c+5*c)) \
                     + v6*(1+s6*(32*c4*c2-48*c4+18*c2+1)) ))
 
-def PlotOrgDistribution(smarts,patterntype):
-    if patterntype == "r":
-        pstats = pickle.load(open(str(files("tabs").joinpath('torsionPreferences/ETKDGv3Data',"nonringbonds_torsion_ana_all.pkl")),"rb"),encoding="latin1")
-        with open(str(files("tabs").joinpath('torsionPreferences','torsionPreferences_v2_formatted.txt'))) as f: torsionPreferencesv2 = f.read()
-    elif patterntype == "sr":
-        pstats = pickle.load(open(str(files("tabs").joinpath('torsionPreferences/ETKDGv3Data',"ringbonds_torsion_ana_all_newpatterns.pkl")),"rb"),encoding="latin1")
-        with open(str(files("tabs").joinpath('torsionPreferences','torsionPreferences_smallrings_formatted.txt'))) as f: torsionPreferencesv2 = f.read()
-    tpv2 = dict(json.loads(torsionPreferencesv2))
-    tmp = tpv2[smarts]
-    tmp = tmp.split(" ")
-    tmp_2 = []
-    for i in range(12):
-        tmp_2.append(tmp[i])
-    y = [_ffitnew(j/180.0*np.pi, float(tmp_2[0]),float(tmp_2[1]),float(tmp_2[2]),float(tmp_2[3]),float(tmp_2[4]),float(tmp_2[5]),float(tmp_2[6]),float(tmp_2[7]),float(tmp_2[8]),float(tmp_2[9]),float(tmp_2[10]),float(tmp_2[11])) for j in range(0, 360, 1)]
-    ## this is only for visualization purposes; normally, the fit should be already in the correct order of magnitude!!
-    my = max(y)
-    y = [j/my for j in y]
-    xh = [(i*10) for i in range(0,36)]
-    thisto = {}
-    v = []
-    for j in pstats[smarts]:
-        if j < 0: v.append(j+360)
-        else: v.append(j)
-    h = np.histogram(v, bins=range(0, 370, 10), range=(0,360.))
-    mh = float(max(h[0]))
-    tyh = [j/mh for j in h[0]]
-    thisto[smarts] = tyh
+def PlotCosineFit(coeffs, smarts=None):
+    """
+    PlotCosineFit(coeffs, smarts=None)
+    Plot a fitted cosine function over the range [0, 2π].
+
+    Parameters
+    ----------
+    coeffs : array-like
+        Coefficients passed to the cosine fit evaluator. These are forwarded to
+        fits.FitFunc.COS.call(coeffs, x). 
+    smarts : str, optional
+        Optional label (for example a SMARTS pattern) to set as the plot title.
+        If None, no title is added.
+
+    Returns
+    -------
+    None
+        The function creates a new matplotlib Figure and Axes and plots the fitted
+        curve, but does not explicitly return them. The figure will be shown or
+        available in the current matplotlib backend.
+    """
+    xFit = np.linspace(0, 2*np.pi, 4*36)
+    yFit = fits.FitFunc.COS.call(coeffs, xFit)
     _, ax = plt.subplots(figsize=(8,6))
-    ax.bar(xh, thisto[smarts], width=10.0, color='0.85',edgecolor='0.4',zorder=2)
-    ax.plot(range(0, 360, 1), y, 'r', lw=2)
-    ax.set_ylim(0,1.0)
-    ax.set_xlabel("Dihedral angle / °")
+    ax.plot(xFit, yFit, color='red', label='fit')
+    ax.set_xlabel("Dihedral angle / rad")
     ax.set_ylabel("Normalized count")
-    ax.set_title(f"{smarts}")
+    if smarts:
+        ax.set_title(f"{smarts}")
     return 
-
-def PlotOrgDistributionFitOnly(smarts,patterntype):
-    if patterntype == "r":
-        with open(str(files("tabs").joinpath('torsionPreferences','torsionPreferences_v2_formatted.txt'))) as f: torsionPreferencesv2 = f.read()
-    elif patterntype == "sr":
-        with open(str(files("tabs").joinpath('torsionPreferences','torsionPreferences_smallrings_formatted.txt'))) as f: torsionPreferencesv2 = f.read()
-    elif patterntype == "m":
-        with open(str(files("tabs").joinpath('torsionPreferences','torsionPreferences_macrocycles_formatted.txt'))) as f: torsionPreferencesv2 = f.read()
-    tpv2 = dict(json.loads(torsionPreferencesv2))
-    tmp = tpv2[smarts]
-    tmp = tmp.split(" ")
-    tmp_2 = []
-    for i in range(12):
-        tmp_2.append(tmp[i])
-    y = [_ffitnew(j/180.0*np.pi, float(tmp_2[0]),float(tmp_2[1]),float(tmp_2[2]),float(tmp_2[3]),float(tmp_2[4]),float(tmp_2[5]),float(tmp_2[6]),float(tmp_2[7]),float(tmp_2[8]),float(tmp_2[9]),float(tmp_2[10]),float(tmp_2[11])) for j in range(0, 360, 1)]
-    ## this is only for visualization purposes; normally, the fit should be already in the correct order of magnitude!!
-    my = max(y)
-    y = [j/my for j in y]
-    _, ax = plt.subplots(figsize=(8,6))
-    ax.plot(range(0, 360, 1), y, 'r', lw=2)
-    ax.set_ylim(0,1.0)
-    ax.set_xlabel("Dihedral angle / °")
-    ax.set_ylabel("Normalized count")
-    ax.set_title(f"{smarts}")
-    return
-
-def GetOrgDistribution(smarts,patterntype):
-    if patterntype == "r":
-        pstats = pickle.load(open(str(files("tabs").joinpath('torsionPreferences/ETKDGv3Data',"nonringbonds_torsion_ana_all.pkl")),"rb"),encoding="latin1")
-        with open(str(files("tabs").joinpath('torsionPreferences','torsionPreferences_v2_formatted.txt'))) as f: torsionPreferencesv2 = f.read()
-    elif patterntype == "sr":
-        pstats = pickle.load(open(str(files("tabs").joinpath('torsionPreferences/ETKDGv3Data',"ringbonds_torsion_ana_all_newpatterns.pkl")),"rb"),encoding="latin1")
-        with open(str(files("tabs").joinpath('torsionPreferences','torsionPreferences_smallrings_formatted.txt'))) as f: torsionPreferencesv2 = f.read()
-    v = []
-    for j in pstats[smarts]:
-        if j < 0: v.append(j+360)
-        else: v.append(j)
-    h = np.histogram(v, bins=range(0, 370, 10), range=(0,360.))
-    return v, h
 
 def PlotDihedralDistributions(m, dihedrals):
     cids = [x.GetId() for x in m.GetConformers()]
