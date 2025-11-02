@@ -108,7 +108,10 @@ def CheckForCorrelationCandidates(mol, candidates, profiles, threshold=1):
             if min(percentages) > threshold:
                 relevant.append(dihedral)
             else:
-                print(f"Dihedral {dihedral} not relevant: {percentages}")
+                if len(unique) < 3:
+                    print(f"Dihedral {dihedral} not relevant: {percentages}")
+                else:
+                    relevant.append(dihedral)
         else:
             print(f"Dihedral {dihedral} not relevant: {percentages}")
     return relevant
@@ -228,3 +231,7 @@ def AnalyticsOnConfusionMatrices(cm, debug=False):
     else:
         npv = (tn/(fn+tn))
     return ppv, npv
+
+def Shift(x):
+    # for array x check for every single entry if larger than 180, then subtract from 360
+    return np.array([angle-360 if angle>180 else angle for angle in x])
