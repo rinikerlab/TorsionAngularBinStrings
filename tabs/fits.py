@@ -45,7 +45,7 @@ class FitFunc(enum.IntEnum):
         else: return None
 
 def _ffitnew(x, s1, v1, s2, v2, s3, v3, s4, v4, s5, v5, s6, v6):
-    # fitting as in Sereinas code
+    # fitting as in J. Chem. Inf. Model. 2015, 55, 12, 2562–2574
     c = np.cos(x)
     c2 = c*c
     c4 = c2*c2
