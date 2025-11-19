@@ -96,7 +96,7 @@ class DihedralsInfo:
     stores multiple properties for each dihedral
     """
 
-    def __init__(self, mol):
+    def __init__(self, mol, raiseOnWarn=False):
         assert not _needsHs(mol), "Molecule does not have explicit Hs. Consider calling AddHs"
         self.molTemplate = mol
         self.undefinedStereo = False
@@ -104,6 +104,8 @@ class DihedralsInfo:
         if chiralInfo:
             if all(item[1] == '?' for item in chiralInfo):
                 self.undefinedStereo = True
+                if raiseOnWarn:
+                    raise ValueError("Molecule has chiral centers with undefined stereo")
                 warnings.warn("WARNING: Molecule has chiral centers with undefined stereo", stacklevel=2)
         self.smarts = []
         self.torsionTypes = []
@@ -115,6 +117,7 @@ class DihedralsInfo:
         self.coeffs = []
         self.fitFuncs = []
         self.bounds = []
+        self.raiseOnWarn = raiseOnWarn
 
     @property
     def nDihedrals(self):
@@ -173,15 +176,17 @@ class DihedralsInfo:
         # rows: conformers, columns: dihedrals
         return np.array(confTorsions).T
     
-    def GetTABS(self, confTorsions=None):
+    def GetTABS(self, confTorsions=None, raiseOnWarn=None):
         """
         Compute the Torsion Angular Bin Strings (TABS).
         This method calculates the TABS for each conformer of the molecule based on 
         the torsion angles and predefined bounds. If no conformer torsions are provided, 
         they will be directly calculated from the conformers.
         :param confTorsions: (optional) Precalculated list of torsion angles for each conformer.
+        :param raiseOnWarn: (optional) Allow overwrite of self.raiseOnWarn
         :raises ValueError: If no conformers are found in the molecule and no 
                             torsion angles are provided.
+        :raises ValueError: If raiseOnWarn and bounds for a dihedral are not sorted.
         :return: A list of TABS for each conformer.
         """
 
@@ -198,6 +203,10 @@ class DihedralsInfo:
             test = deepcopy(bounds[i])
             test.sort()
             if not np.array_equal(test, bounds[i]):
+                if raiseOnWarn is None:
+                    raiseOnWarn = self.raiseOnWarn
+                if raiseOnWarn:
+                    raise ValueError(f"bounds for dihedral {i} are not sorted. This may lead to incorrect TABS calculation")
                 warnings.warn(f"WARNING: bounds for dihedral {i} are not sorted. This may lead to incorrect TABS calculation", stacklevel=2)
         
         confTABS = []
@@ -263,19 +272,24 @@ class DihedralsInfo:
         ff = self.fitFuncs[indx]
         return DihedralInfo(s, tt, ba, coeffs=c, indices=di, fitFunc=ff)
 
-def DihedralInfoFromTorsionLib(mol, torsionLibs=None):
+def DihedralInfoFromTorsionLib(mol, torsionLibs=None, raiseOnWarn=False):
     """
     build a TorsionInfoList based on the experimental torsions library
     : param mol: rdkit molecule
     : param torsionLibs: list of dictionaries with torsion information
+    : param raiseOnError: raise errors instead of warnings
     : return: TorsionInfoList
     : raises Warning: if no dihedrals are found
+    : raises ValueError: if raiseOnWarn==True and no dihedrals are found
     """
     if torsionLibs is None:
         torsionLibs = [TORSION_INFO[TorsionType.REGULAR], TORSION_INFO[TorsionType.SMALL_RING], TORSION_INFO[TorsionType.MACROCYCLE], TORSION_INFO[TorsionType.ADDITIONAL_ROTATABLE_BOND]]
     
-    clsInst = ExtractTorsionInfoWithLibs(mol, torsionLibs)
-    if clsInst.nDihedrals == 0: warnings.warn("WARNING: No dihedrals found",stacklevel=2)
+    clsInst = ExtractTorsionInfoWithLibs(mol, torsionLibs, raiseOnWarn=raiseOnWarn)
+    if clsInst.nDihedrals == 0:
+        if raiseOnWarn:
+            raise ValueError("No dihedrals found")
+        warnings.warn("WARNING: No dihedrals found",stacklevel=2)
 
     return clsInst
 
@@ -399,7 +413,7 @@ def _RingMultFromSize(size):
     else:
         return MAXSIZE
 
-def ETKDGv3vsRotBondCheck(m):
+def ETKDGv3vsRotBondCheck(m, raiseOnWarn=False):
     # dict for element
     atomNumsToSymbol = {1:'H', 6:'C', 7:'N', 8:'O', 9:'F', 15:'P', 16:'S', 17:'Cl', 35:'Br', 53:'I'}
     # gives back the dihedrals and patterns that are currently not treated by ETKDG
@@ -423,6 +437,8 @@ def ETKDGv3vsRotBondCheck(m):
             rotBondsLipinski.add(tuple(sorted(bond)))
     if rotBondsLipinski.difference(bonds):
         if not bonds:
+            if raiseOnWarn:
+                raise ValueError("No ETKDG torsion library patterns matched")
             warnings.warn("WARNING: No ETKDG torsion library patterns matched",UserWarning,stacklevel=2)
         else:
             # check which bonds already considered by ETKDG
@@ -460,12 +476,16 @@ def ETKDGv3vsRotBondCheck(m):
             return
         return zip(dihedrals, patterns)
 
-def ExtractTorsionInfo(m):
-    return ExtractTorsionInfoWithLibs(m, [TORSION_INFO[TorsionType.REGULAR], TORSION_INFO[TorsionType.SMALL_RING], TORSION_INFO[TorsionType.MACROCYCLE]])
+def ExtractTorsionInfo(m, raiseOnWarn=False):
+    return ExtractTorsionInfoWithLibs(m, [TORSION_INFO[TorsionType.REGULAR], TORSION_INFO[TorsionType.SMALL_RING], TORSION_INFO[TorsionType.MACROCYCLE]], raiseOnWarn=raiseOnWarn)
 
-def ExtractTorsionInfoWithLibs(m, libs):
+def ExtractTorsionInfoWithLibs(m, libs, raiseOnWarn=False):
     assert not _needsHs(m), "Molecule does not have explicit Hs. Consider calling AddHs"
     if _CheckIfNotConsideredAtoms(m):
+        if raiseOnWarn:
+            ValueError("Any torsions with atoms containing anything but H, C, N, O, F, Cl, Br, I, S or P are not considered. \n"
+                      "This is likely to result in an underestimation of nTABS.\n"
+                      f"Bonds not considered: {_GetNotDescribedBonds(m)}")
         warnings.warn("\nWARNING: any torsions with atoms containing anything but H, C, N, O, F, Cl, Br, I, S or P are not considered. \n"
                       "This is likely to result in an underestimation of nTABS.\n"
                       f"Bonds not considered: {_GetNotDescribedBonds(m)}", UserWarning, stacklevel=2)
