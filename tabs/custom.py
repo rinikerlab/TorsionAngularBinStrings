@@ -4,15 +4,17 @@ from .torsions import DihedralsInfo, TorsionType
 from .plots import _GridPlot
 import mdtraj as md
 
-def CustomDihedralInfo(mol, dihedralIndices, customTorsionProfiles, showFits=False, **kwargs):
+def CustomDihedralInfo(mol, dihedralIndices, customTorsionProfiles, showFits=False, raiseOnWarn=False, **kwargs):
     """
     returns a TorsionInfoList with bounds and fit coefficients based on the provided torsion profiles
-    : param mol: rdkit molecule
-    : param dihedralIndices: list of atom indices for every dihedral
-    : param customTorsionProfiles: list of custom torsion profiles
-    : param kwargs: additional arguments for ComputeGaussianFit
+    
+    :param mol: rdkit molecule
+    :param dihedralIndices: list of atom indices for every dihedral
+    :param customTorsionProfiles: list of custom torsion profiles
+    :param raiseOnWarn: Raise errors instead of warnings
+    :param kwargs: additional arguments for ComputeGaussianFit
     """
-    clsInst = DihedralsInfo(mol)
+    clsInst = DihedralsInfo(mol, raiseOnWarn=raiseOnWarn)
     nDihedrals = len(dihedralIndices)
     clsInst.indices = dihedralIndices
 
