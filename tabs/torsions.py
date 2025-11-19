@@ -100,11 +100,12 @@ class DihedralsInfo:
         assert not _needsHs(mol), "Molecule does not have explicit Hs. Consider calling AddHs"
         self.molTemplate = mol
         self.undefinedStereo = False
+        self.raiseOnWarn = raiseOnWarn
         chiralInfo = Chem.FindMolChiralCenters(self.molTemplate, includeUnassigned=True)
         if chiralInfo:
             if all(item[1] == '?' for item in chiralInfo):
                 self.undefinedStereo = True
-                if raiseOnWarn:
+                if self.raiseOnWarn:
                     raise ValueError("Molecule has chiral centers with undefined stereo")
                 warnings.warn("WARNING: Molecule has chiral centers with undefined stereo", stacklevel=2)
         self.smarts = []
@@ -117,7 +118,6 @@ class DihedralsInfo:
         self.coeffs = []
         self.fitFuncs = []
         self.bounds = []
-        self.raiseOnWarn = raiseOnWarn
 
     @property
     def nDihedrals(self):
@@ -483,7 +483,7 @@ def ExtractTorsionInfoWithLibs(m, libs, raiseOnWarn=False):
     assert not _needsHs(m), "Molecule does not have explicit Hs. Consider calling AddHs"
     if _CheckIfNotConsideredAtoms(m):
         if raiseOnWarn:
-            ValueError("Any torsions with atoms containing anything but H, C, N, O, F, Cl, Br, I, S or P are not considered. \n"
+            raise ValueError("Any torsions with atoms containing anything but H, C, N, O, F, Cl, Br, I, S or P are not considered. \n"
                       "This is likely to result in an underestimation of nTABS.\n"
                       f"Bonds not considered: {_GetNotDescribedBonds(m)}")
         warnings.warn("\nWARNING: any torsions with atoms containing anything but H, C, N, O, F, Cl, Br, I, S or P are not considered. \n"
@@ -496,13 +496,13 @@ def ExtractTorsionInfoWithLibs(m, libs, raiseOnWarn=False):
     ps.useMacrocycleTorsions = True
 
     dihedrals = rdDistGeom.GetExperimentalTorsions(m,ps)
-    addDihedrals = ETKDGv3vsRotBondCheck(m)
+    addDihedrals = ETKDGv3vsRotBondCheck(m, raiseOnWarn=raiseOnWarn)
     if addDihedrals:
         addDihedrals, _ = zip(*addDihedrals)
     else:
         addDihedrals = []
 
-    torsionList = DihedralsInfo(m)
+    torsionList = DihedralsInfo(m, raiseOnWarn=raiseOnWarn)
 
     for log in dihedrals:
         s = log["smarts"]
