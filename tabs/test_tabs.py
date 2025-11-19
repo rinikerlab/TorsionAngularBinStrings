@@ -93,6 +93,8 @@ class TestTABS(unittest.TestCase):
         self.assertEqual(nTABS, 96)
         with self.assertWarnsRegex(UserWarning, "WARNING: No dihedrals found"):
             info = DihedralInfoFromTorsionLib(self.mol6)
+        with self.assertRaisesRegex(ValueError, "No dihedrals found"):
+            info = DihedralInfoFromTorsionLib(self.mol6, raiseOnWarn=True)
         nTABS = info.GetnTABS()
         self.assertEqual(nTABS, 1)
 
@@ -123,6 +125,9 @@ class TestTABS(unittest.TestCase):
                             "WARNING: any torsions with atoms containing anything but H, C, N, O, F, Cl, Br, I, S or P are not considered.",\
                             DihedralInfoFromTorsionLib,\
                             self.mol4)
+        with self.assertRaisesRegex(ValueError,
+                            "Any torsions with atoms containing anything but H, C, N, O, F, Cl, Br, I, S or P are not considered."):
+            DihedralInfoFromTorsionLib(self.mol4, raiseOnWarn=True)
 
     def testNoTorsionDetected(self):
         self.assertWarnsRegex(UserWarning,\
@@ -133,6 +138,9 @@ class TestTABS(unittest.TestCase):
                             "WARNING: No dihedrals found",\
                             DihedralInfoFromTorsionLib,\
                             self.mol5)
+        with self.assertRaisesRegex(ValueError,"No ETKDG torsion library patterns matched"):
+            DihedralInfoFromTorsionLib(self.mol5, raiseOnWarn=True)
+
         
     def testStereoEncoding(self):
         info = DihedralInfoFromTorsionLib(self.mol7)
@@ -147,6 +155,8 @@ class TestTABS(unittest.TestCase):
                             "WARNING: Molecule has chiral centers with undefined stereo",\
                             DihedralInfoFromTorsionLib,\
                             self.mol9)
+        with self.assertRaisesRegex(ValueError, "Molecule has chiral centers with undefined stereo"):
+            DihedralInfoFromTorsionLib(self.mol9, raiseOnWarn=True)
         
 class TestCustomTABS(unittest.TestCase):
     try:
