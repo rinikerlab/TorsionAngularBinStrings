@@ -240,7 +240,7 @@ class DihedralsInfo:
 
                 for ring in ringIndices:
                     if dInfo.indices[1] in ring and dInfo.indices[2] in ring:
-                        if not ring in contributingRingsIdentified:
+                        if ring not in contributingRingsIdentified:
                             ring_mult *= _RingMultFromSize(len(ring))
                             contributingRingsIdentified.add(ring)
             else: 
@@ -339,7 +339,7 @@ def _DoubleBondStereoCheck(m, dihedralIndices, bounds):
         B = [x.GetIdx() for x in m.GetAtomWithIdx(b).GetBonds()]
         trialBond = m.GetBondWithIdx(A.intersection(B).pop())
         if trialBond.GetBondType() == Chem.BondType.DOUBLE:
-            if not trialBond.GetStereo() in (Chem.BondStereo.STEREONONE,Chem.BondStereo.STEREOANY):
+            if trialBond.GetStereo() not in (Chem.BondStereo.STEREONONE,Chem.BondStereo.STEREOANY):
                 bounds[i] = []
 
 def _CanonicalizeTABS(tabs, permutations):
