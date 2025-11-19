@@ -275,12 +275,13 @@ class DihedralsInfo:
 def DihedralInfoFromTorsionLib(mol, torsionLibs=None, raiseOnWarn=False):
     """
     build a TorsionInfoList based on the experimental torsions library
-    : param mol: rdkit molecule
-    : param torsionLibs: list of dictionaries with torsion information
-    : param raiseOnError: raise errors instead of warnings
-    : return: TorsionInfoList
-    : raises Warning: if no dihedrals are found
-    : raises ValueError: if raiseOnWarn==True and no dihedrals are found
+
+    :param mol: rdkit molecule
+    :param torsionLibs: list of dictionaries with torsion information
+    :param raiseOnError: raise errors instead of warnings
+    :return: TorsionInfoList
+    :raises Warning: if no dihedrals are found
+    :raises ValueError: if raiseOnWarn==True and no dihedrals are found
     """
     if torsionLibs is None:
         torsionLibs = [TORSION_INFO[TorsionType.REGULAR], TORSION_INFO[TorsionType.SMALL_RING], TORSION_INFO[TorsionType.MACROCYCLE], TORSION_INFO[TorsionType.ADDITIONAL_ROTATABLE_BOND]]
