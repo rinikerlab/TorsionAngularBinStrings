@@ -183,7 +183,8 @@ class DihedralsInfo:
         the torsion angles and predefined bounds. If no conformer torsions are provided, 
         they will be directly calculated from the conformers.
         :param confTorsions: (optional) Precalculated list of torsion angles for each conformer.
-        :param raiseOnWarn: (optional) Allow overwrite of self.raiseOnWarn
+        :param raiseOnWarn: (optional) Allow overwrite of self.raiseOnWarn, default for the class
+                            attribute is False.
         :raises ValueError: If no conformers are found in the molecule and no 
                             torsion angles are provided.
         :raises ValueError: If raiseOnWarn and bounds for a dihedral are not sorted.
