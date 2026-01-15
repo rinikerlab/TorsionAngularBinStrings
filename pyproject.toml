@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tabs"
+version = "2.0.0"
+description = "Torsion Angular Bin Strings"
+authors = [
+    { name = "Jessica Braun", email = "braunje@ethz.ch" }
+]
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+dependencies = []
+keywords = ["torsion", "chemistry", "rdkit"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent"
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["tabs"]
+
+[tool.setuptools.package-data]
+"tabs" = ["TorsionPreferences/*.json"]
+
+[testenv]
+setenv =
+    CONDA_DLL_SEARCH_MODIFICATION_ENABLE = 1
+whitelist_externals = python
+conda_deps =
+    pytest
+conda_channels =
+    conda-forge
+commands = 
+    conda install -q -c conda-forge rdkit scikit-learn jupyter ca-certificates certifi openssl pytest mdtraj pytest-cov
+    pip install .
+    # run tests
+    pytest -p no:warnings --basetemp="{envtmpdir}" {posargs}   
+"""
