@@ -13,6 +13,10 @@ Torsion Angular Bin Strings
 # Publications
 [1] J. Chem. Inf. Model. 2024, DOI: [https://pubs.acs.org/doi/10.1021/acs.jcim.4c01513#](https://pubs.acs.org/doi/10.1021/acs.jcim.4c01513#), v1.0.0
 
+# Documentation
+
+Our full documentation: [https://torsionangularbinstrings.readthedocs.io/en/](https://torsionangularbinstrings.readthedocs.io/en/)
+
 # Abstract
 
 Molecular flexibility is a commonly used, but not easily quantified term. 
