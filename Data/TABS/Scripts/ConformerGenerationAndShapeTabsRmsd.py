@@ -91,5 +91,5 @@ if __name__ == "__main__":
     uuid_key = str(uuid.uuid4())
     params = yaml.load(open("../Config/Params.yml","r"),yaml.Loader)
     mol = Chem.MolFromMolFile(f"../Input/{args.file}",removeHs=False)
-    ETKDGv3ConformerGeneration(mol,params,uuid_key)
     print(uuid_key)
+    ETKDGv3ConformerGeneration(mol,params,uuid_key)
