@@ -57,25 +57,6 @@ infoEnsemble = DihedralInfoFromTorsionLib(mol)
 infoEnsemble.GetTABS()
 ```
 
-## Custom TABS
-If you want to use the customTABS functionalities to analyze the ensemble observed in  a trajectory:
-
-```
-from rdkit import Chem
-from tabs import custom
-
-mol = Chem.RemoveHs(mol)
-mol = Chem.AddHs(Chem.MolFromSmiles('COC(=O)c1ccccc1NC(=O)[C@@H]1CCCCC1=O'))
-# first we need to get the list of dihedrals of interest
-# we could also define these by hand ourselves
-info = DihedralInfoFromTorsionLib(mol)
-indices = info.indices
-# extract the torsion profiles for the identified dihedrals from the trajectory
-customProfiles = custom.GetTorsionProfilesFromMDTraj(md.load("your_traj.h5"),indices)
-# do the automated fitting to obtain the custom fits and bounds
-infoCustom = custom.CustomDihedralInfo(mol, indices, customProfiles, showFits=True)
-```
-
 # How to contribute
 If you want to contribute, please make sure that all currently provided unittests run and that new unittests are provided for any new functionalities.
 Run the tests with
