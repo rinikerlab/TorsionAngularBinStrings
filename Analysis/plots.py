@@ -3,26 +3,46 @@ import matplotlib.pyplot as plt
 import matplotlib.transforms as mtransforms
 import matplotlib.colors
 import numpy as np
+from matplotlib.colors import LogNorm
 
 cmapSame = matplotlib.colors.LinearSegmentedColormap.from_list("", ["white","#fdb176"])
 cmapDiff = matplotlib.colors.LinearSegmentedColormap.from_list("", ["white","#577d78"])
 
-def PlotConfusionMatrixSchema():
-    fig, ax = plt.subplots(1,1,figsize=(6,6))
-    confMatSchema = np.zeros((2,2))
-    xlabelsconfMat = ['different','same']
-    ylabelsconfMat = ['different','same']
-    ax.imshow(confMatSchema,cmap='Blues')
-    ax.set_xticks(np.arange(2), xlabelsconfMat,fontsize=24)
-    ax.set_yticks(np.arange(2), ylabelsconfMat,fontsize=24)
-    ax.xaxis.tick_top()
-    ax.set_xlabel("TABS",fontsize=28)
-    ax.xaxis.set_label_position("top")
-    ax.set_ylabel("RMSD",fontsize=28)
-    ax.text(0,0,"TN",fontsize=28)
-    ax.text(0,1,"FN",fontsize=28)
-    ax.text(1,0,"FP",fontsize=28)
-    ax.text(1,1,"TP",fontsize=28)
+def PlotConfusionMatrixSchema(metric):
+    if metric not in ["RMSD","shape"]:
+        raise ValueError("metric must be either 'RMSD' or 'shape'")
+    elif metric == "RMSD":
+        fig, ax = plt.subplots(1,1,figsize=(6,6))
+        confMatSchema = np.zeros((2,2))
+        xlabelsconfMat = ['different','same']
+        ylabelsconfMat = ['different','same']
+        ax.imshow(confMatSchema,cmap='Blues')
+        ax.set_xticks(np.arange(2), xlabelsconfMat,fontsize=24)
+        ax.set_yticks(np.arange(2), ylabelsconfMat,fontsize=24)
+        ax.xaxis.tick_top()
+        ax.set_xlabel("TABS",fontsize=28)
+        ax.xaxis.set_label_position("top")
+        ax.set_ylabel("RMSD",fontsize=28)
+        ax.text(0,0,"TN",fontsize=28)
+        ax.text(0,1,"FN",fontsize=28)
+        ax.text(1,0,"FP",fontsize=28)
+        ax.text(1,1,"TP",fontsize=28)
+    elif metric == "shape":
+        fig, ax = plt.subplots(1,1,figsize=(6,6))
+        confMatSchema = np.zeros((2,2))
+        xlabelsconfMat = ['different','same']
+        ylabelsconfMat = ['different','same']
+        ax.imshow(confMatSchema,cmap='Blues')
+        ax.set_xticks(np.arange(2), xlabelsconfMat,fontsize=24)
+        ax.set_yticks(np.arange(2), ylabelsconfMat,fontsize=24)
+        ax.xaxis.tick_top()
+        ax.set_xlabel("TABS",fontsize=28)
+        ax.xaxis.set_label_position("top")
+        ax.set_ylabel("Shape Score",fontsize=28)
+        ax.text(0,0,"TN",fontsize=28)
+        ax.text(0,1,"FN",fontsize=28)
+        ax.text(1,0,"FP",fontsize=28)
+        ax.text(1,1,"TP",fontsize=28)
 
     return fig
 
@@ -32,7 +52,7 @@ def PlotHist2dConfusionMatrices(same,different):
     hSame = ax[1].hist2d(same[:,0],same[:,1],bins=[1,30],cmap=cmapSame,density=True,vmin=0,vmax=1)
     ax[0].set_ylim(0,6)
     ax[0].set_yticklabels(range(0,7),fontsize=22)
-    ax[0].set_ylabel("RMSD / $\AA$",fontsize=22)
+    ax[0].set_ylabel(r"RMSD / $\AA$",fontsize=22)
     ax[0].set_xticks([0.0])
     ax[0].set_xticklabels(["different TABS"],fontsize=28)
     cbar1 = fig.colorbar(hDiff[3], ax=ax[0],location="left",pad=0.35)
@@ -54,22 +74,22 @@ def PlotHist2dConfusionMatrices(same,different):
 
     return fig
 
-def PlotPpvNpv(sumCms,npvs,ppvs,categoryForTitle):
-    xlabels = list(sumCms.keys())
+def PlotPpvNpv(xTitle,cutoffs,npvs,ppvs,categoryForTitle,threshold=None):
+    xlabels = cutoffs
     ylabels = [0.0,0.2,0.4,0.6,0.8,1.0]
     fig, ax = plt.subplots(1,1,figsize=(15,10))
     ax.set_yticks(ylabels)
     ax.set_yticklabels(ylabels,fontsize=28)
     ax.set_ylabel("probability",fontsize=28)
-    ax.set_xticks(xlabels)
-    ax.set_xticklabels(xlabels,fontsize=20,rotation=45)
-    ax.set_xlabel("RMSD threshold / $\AA$",fontsize=28)
+    ax.set_xticks(xlabels[::2]) 
+    ax.set_xticklabels(xlabels[::2],fontsize=24,rotation=45)
+    ax.set_xlabel(xTitle,fontsize=28)
     ax.plot(xlabels,ppvs,label="PPV",color="#fdb176",marker="o",markersize=10)
     ax.plot(xlabels,npvs,label="NPV",color="#577d78",marker="^",markersize=10)
     ax.legend(fontsize=28)
-    ax.set_title(f"{categoryForTitle} flexibility category",fontsize=28)
-    ax.vlines(0.9,0,1,linestyle="--",color="grey",linewidth=4)
-
+    ax.set_title(f"{categoryForTitle}",fontsize=28)
+    if threshold is not None:
+        ax.axvline(x=threshold,color="gray",linestyle="--",linewidth=4)
     return fig
 
 def PlotNTabsCorrelationAnalysis(dat):
@@ -99,7 +119,7 @@ def PlotNTabsCorrelationAnalysis(dat):
     ax['B'].vlines(np.median(np.log10(dat["nconfsout"])-np.log10(dat["ntabs"])),ymin=0,ymax=1,color='r')
     ax['B'].vlines(np.percentile(np.log10(dat["nconfsout"])-np.log10(dat["ntabs"]),25),0,1,color='r',linestyle="--")
     ax['B'].vlines(np.percentile(np.log10(dat["nconfsout"])-np.log10(dat["ntabs"]),75),0,1,color='r',linestyle="--")
-    ax['B'].set_xlabel("$\Delta$(log10(nConfsOut),log10(nTABS))")
+    ax['B'].set_xlabel(r"$\Delta$(log10(nConfsOut),log10(nTABS))")
     ax['B'].set_ylabel("probability")
     box = ax['B'].get_position()
     ax['B'].set_position([box.x0, box.y0, box.width * 0.8, box.height*0.8])
@@ -108,4 +128,20 @@ def PlotNTabsCorrelationAnalysis(dat):
                 fontsize=35, va='bottom',weight='bold')
     ax['B'].set_ylim(0,1)
     
+    return fig
+
+def HexbinPlotsForComparisonCategoryAndFlexibilityCategory(title, xMetricLabel, xMetricData, yMetricLabel, yMetricData, xThreshold=None, yThreshold=None, comparisonCategory=None, flexibilityCategory=None):
+    plt.rcParams.update({'font.size': 18})
+    fig, ax = plt.subplots(figsize=(12,8))
+    hb = ax.hexbin(xMetricData, yMetricData, gridsize=50, cmap='viridis', mincnt=1, alpha=0.7, norm=LogNorm())
+    ax.set_xlabel(xMetricLabel)
+    ax.set_ylabel(yMetricLabel)
+    if yThreshold is not None:
+        ax.hlines(yThreshold, xmin=0, xmax=1, color='red', linestyle='--')
+    if xThreshold is not None:
+        ax.vlines(xThreshold, ymin=0, ymax=14, color='red', linestyle='--')
+    ax.set_title(title)
+    fig.colorbar(hb, ax=ax, label="Counts")
+    plt.show()
+
     return fig
