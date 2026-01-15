@@ -1,3 +1,9 @@
+# Copyright (C) 2026 ETH Zurich, Jessica Braun, and other TABS contributors.
+# All rights reserved.
+# This file is part of TABS.
+# The contents are covered by the terms of the MIT license
+# which is included in the file LICENSE.
+
 from rdkit import Chem
 from rdkit.Chem import rdMolAlign
 from .torsions import DihedralInfoFromTorsionLib
