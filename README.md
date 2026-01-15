@@ -82,7 +82,7 @@ The complete datasets used in the study can be reproduced by going to Data/TABS 
 The analysis notebooks to reproduce the plots shown in the study can be found in Analysis/.
 
 # Authors 
-Jessica Braun, Djahan Lamei, Greg Landrum
+Jessica Braun ([@brje01](https://github.com/brje01)), Djahan Lamei ([@dlamei](https://github.com/dlamei)), Greg Landrum ([@greglandrum](https://github.com/greglandrum))
 
 # Project status
 in development
