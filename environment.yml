@@ -2,9 +2,15 @@ name: tabs
 channels:
   - conda-forge
 dependencies:
-  - rdkit=2023.09.4
+  - rdkit
+  - scikit-learn
   - jupyter
   - ca-certificates
   - certifi
   - openssl
-  - scikit-learn
+  - matplotlib
+  - ipywidgets
+  - py3Dmol
+  - pytest
+  - mdtraj
+  - pytest-cov
