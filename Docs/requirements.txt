@@ -1,2 +1,5 @@
 sphinx_rtd_theme
 sphinx_copybutton
+rdkit
+scikit-learn
+jupyter
