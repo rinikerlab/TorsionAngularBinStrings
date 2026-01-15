@@ -35,7 +35,6 @@ python -m pip install git+https://github.com/rinikerlab/TorsionAngularBinStrings
 
 # Usage
 
-## TABS
 With version 2 of TABS, major changes in the API were introduced.
 
 ```
