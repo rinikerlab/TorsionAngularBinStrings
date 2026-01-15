@@ -26,12 +26,13 @@ size (nTABS).
 
    theory
 
-.. toctree::
-   :maxdepth: 2
-   :caption: customTABS
+..
+   .. toctree::
+      :maxdepth: 2
+      :caption: customTABS
 
-   customTabsConcept
-   customTabsReference
+      customTabsConcept
+      customTabsReference
 
 .. toctree::
    :maxdepth: 2
