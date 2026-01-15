@@ -7,6 +7,7 @@ Torsion Angular Bin Strings
 # Releases
 
 **v2.0.0:** to add
+
 **v1.0.0:** [![DOI](https://zenodo.org/badge/843293558.svg)](https://zenodo.org/doi/10.5281/zenodo.13384005) 
 
 # Publications
