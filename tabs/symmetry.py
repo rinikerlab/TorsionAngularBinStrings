@@ -1,7 +1,12 @@
 from rdkit import Chem
 import numpy as np
 
-def GetTorsionPermutations(mol,dihedrals):
+# this is a developer function
+def _GetTorsionPermutations(mol,dihedrals):
+    """
+    Debugging function:
+    Get all possible permutations of the dihedrals in the molecule.
+    """
     ## per bond analysis
     assert len(dihedrals)>0, "no experimental torsions mapped to this molecule"
     mol = Chem.RemoveHs(mol)
@@ -17,7 +22,12 @@ def GetTorsionPermutations(mol,dihedrals):
         allPermsSeen.add(tuple(remapped))
     return tuple(allPermsSeen)
 
-def GetSymmetryOrder(mol, dihedrals):
+# this is a developer function
+def _GetSymmetryOrder(mol, dihedrals):
+    """
+    Debugging function:
+    Get the symmetry order of the molecule based on the dihedrals.
+    """
     ## analysis on atoms
     matches = Chem.RemoveHs(mol).GetSubstructMatches(Chem.RemoveHs(mol),useChirality=True,uniquify=False)
     permutationArray = np.array(matches,dtype=np.int16)
@@ -47,20 +57,18 @@ def _find(lst, b):
     return [i for i, x in enumerate(lst) if x==b]
 
 def _GetDictStrippedOriginal(mol):
-    mapping = {}
     for atom in mol.GetAtoms():
-        atom.SetProp("atomNumberOrg",str(atom.GetIdx()))
+        atom.SetIntProp("atomNumberOrg",atom.GetIdx())
     mol = Chem.RemoveHs(mol)
+    mapping = {x.GetIdx():x.GetIntProp("atomNumberOrg") for x in mol.GetAtoms()}
     for atom in mol.GetAtoms():
-        mapping[atom.GetIdx()] = int(atom.GetProp("atomNumberOrg"))
-    return mapping
+        atom.ClearProp("atomNumberOrg")
+    return mapping,mol
 
 def _TranslateMatches(matches,dictStrippedOrg):
     newMatches = []
     for match in matches:
-        newMatch = []
-        for m in match:
-            newMatch.append(dictStrippedOrg[m])
+        newMatch = [dictStrippedOrg[m] for m in match]
         newMatches.append(newMatch)
     return np.array(newMatches)   
 
@@ -68,45 +76,29 @@ def GetTABSPermutations(mol, dihedrals):
     ## analysis on atoms
     ## bond always shall be stored as smaller atom number first !!!
     # Hs have to be removed
-    dictStrippedOrg = _GetDictStrippedOriginal(mol)
-    matches = np.array(Chem.RemoveHs(mol).GetSubstructMatches(Chem.RemoveHs(mol),useChirality=True,uniquify=False))
+    dictStrippedOrg,mol_noHs = _GetDictStrippedOriginal(mol)
+    matches = np.array(mol_noHs.GetSubstructMatches(mol_noHs,useChirality=True,uniquify=False))
     matches = _TranslateMatches(matches,dictStrippedOrg)
     ## bonds in dihedrals
     bonds = []
-    for i, dihedral in enumerate(dihedrals):
-        dihedral = np.array(dihedral.split(" "),dtype=int)
+    for dihedral in dihedrals:
         bondA1 = dihedral[1]
         bondA2 = dihedral[2]
-        aid = [bondA1,bondA2]
-        aid.sort()
+        aid = [min(bondA1,bondA2),max(bondA1,bondA2)]
         bonds.append(aid)
     ## build the initial TABS is first entry
     tabs = []
     for match in matches:
         tmp = []
         for i, dihedral in enumerate(dihedrals):
-            dihedral = np.array(dihedral.split(" "),dtype=int)
             p1 = np.where(matches[0]==dihedral[1])[0][0]
             p2 = np.where(matches[0]==dihedral[2])[0][0]
             bondA1 = match[p1]
             bondA2 = match[p2]
-            aid = [bondA1,bondA2]
-            aid.sort()
+            aid = [min(bondA1,bondA2),max(bondA1,bondA2)]
             idx = _find(bonds,aid)
             tmp.append(idx[0]+1)
         tabs.append(tmp)
     # make sure that all entries are unique
     tabs = [list(x) for x in set(tuple(x) for x in tabs)]
     return tabs
-
-def FixateRingsInPermutations(permutations, types):
-    touchedUpPermutations = set()
-    pArray = np.array([np.array(xi) for xi in permutations])
-    for j, c in enumerate(pArray[0,:]):
-        if types[c-1] == "sr":
-            pArray[:,j] = c
-    for i in range(pArray.shape[0]):
-        tmp = tuple(pArray[i,:])
-        touchedUpPermutations.add(tmp)
-    touchedUpPermutations = [list(tmp) for tmp in touchedUpPermutations]
-    return touchedUpPermutations
