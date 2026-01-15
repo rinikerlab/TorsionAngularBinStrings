@@ -1,6 +1,6 @@
 from rdkit import Chem
 from rdkit.Chem import AllChem
-from rdkit.Chem import rdDistGeom, rdmolops
+from rdkit.Chem import rdmolops
 import pickle
 import uuid
 import yaml

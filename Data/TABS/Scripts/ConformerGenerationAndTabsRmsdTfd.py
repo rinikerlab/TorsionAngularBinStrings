@@ -10,8 +10,9 @@ import yaml
 import time
 import argparse
 import json
-import tabs
 from copy import deepcopy
+from tabs import DihedralInfoFromTorsionLib
+from tqdm import tqdm
 
 def GetTFDBetweenAllConformers(mol, useWeights=True, maxDev='equal', symmRadius=2,
                             ignoreColinearBonds=True):
@@ -58,9 +59,7 @@ def GetFailureCauses(counts):
 
 def ETKDGv3ConformerGeneration(mol, params, uuid_key):
     pickleOutputFilename = f"../Output/{uuid_key}.pkl"
-    pickleObject = open(pickleOutputFilename,"wb")
     metadataFilename = f"../Output/{uuid_key}.json"
-
     ps = AllChem.ETKDGv3()
     ps.useBasicKnowledge = params['useBasicKnowledge']
     ps.useSmallRingTorsions = params['useSmallRingTorsions']
@@ -79,33 +78,29 @@ def ETKDGv3ConformerGeneration(mol, params, uuid_key):
     allMetadata["TIME"] = elapsed
     nOut = mol.GetNumConformers()
     allMetadata["NCONFS"] = nOut
-    pickle.dump(mol,pickleObject)
-    pickleObject.flush()
+    with open(pickleOutputFilename,"wb") as pickleObject:
+        pickle.dump(mol,pickleObject)
     with open(metadataFilename,"w") as f:
         json.dump(allMetadata,f)
-    _, allTabs = tabs.GetTABSMultipleConfs(mol)
+    # calculate all TABS
+    info = DihedralInfoFromTorsionLib(mol)
+    allTabs = info.GetTABS()
     molCopy = deepcopy(mol)
     molCopy = Chem.RemoveHs(molCopy)
     allRmsds = rdMolAlign.GetAllConformerBestRMS(molCopy,numThreads=params['numThreads'])
     allTfds = GetTFDBetweenAllConformers(molCopy)
-    f = open(f"../Output/{uuid_key}_rmsds.txt","w")
-    g = open(f"../Output/{uuid_key}_tfds.txt","w")
+    f = open(f"../Output/{uuid_key}_prevMetrics.txt","w")
+    f.write("cid1,cid2,tabsAgreement,rmsd,tfd\n")
     count = 0
-    for i in range(nOut):
+    for i in tqdm(range(nOut)):
         for j in range(i):
-            if allTabs[i] == allTabs[j]:
-                agreement = 1
-            else:
-                agreement = 0
-            f.write(f"{i},{j},{agreement},{allRmsds[count]}\n")
-            g.write(f"{i},{j},{agreement},{allTfds[count]}\n")
+            f.write(f"{i},{j},{int(allTabs[i]==allTabs[j])},{allRmsds[count]},{allTfds[count]}\n")
             count+=1
     f.close()
-    g.close()
     return 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Conformer Generation with ETKDGv3")
+    parser = argparse.ArgumentParser(description="Conformer Generation with ETKDGv3, analysis with TABS, RMSD and TFD")
     parser.add_argument("-f","--file",type=str,help="Filename of the sdf file in the Data/Input directory") 
     args = parser.parse_args()
     uuid_key = str(uuid.uuid4())
