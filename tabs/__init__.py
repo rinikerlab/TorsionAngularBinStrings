@@ -5,3 +5,9 @@
 # which is included in the file LICENSE.
 
 from .torsions import DihedralsInfo, TorsionType, DihedralInfoFromTorsionLib
+
+__all__ = [
+    "DihedralsInfo",
+    "DihedralInfoFromTorsionLib",
+    "TorsionType",
+]
