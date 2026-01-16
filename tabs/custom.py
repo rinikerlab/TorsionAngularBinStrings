@@ -10,7 +10,7 @@ from .torsions import DihedralsInfo, TorsionType
 from .plots import _GridPlot
 import mdtraj as md
 
-def CustomDihedralInfo(mol, dihedralIndices, customTorsionProfiles, showFits=False, **kwargs):
+def CustomDihedralInfo(mol, dihedralIndices, customTorsionProfiles, showFits=False, raiseOnWarn=False, **kwargs):
     """
     Returns a TorsionInfoList with bounds and fit coefficients based on the provided torsion profiles
 
@@ -19,9 +19,10 @@ def CustomDihedralInfo(mol, dihedralIndices, customTorsionProfiles, showFits=Fal
     :param customTorsionProfiles: list of custom torsion profiles
     :param kwargs: additional arguments for ComputeGaussianFit
     :param showFits: if True, plots the fits for the dihedrals
+    :param raiseOnWarn: Raise errors instead of warnings
     :returns: DihedralsInfo object with the computed bounds and coefficients
     """
-    clsInst = DihedralsInfo(mol)
+    clsInst = DihedralsInfo(mol, raiseOnWarn=raiseOnWarn)
     nDihedrals = len(dihedralIndices)
     clsInst.indices = dihedralIndices
 
