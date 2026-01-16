@@ -123,29 +123,24 @@ class TestTABS(unittest.TestCase):
 
     def testNotConsideredAtomTypes(self):
         # only tests that there is a warning, not the warning message
-        self.assertWarns(UserWarning,\
-                            DihedralInfoFromTorsionLib,\
-                            self.mol4)
+        with self.assertWarns(UserWarning):
+            DihedralInfoFromTorsionLib(self.mol4)
         # check that the warning message is correct
-        self.assertWarnsRegex(UserWarning,\
-                            "WARNING: Any torsions with atoms containing anything but H, C, N, O, F, Cl, Br, I, S or P are not considered.",\
-                            DihedralInfoFromTorsionLib,\
-                            self.mol4)
+        msg = "Any torsions with atoms containing anything but H, C, N, O, F, Cl, Br, I, S or P are not considered."
+        with self.assertWarnsRegex(UserWarning, f"WARNING: {msg}"):
+            DihedralInfoFromTorsionLib(self.mol4)
 
-        with self.assertRaisesRegex(ValueError,
-                                    "Any torsions with atoms containing anything but H, C, N, O, F, Cl, Br, I, S or P are not considered."):
+        with self.assertRaisesRegex(ValueError, msg):
             DihedralInfoFromTorsionLib(self.mol4, raiseOnWarn=True)
 
     def testNoTorsionDetected(self):
-        self.assertWarnsRegex(UserWarning,\
-                            "WARNING: No ETKDG torsion library patterns matched",\
-                            DihedralInfoFromTorsionLib,\
-                            self.mol5)
-        self.assertWarnsRegex(UserWarning,\
-                            "WARNING: No dihedrals found",\
-                            DihedralInfoFromTorsionLib,\
-                            self.mol5)
-        with self.assertRaisesRegex(ValueError,"No ETKDG torsion library patterns matched"):
+        with self.assertWarnsRegex(UserWarning, "WARNING: No dihedrals found"):
+            DihedralInfoFromTorsionLib(self.mol5)
+
+        msg = "No ETKDG torsion library patterns matched"
+        with self.assertWarnsRegex(UserWarning, f"WARNING: {msg}"):
+            DihedralInfoFromTorsionLib(self.mol5)
+        with self.assertRaisesRegex(ValueError,msg):
             DihedralInfoFromTorsionLib(self.mol5, raiseOnWarn=True)
 
     def testStereoEncoding(self):
@@ -157,11 +152,10 @@ class TestTABS(unittest.TestCase):
         self.assertEqual(info.GetnTABS(),2)
 
     def testUndefinedChiralCenter(self):
-        self.assertWarnsRegex(UserWarning,\
-                            "WARNING: Molecule has chiral centers with undefined stereo",\
-                            DihedralInfoFromTorsionLib,\
-                            self.mol9)
-        with self.assertRaisesRegex(ValueError, "Molecule has chiral centers with undefined stereo"):
+        msg = "Molecule has chiral centers with undefined stereo"
+        with self.assertWarnsRegex(UserWarning, f"WARNING: {msg}"):
+            DihedralInfoFromTorsionLib(self.mol9)
+        with self.assertRaisesRegex(ValueError, msg):
             DihedralInfoFromTorsionLib(self.mol9, raiseOnWarn=True)
         
 class TestCustomTABS(unittest.TestCase):
