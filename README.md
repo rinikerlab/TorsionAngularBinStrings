@@ -18,17 +18,13 @@ Torsion Angular Bin Strings
 Our full documentation: [https://torsionangularbinstrings.readthedocs.io/en/](https://torsionangularbinstrings.readthedocs.io/en/)
 
 # Installation
-Installation of the dependencies via conda using the provided environment.yml file:
+Installation of the dependencies via mamba (conda) using the provided environment.yml file:
 ```
-conda env create -n tabs -f environment.yml
-```
-If you only want the minimal environment necessary (without all additional libraries for the plotting functionalities etc) use:
-```
-conda env create -n tabs -f minimalEnvironment.yml
+mamba env create -n tabs -f environment.yml
 ```
 To activate the new environment and install tabs:
 ```
-conda activate tabs
+mamba activate tabs
 python -m pip install git+https://github.com/rinikerlab/TorsionAngularBinStrings
 ```
 
