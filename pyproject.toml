@@ -15,7 +15,7 @@ authors = [
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
-dependencies = ["rdkit","scipy","ipython","ipywidgets","matplotlib","py3Dmol","mdtraj"]
+dependencies = ["rdkit","scipy","ipython","ipywidgets","matplotlib","py3Dmol","mdtraj","pytables"]
 keywords = ["torsion", "chemistry", "rdkit"]
 classifiers = [
     "Programming Language :: Python :: 3",
