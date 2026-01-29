@@ -29,5 +29,4 @@ jobs:
     - name: Test with pytest
       run: |
           pip install -e .
-          pip install tox
-          tox
+          pytest
