@@ -22,10 +22,6 @@ Installation of the dependencies via conda using the provided environment.yml fi
 ```
 conda env create -n tabs -f environment.yml
 ```
-If you only want the minimal environment necessary (without all additional libraries for the plotting functionalities etc) use:
-```
-conda env create -n tabs -f minimalEnvironment.yml
-```
 To activate the new environment and install tabs:
 ```
 conda activate tabs
