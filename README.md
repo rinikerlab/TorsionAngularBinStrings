@@ -13,6 +13,8 @@ Torsion Angular Bin Strings
 # Publications
 [1] J. Chem. Inf. Model. 2024, DOI: [https://pubs.acs.org/doi/10.1021/acs.jcim.4c01513#](https://pubs.acs.org/doi/10.1021/acs.jcim.4c01513#), v1.0.0
 
+[2] preprint: [https://chemrxiv.org/doi/full/10.26434/chemrxiv.10001731/v1](https://chemrxiv.org/doi/full/10.26434/chemrxiv.10001731/v1)
+
 # Documentation
 
 Our full documentation: [https://torsionangularbinstrings.readthedocs.io/en/](https://torsionangularbinstrings.readthedocs.io/en/)
@@ -24,7 +26,7 @@ mamba env create -n tabs -f environment.yml
 ```
 To activate the new environment and install tabs:
 ```
-mamba activate tabs
+conda activate tabs
 python -m pip install git+https://github.com/rinikerlab/TorsionAngularBinStrings
 ```
 
