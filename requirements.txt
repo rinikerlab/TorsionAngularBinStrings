@@ -1,0 +1,8 @@
+rdkit
+scipy
+ipython
+ipywidgets
+matplotlib
+py3Dmol
+mdtraj
+tables
