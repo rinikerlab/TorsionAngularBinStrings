@@ -5,3 +5,4 @@ ipywidgets
 matplotlib
 py3Dmol
 mdtraj
+pytables
