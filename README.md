@@ -24,6 +24,10 @@ Installation of the dependencies via mamba (conda) using the provided environmen
 ```
 mamba env create -n tabs -f environment.yml
 ```
+If you are only interested in using the basic TABS and nTABS functionality, you can also use the minimal environment file:
+```
+mamba env create -n tabs -f minimalEnvironment.yml
+```
 To activate the new environment and install tabs:
 ```
 conda activate tabs
@@ -70,6 +74,9 @@ The complete datasets used in the study can be reproduced by going to Data/TABS 
 
 # Analysis
 The analysis notebooks to reproduce the plots shown in the study can be found in Analysis/.
+
+# Thanks
+This program uses software written by other people. We thank all their authors for their contributions.
 
 # Authors 
 Jessica Braun ([@brje01](https://github.com/brje01)), Djahan Lamei ([@dlamei](https://github.com/dlamei)), Greg Landrum ([@greglandrum](https://github.com/greglandrum))
