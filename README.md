@@ -6,14 +6,14 @@ Torsion Angular Bin Strings
 
 # Releases
 
-**v2.0.0:** to add
+**v2.0.0:** [![DOI](https://zenodo.org/badge/843293558.svg)](https://doi.org/10.5281/zenodo.19591005)
 
-**v1.0.0:** [![DOI](https://zenodo.org/badge/843293558.svg)](https://zenodo.org/doi/10.5281/zenodo.13384005) 
+**v1.0.0:** [![DOI](https://zenodo.org/badge/843293558.svg)](https://doi.org/10.5281/zenodo.13384006)
 
 # Publications
-[1] J. Chem. Inf. Model. 2024, DOI: [https://pubs.acs.org/doi/10.1021/acs.jcim.4c01513#](https://pubs.acs.org/doi/10.1021/acs.jcim.4c01513#), v1.0.0
+[2] J. Cheminform. 2026, DOI: [https://link.springer.com/article/10.1186/s13321-026-01194-6](https://link.springer.com/article/10.1186/s13321-026-01194-6), v2.0.0
 
-[2] preprint: [https://chemrxiv.org/doi/full/10.26434/chemrxiv.10001731/v1](https://chemrxiv.org/doi/full/10.26434/chemrxiv.10001731/v1)
+[1] J. Chem. Inf. Model. 2024, DOI: [https://pubs.acs.org/doi/10.1021/acs.jcim.4c01513#](https://pubs.acs.org/doi/10.1021/acs.jcim.4c01513#), v1.0.0
 
 # Documentation
 
