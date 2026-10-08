@@ -1,8 +1,4 @@
-# Copyright (C) 2026 ETH Zurich, Jessica Braun, and other TABS contributors.
-# All rights reserved.
-# This file is part of TABS.
-# The contents are covered by the terms of the MIT license
-# which is included in the file LICENSE.
+# Copyright (C) 2026 ETH Zurich, Jessica Braun, Djahan Lamei, Enrico Ruijsenaars, Greg Landrum, and other TABS contributors.
 
 import numpy as np
 from .fits import ComputeTorsionHistograms, ComputeGaussianFit, FitFunc
@@ -10,7 +6,7 @@ from .torsions import DihedralsInfo, TorsionType
 from .plots import _GridPlot
 import mdtraj as md
 
-def CustomDihedralInfo(mol, dihedralIndices, customTorsionProfiles, showFits=False, raiseOnWarn=False, **kwargs):
+def CustomDihedralInfo(mol, dihedralIndices, customTorsionProfiles, showFits=False, **kwargs):
     """
     Returns a TorsionInfoList with bounds and fit coefficients based on the provided torsion profiles
 
@@ -19,10 +15,9 @@ def CustomDihedralInfo(mol, dihedralIndices, customTorsionProfiles, showFits=Fal
     :param customTorsionProfiles: list of custom torsion profiles
     :param kwargs: additional arguments for ComputeGaussianFit
     :param showFits: if True, plots the fits for the dihedrals
-    :param raiseOnWarn: Raise errors instead of warnings
     :returns: DihedralsInfo object with the computed bounds and coefficients
     """
-    clsInst = DihedralsInfo(mol, raiseOnWarn=raiseOnWarn)
+    clsInst = DihedralsInfo(mol)
     nDihedrals = len(dihedralIndices)
     clsInst.indices = dihedralIndices
 

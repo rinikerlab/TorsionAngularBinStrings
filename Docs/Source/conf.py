@@ -1,3 +1,5 @@
+# Copyright (C) 2026 ETH Zurich, Jessica Braun, Djahan Lamei, Enrico Ruijsenaars, Greg Landrum, and other TABS contributors.
+
 import os
 import sys
 from unittest.mock import MagicMock

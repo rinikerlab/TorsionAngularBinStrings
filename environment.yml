@@ -2,7 +2,7 @@ name: tabs
 channels:
   - conda-forge
 dependencies:
-  - python=3.13
+  - pip
   - rdkit
   - scikit-learn
   - jupyter
@@ -15,4 +15,3 @@ dependencies:
   - pytest
   - mdtraj
   - pytest-cov
-  - tqdm

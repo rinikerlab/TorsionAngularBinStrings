@@ -1,3 +1,5 @@
+# Copyright (C) 2026 ETH Zurich, Jessica Braun, Djahan Lamei, Enrico Ruijsenaars, Greg Landrum, and other TABS contributors.
+
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.transforms as mtransforms

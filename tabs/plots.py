@@ -1,13 +1,6 @@
-# Copyright (C) 2026 ETH Zurich, Jessica Braun, and other TABS contributors.
-# All rights reserved.
-# This file is part of TABS.
-# The contents are covered by the terms of the MIT license
-# which is included in the file LICENSE.
+# Copyright (C) 2026 ETH Zurich, Jessica Braun, Djahan Lamei, Enrico Ruijsenaars, Greg Landrum, and other TABS contributors.
 
-import pickle
 import numpy as np
-from importlib.resources import files
-import json
 import math
 from rdkit.Chem import rdMolTransforms
 from rdkit.Chem.Draw import IPythonConsole
@@ -178,3 +171,53 @@ def VisualizeEnsemble(mol, dihedral=[], showTABS=False):
         return p.show()
 
     return interact(DrawConformer, confId=IntSlider(min=0, max=mol.GetNumConformers()-1, step=1, value=0))
+
+def CpfPlot(populationMatrices, labels=None, title="", fontSize=15, markerSize=10):
+    if isinstance(populationMatrices, np.ndarray):
+        populationMatrices = [populationMatrices]
+
+    plt.rcParams.update({'font.size': fontSize})
+    # plt.rcParams['font.family'] = 'Arial'
+    fig, ax = plt.subplots(figsize=(10, 8))
+    colors = ["#14498e","#e06800"]
+    markers = ['o', 'x']
+    for idx, populationMatrix in enumerate(populationMatrices):
+        final_pop = np.asarray(populationMatrix)[:, -1]
+        sort_idx = np.argsort(final_pop)[::-1]
+        sorted_final_pop = final_pop[sort_idx]
+        cumulative_pop = np.cumsum(sorted_final_pop) / np.sum(sorted_final_pop)
+        label = labels[idx] if labels is not None else (f'{idx+1}' if len(populationMatrices) > 1 else 'none')
+        ax.scatter(np.arange(len(cumulative_pop)), cumulative_pop, s=markerSize, alpha=0.9, label=label, color=colors[idx], marker=markers[idx])
+
+    ax.set_ylim(0, 1.05)
+    ax.set_xlabel("customTABS Index (sorted by final population)")
+    ax.set_ylabel("CPF")
+    ax.set_title(title, weight="bold")
+    ax.grid(True)
+    ax.legend()
+    return fig
+
+def PlotTop10Stackplot(popMatrix, timestep):
+    """
+    Plots a stackplot of the top 10 relative populations over time.
+
+    Parameters:
+        popMatrix (np.ndarray): Population matrix (states x frames)
+        timestep (float): Time per frame in ns
+
+    Returns:
+        fig, ax: The matplotlib Figure and Axes objects.
+    """
+    indices = np.argsort(popMatrix[:,-1])[-10:][::-1]
+    n_frames = popMatrix.shape[1]
+    frames = np.arange(1, n_frames + 1)
+    time = frames * timestep
+    y = np.array([popMatrix[idx] / frames for idx in indices])
+
+    fig, ax = plt.subplots(figsize=(10,6))
+    ax.stackplot(time, y, labels=[f'State {idx}' for idx in indices], alpha=0.7)
+    ax.set_xlabel('Time (ns)')
+    ax.set_ylabel('Relative Population')
+    ax.set_title('Top 10 Relative Populations Over Time (Stacked)')
+    ax.legend(loc='upper left')
+    return fig, ax

@@ -1,3 +1,5 @@
+# Copyright (C) 2026 ETH Zurich, Jessica Braun, Djahan Lamei, Enrico Ruijsenaars, Greg Landrum, and other TABS contributors.
+
 import numpy as np
 from sklearn.metrics import confusion_matrix
 from rdkit import Chem
