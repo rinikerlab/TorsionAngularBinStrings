@@ -1,3 +1,5 @@
+# Copyright (C) 2026 ETH Zurich, Jessica Braun, Djahan Lamei, Enrico Ruijsenaars, Greg Landrum, and other TABS contributors.
+
 """
 This script generates conformers for molecules using the ETKDGv3, shape aligns the conformers, and calculates the TABS and shape Tanimoto
 """

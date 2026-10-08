@@ -1,3 +1,5 @@
+# Copyright (C) 2026 ETH Zurich, Jessica Braun, Djahan Lamei, Enrico Ruijsenaars, Greg Landrum, and other TABS contributors.
+
 """
 This script generates conformers for molecules using the ETKDGv3, calculates the TABS, rmsds and tfds of the ensemble.
 """

@@ -1,8 +1,4 @@
-# Copyright (C) 2026 ETH Zurich, Jessica Braun, and other TABS contributors.
-# All rights reserved.
-# This file is part of TABS.
-# The contents are covered by the terms of the MIT license
-# which is included in the file LICENSE.
+# Copyright (C) 2026 ETH Zurich, Jessica Braun, Djahan Lamei, Enrico Ruijsenaars, Greg Landrum, and other TABS contributors.
 
 import numpy as np
 from scipy.optimize import minimize
@@ -423,9 +419,10 @@ def _BinFits(xHist, yHist, peaks, peaksInfo):
     return params
 
 def _BoundDetectionOnFit(xFit, yFit, coeffs):
-    peaks = coeffs[:,1]
-    #translate the peaks into their idx
-    peaks = np.array([int(np.round(p/xFit[1])) for p in peaks])
+    # Detect maxima in the summed Gaussian fit rather than using the
+    # individual Gaussian centers.
+    peaks = _findPeaksPeriodic(yFit, len(coeffs))
+    peaks = np.sort(peaks)
     peakPairs = []
     for i in range(len(peaks)-1):
         peakPairs.append((peaks[i], peaks[i+1]))

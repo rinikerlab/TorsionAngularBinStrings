@@ -1,13 +1,10 @@
-# Copyright (C) 2026 ETH Zurich, Jessica Braun, and other TABS contributors.
-# All rights reserved.
-# This file is part of TABS.
-# The contents are covered by the terms of the MIT license
-# which is included in the file LICENSE.
+# Copyright (C) 2026 ETH Zurich, Jessica Braun, Djahan Lamei, Enrico Ruijsenaars, Greg Landrum, and other TABS contributors.
 
 from rdkit import Chem
 from rdkit.Chem import rdMolAlign
 from .torsions import DihedralInfoFromTorsionLib
 from collections import defaultdict
+import numpy as np
 
 def SortEnsembleByTABS(m):
     """
@@ -71,3 +68,24 @@ def AnalyzeTABSForInterRMSD(m, sortedTabsDict):
                         tmp.append(rdMolAlign.GetBestRMS(molCopy, molCopy, id, id2))
         rmsds[key] = tmp
     return rmsds
+
+## CUSTOM TABS APPLICATION FUNCTIONS
+
+def CalculatePopulationFractionsOfTraj(tabsOfTraj):
+    tabsSet = np.unique(tabsOfTraj)
+    nUniqueCTabs = len(tabsSet)
+    nFrames = len(tabsOfTraj)
+    trajTabsIdxs = np.array([np.where((tabsSet == t))[0][0] for t in tabsOfTraj])
+    populationMatrix = np.zeros((nUniqueCTabs, nFrames))
+    np.add.at(populationMatrix, (trajTabsIdxs, np.arange(nFrames)), 1)
+    populationMatrix = np.cumsum(populationMatrix, axis=1)
+    return populationMatrix, tabsSet
+
+def CalculateDiscoveredStates(tabsOfTraj):
+    tEnd = len(tabsOfTraj)
+    discoveredStatesCounter = np.zeros(tEnd)
+    discoveredStates = set()
+    for t in range(tEnd):
+        discoveredStates.add(tabsOfTraj[t])
+        discoveredStatesCounter[t] = len(discoveredStates)
+    return discoveredStatesCounter

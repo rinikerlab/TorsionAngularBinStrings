@@ -1,8 +1,4 @@
-# Copyright (C) 2026 ETH Zurich, Jessica Braun, and other TABS contributors.
-# All rights reserved.
-# This file is part of TABS.
-# The contents are covered by the terms of the MIT license
-# which is included in the file LICENSE.
+# Copyright (C) 2026 ETH Zurich, Jessica Braun, Djahan Lamei, Enrico Ruijsenaars, Greg Landrum, and other TABS contributors.
 
 import pytest
 import unittest
@@ -99,8 +95,6 @@ class TestTABS(unittest.TestCase):
         self.assertEqual(nTABS, 96)
         with self.assertWarnsRegex(UserWarning, "WARNING: No dihedrals found"):
             info = DihedralInfoFromTorsionLib(self.mol6)
-        with self.assertRaisesRegex(ValueError, "No dihedrals found"):
-            info = DihedralInfoFromTorsionLib(self.mol6, raiseOnWarn=True)
         nTABS = info.GetnTABS()
         self.assertEqual(nTABS, 1)
 
@@ -123,26 +117,25 @@ class TestTABS(unittest.TestCase):
 
     def testNotConsideredAtomTypes(self):
         # only tests that there is a warning, not the warning message
-        with self.assertWarns(UserWarning):
-            DihedralInfoFromTorsionLib(self.mol4)
+        self.assertWarns(UserWarning,\
+                            DihedralInfoFromTorsionLib,\
+                            self.mol4)
         # check that the warning message is correct
-        msg = "Any torsions with atoms containing anything but H, C, N, O, F, Cl, Br, I, S or P are not considered."
-        with self.assertWarnsRegex(UserWarning, f"WARNING: {msg}"):
-            DihedralInfoFromTorsionLib(self.mol4)
-
-        with self.assertRaisesRegex(ValueError, msg):
-            DihedralInfoFromTorsionLib(self.mol4, raiseOnWarn=True)
+        self.assertWarnsRegex(UserWarning,\
+                            "WARNING: any torsions with atoms containing anything but H, C, N, O, F, Cl, Br, I, S or P are not considered.",\
+                            DihedralInfoFromTorsionLib,\
+                            self.mol4)
 
     def testNoTorsionDetected(self):
-        with self.assertWarnsRegex(UserWarning, "WARNING: No dihedrals found"):
-            DihedralInfoFromTorsionLib(self.mol5)
-
-        msg = "No ETKDG torsion library patterns matched"
-        with self.assertWarnsRegex(UserWarning, f"WARNING: {msg}"):
-            DihedralInfoFromTorsionLib(self.mol5)
-        with self.assertRaisesRegex(ValueError,msg):
-            DihedralInfoFromTorsionLib(self.mol5, raiseOnWarn=True)
-
+        self.assertWarnsRegex(UserWarning,\
+                            "WARNING: No ETKDG torsion library patterns matched",\
+                            DihedralInfoFromTorsionLib,\
+                            self.mol5)
+        self.assertWarnsRegex(UserWarning,\
+                            "WARNING: No dihedrals found",\
+                            DihedralInfoFromTorsionLib,\
+                            self.mol5)
+        
     def testStereoEncoding(self):
         info = DihedralInfoFromTorsionLib(self.mol7)
         self.assertEqual(info.multiplicities, [1])
@@ -152,11 +145,10 @@ class TestTABS(unittest.TestCase):
         self.assertEqual(info.GetnTABS(),2)
 
     def testUndefinedChiralCenter(self):
-        msg = "Molecule has chiral centers with undefined stereo"
-        with self.assertWarnsRegex(UserWarning, f"WARNING: {msg}"):
-            DihedralInfoFromTorsionLib(self.mol9)
-        with self.assertRaisesRegex(ValueError, msg):
-            DihedralInfoFromTorsionLib(self.mol9, raiseOnWarn=True)
+        self.assertWarnsRegex(UserWarning,\
+                            "WARNING: Molecule has chiral centers with undefined stereo",\
+                            DihedralInfoFromTorsionLib,\
+                            self.mol9)
         
 class TestCustomTABS(unittest.TestCase):
     try:
@@ -174,55 +166,58 @@ class TestCustomTABS(unittest.TestCase):
     @pytest.mark.custom
     def testGettingCustomProfiles(self):
         customProfiles = custom.GetTorsionProfilesFromMDTraj(self.traj, self.info.indices)        
-        self.assertEqual(customProfiles.shape, (250, 11))
+        self.assertEqual(customProfiles.shape, (5001, 11))
         binsize = np.pi*2/36
         yHists, yHistsCount, xHist = custom.ComputeTorsionHistograms(customProfiles, binsize)
         coeffs, peaks = custom.ComputeGaussianFit(xHist,yHists[4],yHistsCount[4],binsize)
-        self.assertEqual(coeffs.shape, (3, 3))
+        self.assertEqual(coeffs.shape, (4, 3))
         npt.assert_almost_equal(coeffs,
-                                np.array([[0.42544792, 0.43633231, 0.37752448],
-                                            [0.35669299, 3.14159265, 0.61328729],
-                                            [0.47731244, 6.02138592, 0.42366185]]), 
+                                np.array([[0.27069318, 0.43633231, 0.44015573],
+                                            [0.35891104, 2.70526034, 0.43574505],
+                                            [0.41390399, 3.57792497, 0.41073035],
+                                            [0.26267338, 5.84685299, 0.44254074]]), 
                                 decimal=2)
-        npt.assert_almost_equal(peaks, [1.5044246510148305, 4.7787606561647555, 0.08849556770675474])
+        npt.assert_almost_equal(peaks, [1.59292022, 3.09734487, 4.69026509, 0.0])
 
     @pytest.mark.custom
     def testGettingCustomProfiles2(self):
         customProfiles = custom.GetTorsionProfilesFromMDTraj(self.traj, self.info.indices) 
         info = custom.CustomDihedralInfo(self.mol, self.info.indices, customProfiles)
         npt.assert_almost_equal(info.coeffs[0],
-                                np.array([[1.18175221, 6.28318531, 0.48350093]]))
+                                np.array([[1.42439944, 6.28318531, 0.40626226]]))
         npt.assert_almost_equal(info.coeffs[1],
-                                np.array([[0.63171273, 0.61086524, 0.59736648],
-                                          [0.42544792, 5.49778714, 0.4911006 ]]))
+                                np.array([[0.63387579, 0.78539816, 0.45974477],
+                                          [0.04370394, 2.00712864, 0.38231215],
+                                          [0.03729065, 4.27605667, 0.35557337],
+                                          [0.58117421, 5.49778714, 0.46045182]]))
         npt.assert_almost_equal(info.coeffs[2],   
-                                np.array([[1.5484452 , 6.28318531, 0.38039325]]))
+                                np.array([[1.62145751, 6.28318531, 0.3603871 ]]))
         npt.assert_almost_equal(info.coeffs[3],
-                                np.array([[0.05875494, 1.48352986, 0.2146404 ],
-                                          [0.06559169, 2.18166156, 0.41603322],
-                                          [0.63171273, 5.14872129, 0.85837465]]))
+                                np.array([[0.11905223, 2.00712864, 0.61714603],
+                                          [0.52212184, 5.32325422, 0.86982022]]))
         npt.assert_almost_equal(info.coeffs[4],
-                                np.array([[0.42544792, 0.43633231, 0.37752448],
-                                          [0.35669299, 3.14159265, 0.61328729],
-                                          [0.47731244, 6.02138592, 0.42366185]]))
+                                np.array([[0.27069318, 0.43633231, 0.44015573],
+                                          [0.35891104, 2.70526034, 0.43574505],
+                                          [0.41390399, 3.57792497, 0.41073035],
+                                          [0.26267338, 5.84685299, 0.44254074]]))
         npt.assert_almost_equal(info.coeffs[5],
-                                np.array([[1.18175221, 0.78539816, 0.25540953],
-                                          [1.09007897, 5.49778714, 0.27149655]]))
+                                np.array([[0.8950923 , 0.61086524, 0.30734394],
+                                          [1.12079253, 5.49778714, 0.2868556 ]]))
         npt.assert_almost_equal(info.coeffs[6],
-                                np.array([[1.31926208, 0.78539816, 0.21976102],
-                                          [1.09007897, 5.67232007, 0.27626682]]))
+                                np.array([[1.08985899, 0.78539816, 0.29764537],
+                                          [0.92602583, 5.67232007, 0.29206484]]))
         npt.assert_almost_equal(info.coeffs[7],
-                                np.array([[1.20467053, 0.78539816, 0.24631389],
-                                          [1.18175221, 5.49778714, 0.26209343]]))
+                                np.array([[1.10246155, 0.78539816, 0.24562831],
+                                          [1.19526215, 5.49778714, 0.2777475 ]]))
         npt.assert_almost_equal(info.coeffs[8],
-                                np.array([[1.1588339 , 0.78539816, 0.25996492],
-                                          [1.27342546, 5.32325422, 0.23963594]]))
+                                np.array([[1.31441354, 0.78539816, 0.25184903],
+                                          [1.06121683, 5.49778714, 0.26054775]]))
         npt.assert_almost_equal(info.coeffs[9],
-                                np.array([[1.27342546, 0.95993109, 0.24382832],
-                                       [1.5484452 , 5.32325422, 0.19851875]]))
+                                np.array([[1.36482374, 0.95993109, 0.24544373],
+                                          [1.3430557 , 5.32325422, 0.20664573]]))
         npt.assert_almost_equal(info.coeffs[10],
-                                np.array([[1.41093533, 1.13446401, 0.21318401],
-                                          [1.1588339 , 5.32325422, 0.25933328]]))
+                                np.array([[1.13110371, 0.95993109, 0.24149679],
+                                          [1.35222119, 5.32325422, 0.2436907 ]]))
 
 if __name__ == '__main__':
     unittest.main()

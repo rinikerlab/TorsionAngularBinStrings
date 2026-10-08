@@ -1,13 +1,13 @@
+# Copyright (C) 2026 ETH Zurich, Jessica Braun, Djahan Lamei, Enrico Ruijsenaars, Greg Landrum, and other TABS contributors.
+
 import numpy as np
 from rdkit import Chem
 from rdkit.Chem import rdMolAlign, rdMolTransforms
 from functools import cached_property
 import multiprocessing as mp
 import matplotlib.pyplot as plt
-from matplotlib.colors import LinearSegmentedColormap
 from scipy.spatial.distance import squareform
 from scipy.cluster.hierarchy import dendrogram, linkage, fcluster
-from mdtraj import lprmsd
 from scipy.stats import chi2_contingency
 
 
@@ -67,41 +67,6 @@ class ClusterPreparation:
             indices = [x[0] for x in indices]
             uLabelsDict[label] = indices
         return uLabelsDict
-
-    def _GetCentroidWithRandomSampling(self, uLabel):
-        if len(self.info.indices) < self.m:
-            m = len(self.info.indices)
-        else:
-            m = self.m
-        sampledIndices = np.random.choice(self.uniqueLabelsDict[uLabel], m, replace=True)
-        rmsdMatrix = np.zeros((m, m))
-        for i in range(m):
-            for j in range(i+1,m):
-                tmpMol1 = Chem.Mol(self.mol)
-                conf1 = Chem.Conformer(tmpMol1.GetNumAtoms())
-                tmpCoords1 = self.coords[sampledIndices[i], :, :].astype(np.float64) * 10
-                conf1.SetPositions(tmpCoords1)
-                tmpMol1.AddConformer(conf1, assignId=True)
-                tmpMol1 = Chem.RemoveAllHs(tmpMol1)
-                tmpMol2 = Chem.Mol(self.mol)
-                conf2 = Chem.Conformer(tmpMol2.GetNumAtoms())
-                tmpCoords2 = self.coords[sampledIndices[j], :, :].astype(np.float64) * 10
-                conf2.SetPositions(tmpCoords2)
-                tmpMol2.AddConformer(conf2, assignId=True)
-                tmpMol2 = Chem.RemoveAllHs(tmpMol2)
-                rmsd = rdMolAlign.GetBestRMS(tmpMol1, tmpMol2)
-                rmsdMatrix[i,j] = rmsd
-                rmsdMatrix[j,i] = rmsd
-        sumRMSD = np.sum(rmsdMatrix, axis=1)
-        minIndex = np.argmin(sumRMSD)
-        centroidIndex = sampledIndices[minIndex]
-        centroid = Chem.Mol(self.mol)
-        conf = Chem.Conformer(self.mol.GetNumAtoms())
-        tmpCoords = self.coords[centroidIndex, :, :].astype(np.float64) * 10
-        conf.SetPositions(tmpCoords)
-        centroid.AddConformer(conf, assignId=True)
-        centroid = Chem.RemoveAllHs(centroid)
-        return centroid
     
     def _GetCentroidThroughDistancesToPeaks(self, uLabel):
         clusterIndices = self.uniqueLabelsDict[uLabel]
@@ -135,7 +100,7 @@ class ClusterPreparation:
         """
         jobs = [(self, label) for label in self.uniqueLabels]
         with mp.Pool(processes=mp.cpu_count()) as pool:
-            results = pool.map(_centroid_worker_2, jobs)
+            results = pool.map(_centroid_worker, jobs)
         for label, centroid in results:
             self.centroids[label] = centroid
         return
@@ -159,21 +124,13 @@ class ClusterPreparation:
         # check if distanceMatrix is computed
         if self.centroidDistances.size == 0:
             self.centroidDistances = self.GetDistanceMatrix()
-        customCmap = LinearSegmentedColormap.from_list('my_cmap', ['#0F366B', '#E4E2D4', '#D05E00'])
-        plt.rcParams['font.size'] = 15
         fig, ax = plt.subplots(figsize=(6, 5))
-        im = ax.imshow(self.centroidDistances, cmap=customCmap, interpolation='nearest')
+        im = ax.imshow(self.centroidDistances, cmap='hot', interpolation='nearest')
         fig.colorbar(im, ax=ax)
-        ax.set_xlabel("customTABS Index")
-        ax.set_ylabel("customTABS Index")
-        ax.set_title(f"RMSD Matrix of Centroids")
+        ax.set_title(f"RMSD matrix of centroids")
         return fig
 
 def _centroid_worker(args):
-    instance, label = args
-    return label, instance._GetCentroidWithRandomSampling(label)
-
-def _centroid_worker_2(args):
     instance, label = args
     return label, instance._GetCentroidThroughDistancesToPeaks(label)
 
@@ -192,11 +149,10 @@ class ClusterRunner:
             raise ValueError("Centroid distances not computed. Call GetDistanceMatrix() first.")
         return linkage(squareform(self.clusterPrep.centroidDistances), method='average')
     
-    def GetDendrogram(self, p):
-        dendrogram(self.linkageMatrix, truncate_mode='lastp', p=p)
+    def GetDendrogram(self):
+        dendrogram(self.linkageMatrix)
         plt.title("Hierarchical Clustering Dendrogram")
-        plt.xlabel("Observations (customTABS Indices)")
-        plt.ylabel("Distance")
+        plt.xlabel("RMSD distance")
         plt.show()
 
     def _GetClusterDict(self):
@@ -229,54 +185,7 @@ class ClusterAnalyzer:
         self.chi2Results = None
         self.cramersV = None
 
-    def _GetAverageInterRmsdNorm(self):
-        nClusters = self.clustering.nClusters
-        clusterDict = self.clustering.clusteringDict
-        averageRmsdDis = np.zeros((nClusters, nClusters))    
-        distances = self.clustering.clusterPrep.centroidDistances
-        for i in range(nClusters):
-            for j in range(i+1, nClusters):
-                clusterA = clusterDict[i+1]
-                clusterB = clusterDict[j+1]
-                averageRmsdDis[i,j] = np.mean([distances[x,y] for x in clusterA for y in clusterB])
-                averageRmsdDis[j,i] = averageRmsdDis[i,j]
-        self.averageRmsdDisNorm = averageRmsdDis / np.max(averageRmsdDis)
-
     def CalculateChiSquared(self):
-        """
-        Calculate chi-squared statistics and Cramér's V for clustering analysis.
-
-        This method computes chi-squared test results and Cramér's V coefficient for each
-        dimension in the TABS (Torsion Angular Bin Strings) dataset to assess the association
-        between cluster assignments and categorical variables.
-
-        **Method Overview**
-
-        1. Initializes dictionaries to store chi-squared results, Cramér's V values, and contingency tables
-        2. Extracts unique digits for each position across all labels
-        3. Builds contingency tables for each dimension by counting occurrences of each digit within each cluster
-        4. Computes chi-squared statistics and Cramér's V using :func:`scipy.stats.chi2_contingency`
-        5. Handles edge cases where contingency tables have fewer than 2 rows or columns
-
-        :returns: None
-
-        .. rubric:: Sets Instance Attributes
-
-        - ``chi2Results`` (dict):  
-          Dictionary mapping dimension indices to tuples of  
-          (chi2_statistic, p_value, degrees_of_freedom, expected_frequencies).  
-          Values are ``np.nan`` for dimensions with insufficient contingency table size.
-
-        - ``cramersV`` (dict):  
-          Dictionary mapping dimension indices to Cramér's V coefficients  
-          (measures association strength between 0 and 1). Values are ``np.nan`` for  
-          dimensions with insufficient contingency table size.
-
-        - ``contingencyTables`` (dict):  
-          Dictionary mapping dimension indices to numpy arrays  
-          representing the contingency tables (nClusters x m, where m is the number  
-          of unique digits at that position).
-        """
         nClusters = self.clustering.nClusters
         clusterDict = self.clustering.clusteringDict
         uLabels = self.clustering.clusterPrep.uniqueLabels
@@ -323,3 +232,4 @@ class ClusterAnalyzer:
         self.chi2Results = chi2Results
         self.cramersV = cramersV
         self.contingencyTables = contingencyTables
+    

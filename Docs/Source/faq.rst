@@ -6,7 +6,7 @@ FAQs
 *Are TABS dependent or independent on the atom order of otherwise identical molecules?*
 
 As the atom numbering of a molecule is not canonicalized as part of the TABS code, it is possible to arrive at two different TABS for equivalent conformers of the same molecule if they differ in their atom ordering. 
-The easiest way to resolve this is to renumber the atoms in one of the molecules to make the atom numberings equivalent; the RDKit provides code to do this and a usage example is provided in :code:`Demos/AtomRenumbering.ipynb`. 
+The easiest way to resolve this is to renumber the atoms in one of the molecules to make the atom numberings equivalent; the RDKit provides code to do this and a usage example is provided in :code:`Demos/00_AtomRenumbering.ipynb`. 
 In general for the analysis of conformer ensembles, it is recommended to work with one RDKit molecule containing all of the conformers in the ensemble.
 
 *How is stereochemistry considered in TABS?*
